@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Around the Seneya — حول الصينية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Tajawal:wght@300;400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --clay: #B85C38;
+  --clay-dark: #8C3E22;
+  --clay-light: #F2DDD4;
+  --gold: #C49A3C;
+  --gold-dark: #9A7628;
+  --gold-light: #F5EDD0;
+  --ink: #1C1208;
+  --ink-soft: #3D2B18;
+  --cream: #FAF6EE;
+  --cream-dark: #F0E8D8;
+  --zellige: #2A6475;
+  --zellige-light: #D4ECF2;
+  --mint-g: #2D7A56;
+  --mint-light: #D4EDE0;
+  --plum: #6B3A5E;
+  --plum-light: #EAD5E6;
+  --sand: #8B7355;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── ZELLIGE PATTERN BG ─── */
+.zellige-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23B85C38' fill-rule='evenodd'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z'/%3E%3Cpath d='M40 20L60 40L40 60L20 40Z' fill='%23C49A3C'/%3E%3Cpath d='M40 30L50 40L40 50L30 40Z' fill='%232A6475'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ─── LANDING SCREEN ─── */
+#screen-landing {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.landing-ornament {
+  font-size: 4rem; margin-bottom: 1rem;
+  animation: floatTea 3s ease-in-out infinite;
+}
+@keyframes floatTea {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.landing-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 8vw, 5rem);
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.3rem;
+}
+
+.landing-title span {
+  color: var(--clay);
+  font-style: italic;
+}
+
+.landing-arabic {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--gold-dark);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.landing-tagline {
+  font-size: 1rem;
+  color: var(--sand);
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  margin-bottom: 2.5rem;
+  max-width: 400px;
+}
+
+.mode-selector {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.mode-card {
+  width: 200px;
+  padding: 1.8rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: inherit;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.mode-family {
+  background: var(--cream-dark);
+  border-color: #E0C9B0;
+}
+.mode-family:hover, .mode-family.selected {
+  border-color: var(--clay);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(184,92,56,0.2);
+  background: var(--clay-light);
+}
+
+.mode-adults {
+  background: var(--ink);
+  border-color: #3D2B18;
+}
+.mode-adults:hover, .mode-adults.selected {
+  border-color: var(--gold);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(196,154,60,0.3);
+}
+
+.mode-icon { font-size: 2.5rem; margin-bottom: 0.8rem; display: block; }
+
+.mode-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.mode-family .mode-title { color: var(--ink); }
+.mode-adults .mode-title { color: var(--gold-light); }
+
+.mode-desc {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  font-family: 'DM Sans', sans-serif;
+}
+.mode-family .mode-desc { color: var(--sand); }
+.mode-adults .mode-desc { color: rgba(245,237,208,0.6); }
+
+.mode-tag {
+  position: absolute; top: 10px; right: 10px;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px; border-radius: 20px;
+}
+.mode-family .mode-tag { background: var(--clay-light); color: var(--clay-dark); }
+.mode-adults .mode-tag { background: rgba(196,154,60,0.2); color: var(--gold); }
+
+.btn-start {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  border: none; cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.05rem; font-weight: 700;
+  background: var(--clay);
+  color: white;
+  transition: all 0.25s;
+  letter-spacing: 0.03em;
+  box-shadow: 0 4px 20px rgba(184,92,56,0.35);
+  opacity: 0.4; pointer-events: none;
+}
+.btn-start.ready {
+  opacity: 1; pointer-events: all;
+}
+.btn-start.ready:hover {
+  background: var(--clay-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(184,92,56,0.45);
+}
+.btn-start.adults-ready {
+  background: var(--gold-dark);
+  box-shadow: 0 4px 20px rgba(196,154,60,0.4);
+}
+.btn-start.adults-ready:hover {
+  background: var(--gold);
+  box-shadow: 0 8px 30px rgba(196,154,60,0.5);
+}
+
+/* ─── GAME SCREEN ─── */
+#screen-game {
+  display: none;
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#screen-game.visible { display: flex; }
+
+/* TOP BAR */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-bottom: 1px solid rgba(184,92,56,0.12);
+  position: sticky; top: 0; z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.topbar-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--clay);
+  display: flex; align-items: center; gap: 6px;
+}
+
+.topbar-mode {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+}
+.topbar-mode.family { background: var(--clay-light); color: var(--clay-dark); }
+.topbar-mode.adults { background: var(--ink); color: var(--gold); }
+
+.topbar-btn {
+  background: transparent; border: 1px solid rgba(184,92,56,0.2);
+  border-radius: 50px; padding: 6px 14px;
+  font-size: 0.8rem; font-family: 'DM Sans', sans-serif;
+  color: var(--sand); cursor: pointer;
+  transition: all 0.2s;
+}
+.topbar-btn:hover { background: var(--cream-dark); color: var(--ink); }
+
+/* AUDIENCE TABS */
+.audience-strip {
+  display: flex; gap: 6px;
+  padding: 1rem 1.5rem 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.audience-strip::-webkit-scrollbar { display: none; }
+
+.aud-pill {
+  flex-shrink: 0;
+  border: 1.5px solid rgba(184,92,56,0.2);
+  border-radius: 50px;
+  padding: 7px 16px;
+  font-size: 0.82rem; font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  background: white; color: var(--sand);
+  cursor: pointer; transition: all 0.2s;
+  white-space: nowrap;
+}
+.aud-pill:hover { border-color: var(--clay); color: var(--clay); }
+.aud-pill.active {
+  background: var(--clay); border-color: var(--clay);
+  color: white;
+  box-shadow: 0 3px 12px rgba(184,92,56,0.3);
+}
+
+/* CATEGORY GRID */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.cat-tile {
+  border-radius: 14px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(.34,1.56,.64,1);
+  border: 2px solid transparent;
+  position: relative;
+}
+.cat-tile:hover { transform: translateY(-2px); }
+.cat-tile.active { border-color: currentColor; }
+
+.cat-tile-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+.cat-tile-name {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+  font-family: 'DM Sans', sans-serif;
+  display: block;
+}
+.cat-tile-sub {
+  font-size: 0.62rem; opacity: 0.7;
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  display: block;
+  margin-top: 1px;
+}
+
+.cat-atay { background: var(--clay-light); color: var(--clay-dark); }
+.cat-atay.active { box-shadow: 0 6px 20px rgba(184,92,56,0.25); }
+.cat-sweets { background: var(--gold-light); color: var(--gold-dark); }
+.cat-sweets.active { box-shadow: 0 6px 20px rgba(196,154,60,0.25); }
+.cat-nana { background: var(--mint-light); color: var(--mint-g); }
+.cat-nana.active { box-shadow: 0 6px 20px rgba(45,122,86,0.25); }
+.cat-zellige { background: var(--zellige-light); color: var(--zellige); }
+.cat-zellige.active { box-shadow: 0 6px 20px rgba(42,100,117,0.25); }
+.cat-steam { background: var(--plum-light); color: var(--plum); }
+.cat-steam.active { box-shadow: 0 6px 20px rgba(107,58,94,0.25); }
+.cat-tray { background: var(--cream-dark); color: var(--ink-soft); }
+.cat-tray.active { box-shadow: 0 6px 20px rgba(28,18,8,0.2); }
+
+/* PROVERB BAND */
+.proverb-band {
+  margin: 0 1.5rem;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--gold-light);
+  border-left: 3px solid var(--gold);
+  transition: all 0.4s;
+}
+.proverb-ar {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.85rem; font-weight: 500;
+  color: var(--gold-dark);
+  direction: rtl;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.proverb-sep { color: var(--gold); opacity: 0.4; flex-shrink: 0; }
+.proverb-en {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--gold-dark);
+  line-height: 1.4;
+}
+
+/* CARD STAGE */
+.card-stage {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.2rem 1.5rem;
+  min-height: 280px;
+}
+
+.q-card {
+  width: 100%; max-width: 540px;
+  min-height: 260px;
+  border-radius: 24px;
+  padding: 2.2rem 2rem;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  position: relative; overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s;
+  animation: cardIn 0.5s cubic-bezier(.34,1.56,.64,1);
+}
+.q-card:hover { transform: scale(1.01); }
+.q-card:active { transform: scale(0.98); }
+
+@keyframes cardIn {
+  0% { opacity:0; transform: translateY(30px) scale(0.94) rotate(-1deg); }
+  100% { opacity:1; transform: translateY(0) scale(1) rotate(0); }
+}
+
+.q-card-pattern {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1'%3E%3Cpath d='M40 5L75 40L40 75L5 40Z'/%3E%3Cpath d='M40 20L60 40L40 60L20 40Z'/%3E%3Cpath d='M40 32L48 40L40 48L32 40Z'/%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3Ccircle cx='40' cy='40' r='18'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 1;
+}
+
+.q-card-badge {
+  position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+  white-space: nowrap;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(4px);
+  border-radius: 20px; padding: 4px 14px;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(255,255,255,0.9);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.q-card-icon {
+  font-size: 2.5rem; margin-bottom: 1rem; position: relative; z-index:1;
+}
+
+.q-card-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+  font-weight: 400; line-height: 1.65;
+  color: white; position: relative; z-index:1;
+  max-width: 400px;
+}
+
+.q-card-num {
+  position: absolute; bottom: 14px; right: 18px;
+  font-size: 0.7rem; color: rgba(255,255,255,0.3);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+}
+.q-card-hint {
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  font-size: 0.65rem; color: rgba(255,255,255,0.3);
+  white-space: nowrap; font-family: 'DM Sans', sans-serif;
+}
+
+/* card colors */
+.qc-atay   { background: linear-gradient(145deg, #C45C2E, #7A3010); }
+.qc-sweets { background: linear-gradient(145deg, #C49A3C, #7A5C10); }
+.qc-nana   { background: linear-gradient(145deg, #2D7A56, #1A4D34); }
+.qc-zellige{ background: linear-gradient(145deg, #2A6475, #1A3E4A); }
+.qc-steam  { background: linear-gradient(145deg, #6B3A5E, #42223A); }
+.qc-tray   { background: linear-gradient(145deg, #3D2B18, #1C1208); }
+
+/* WELCOME PLACEHOLDER */
+.welcome-placeholder {
+  width: 100%; max-width: 540px;
+  min-height: 260px;
+  border-radius: 24px;
+  background: white;
+  border: 2px dashed rgba(184,92,56,0.2);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0.8rem; text-align: center; padding: 2rem;
+}
+.welcome-placeholder h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 600; color: var(--ink);
+}
+.welcome-placeholder p {
+  font-size: 0.85rem; color: var(--sand); line-height: 1.6; max-width: 280px;
+}
+
+/* BOTTOM CONTROLS */
+.bottom-controls {
+  padding: 1rem 1.5rem 2rem;
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.stats-row {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
+}
+.stat-box {
+  background: white; border-radius: 12px;
+  padding: 10px 8px; text-align: center;
+  border: 1px solid rgba(184,92,56,0.1);
+}
+.stat-num {
+  font-size: 1.3rem; font-weight: 700;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--clay);
+}
+.stat-label {
+  font-size: 0.65rem; color: var(--sand);
+  font-family: 'DM Sans', sans-serif;
+  margin-top: 1px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+.action-row {
+  display: flex; gap: 8px;
+}
+
+.btn-draw-main {
+  flex: 1; border: none; cursor: pointer;
+  background: var(--clay); color: white;
+  border-radius: 16px; padding: 15px 20px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.05rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.25s;
+  box-shadow: 0 4px 16px rgba(184,92,56,0.3);
+  letter-spacing: 0.02em;
+}
+.btn-draw-main:hover {
+  background: var(--clay-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(184,92,56,0.4);
+}
+.btn-draw-main:active { transform: scale(0.97); }
+.btn-draw-main.adults {
+  background: var(--ink);
+  box-shadow: 0 4px 16px rgba(28,18,8,0.35);
+}
+.btn-draw-main.adults:hover {
+  background: var(--ink-soft);
+  box-shadow: 0 8px 24px rgba(196,154,60,0.3);
+}
+
+.btn-icon-action {
+  border: 1.5px solid rgba(184,92,56,0.2);
+  background: white; border-radius: 16px;
+  width: 54px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; transition: all 0.2s;
+  color: var(--sand);
+}
+.btn-icon-action:hover {
+  background: var(--cream-dark);
+  border-color: var(--clay); color: var(--clay);
+}
+
+/* ─── AGE GATE ─── */
+#screen-agegate {
+  display: none;
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(28,18,8,0.9);
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+}
+#screen-agegate.visible { display: flex; }
+
+.agegate-modal {
+  background: var(--ink);
+  border: 1px solid rgba(196,154,60,0.3);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  max-width: 360px; width: 90%;
+  text-align: center;
+}
+.agegate-modal .icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+.agegate-modal h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; color: var(--gold-light);
+  margin-bottom: 0.5rem;
+}
+.agegate-modal p {
+  font-size: 0.85rem; color: rgba(245,237,208,0.6);
+  line-height: 1.6; margin-bottom: 1.5rem;
+}
+.agegate-btns { display: flex; gap: 10px; }
+.agegate-yes {
+  flex: 1; padding: 12px;
+  background: var(--gold-dark); color: var(--gold-light);
+  border: none; border-radius: 12px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.95rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+}
+.agegate-yes:hover { background: var(--gold); }
+.agegate-no {
+  flex: 1; padding: 12px;
+  background: transparent; color: rgba(245,237,208,0.5);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+  cursor: pointer; transition: all 0.2s;
+}
+.agegate-no:hover { background: rgba(255,255,255,0.05); }
+
+/* ─── TOAST ─── */
+.toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+  background: var(--ink); color: var(--gold-light);
+  padding: 10px 20px; border-radius: 50px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
+  z-index: 500; white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(184,92,56,0.3); border-radius: 2px; }
+
+/* ─── RESPONSIVE ─── */
+@media (min-width: 600px) {
+  .category-grid { grid-template-columns: repeat(6, 1fr); }
+  .cat-tile-name { font-size: 0.68rem; }
+  .q-card { min-height: 300px; }
+}
+</style>
+</head>
+<body>
+
+<div class="zellige-bg"></div>
+
+<!-- LANDING -->
+<div id="screen-landing">
+  <div class="landing-ornament">🫖</div>
+  <h1 class="landing-title">Around the <span>Seneya</span></h1>
+  <div class="landing-arabic">حول الصينية</div>
+  <p class="landing-tagline">The conversations that happen when the tea is poured.</p>
+
+  <div class="mode-selector">
+    <div class="mode-card mode-family" onclick="selectMode('family', this)">
+      <span class="mode-tag">للجميع · For all</span>
+      <span class="mode-icon">🫖</span>
+      <div class="mode-title">Family Mode</div>
+      <div class="mode-desc">Warm questions for all ages. Safe, nostalgic, and full of Moroccan spirit.</div>
+    </div>
+    <div class="mode-card mode-adults" onclick="selectMode('adults', this)">
+      <span class="mode-tag">18+ فقط</span>
+      <span class="mode-icon">🌙</span>
+      <div class="mode-title">Night Mode</div>
+      <div class="mode-desc">Deeper, bolder, more personal. For the late-night seneya when the kids are asleep.</div>
+    </div>
+  </div>
+
+  <button class="btn-start" id="btn-start" onclick="handleStart()">
+    <span>🫖</span> Pour the tea · ابدأ اللعبة
+  </button>
+</div>
+
+<!-- AGE GATE -->
+<div id="screen-agegate">
+  <div class="agegate-modal">
+    <span class="icon">🌙</span>
+    <h2>Night Mode</h2>
+    <p>This mode contains deeper, more personal questions intended for adults. Are you 18 or older?</p>
+    <p style="font-family:'Tajawal',sans-serif; color:rgba(196,154,60,0.7); font-size:0.8rem; margin-bottom:1.2rem;">هذا الوضع مخصص للبالغين فقط — هل عمرك 18 سنة أو أكثر؟</p>
+    <div class="agegate-btns">
+      <button class="agegate-yes" onclick="confirmAdults()">Yes, I'm 18+ ✓</button>
+      <button class="agegate-no" onclick="denyAdults()">No, go back</button>
+    </div>
+  </div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="screen-game">
+  <div class="topbar">
+    <div class="topbar-logo">🫖 <span>Seneya</span></div>
+    <div class="topbar-mode family" id="topbar-mode-label">Family</div>
+    <button class="topbar-btn" onclick="goHome()">← Home</button>
+  </div>
+
+  <div class="audience-strip">
+    <button class="aud-pill active" onclick="setAudience('family', this)" data-aud="family">👨‍👩‍👧 Family</button>
+    <button class="aud-pill" onclick="setAudience('couples', this)" data-aud="couples">💑 Couples</button>
+    <button class="aud-pill" onclick="setAudience('friends', this)" data-aud="friends">👯 Friends</button>
+    <button class="aud-pill" onclick="setAudience('all', this)" data-aud="all">🌟 All</button>
+  </div>
+
+  <div class="category-grid">
+    <div class="cat-tile cat-atay active" onclick="setCategory('atay',this)">
+      <span class="cat-tile-icon">🫖</span>
+      <span class="cat-tile-name">Atay</span>
+      <span class="cat-tile-sub">Nostalgia</span>
+    </div>
+    <div class="cat-tile cat-sweets" onclick="setCategory('sweets',this)">
+      <span class="cat-tile-icon">🍬</span>
+      <span class="cat-tile-name">Sweets</span>
+      <span class="cat-tile-sub">Fun & Light</span>
+    </div>
+    <div class="cat-tile cat-nana" onclick="setCategory('nana',this)">
+      <span class="cat-tile-icon">🌿</span>
+      <span class="cat-tile-name">Na'na</span>
+      <span class="cat-tile-sub">Honest</span>
+    </div>
+    <div class="cat-tile cat-zellige" onclick="setCategory('zellige',this)">
+      <span class="cat-tile-icon">🔷</span>
+      <span class="cat-tile-name">Zellige</span>
+      <span class="cat-tile-sub">Identity</span>
+    </div>
+    <div class="cat-tile cat-steam" onclick="setCategory('steam',this)">
+      <span class="cat-tile-icon">💨</span>
+      <span class="cat-tile-name">Steam</span>
+      <span class="cat-tile-sub">Dreams</span>
+    </div>
+    <div class="cat-tile cat-tray" onclick="setCategory('tray',this)">
+      <span class="cat-tile-icon">✨</span>
+      <span class="cat-tile-name">The Tray</span>
+      <span class="cat-tile-sub">Wild Card</span>
+    </div>
+  </div>
+
+  <div class="proverb-band" id="proverb-band">
+    <span class="proverb-ar" id="prov-ar">الشاي ما كيجي بلا هدرة</span>
+    <span class="proverb-sep">·</span>
+    <span class="proverb-en" id="prov-en">"Tea never comes without conversation."</span>
+  </div>
+
+  <div class="card-stage" id="card-stage">
+    <div class="welcome-placeholder">
+      <span style="font-size:2.8rem">🫖</span>
+      <h3>The seneya is ready</h3>
+      <p>Pick your crowd above, choose a category, then tap "Draw a card" to begin.</p>
+      <p style="font-family:'Tajawal',sans-serif; color:var(--gold-dark); font-size:0.82rem; margin-top:4px;">اختر الفئة واضغط لتبدأ</p>
+    </div>
+  </div>
+
+  <div class="bottom-controls">
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num" id="stat-drawn">0</div>
+        <div class="stat-label">Cards drawn</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-round">1</div>
+        <div class="stat-label">Round</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-cat">Atay</div>
+        <div class="stat-label">Category</div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-icon-action" onclick="skipDraw()" title="Skip / Next">🔀</button>
+      <button class="btn-draw-main" id="btn-draw-main" onclick="drawCard()">
+        🃏 &nbsp; Draw a card · اسحب بطاقة
+      </button>
+      <button class="btn-icon-action" onclick="rotateProverb()" title="New proverb">📜</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const proverbs = [
+  {ar:"الشاي ما كيجي بلا هدرة", en:'"Tea never comes without conversation."'},
+  {ar:"صاحب الصاحب صاحب", en:'"A friend\'s friend is a friend."'},
+  {ar:"قول الحق ولو على روحك", en:'"Speak truth, even about yourself."'},
+  {ar:"اللي فات مات", en:'"What has passed has passed." — Let it go.'},
+  {ar:"الكلام من الفضة والسكوت من الذهب", en:'"Speech is silver; silence is gold."'},
+  {ar:"جار الدار قبل الدار", en:'"Choose the neighbour before the house."'},
+  {ar:"اللي ما عندوش كبير يشري كبيرا", en:'"He who has no elder, should buy one."'},
+  {ar:"العين ما تعلاش على الحاجب", en:'"The eye cannot rise above the eyebrow."'},
+  {ar:"من صبر ظفر", en:'"Whoever is patient, succeeds."'},
+  {ar:"طول البال يجيب الكمال", en:'"Patience brings perfection."'},
+];
+
+const QUESTIONS = {
+  family: {
+    atay: [
+      {q:"Which person at this seneya gives the best نصيحة (advice) — and have you ever actually followed it?", en:true},
+      {q:"What habit from your parents did you only notice in yourself once you were grown?", en:true},
+      {q:"لو كانت جدتنا تشوفنا دابا، شنو كانت غتقول؟ — If grandma could see us right now, what would she say?", en:true},
+      {q:"What dish, if missing from the Eid table, would feel like something is truly broken?", en:true},
+      {q:"What's a piece of advice you thought was wrong — until life proved it right?", en:true},
+      {q:"What memory do you have of a family gathering that you'll carry forever?", en:true},
+    ],
+    sweets: [
+      {q:"Who in this room would finish the last kaab ghzal and deny it with a straight face? 😄", en:true},
+      {q:"If everyone here had to move to a different Moroccan city, where does each person end up?", en:true},
+      {q:"What's the funniest thing that's ever happened at one of your family gatherings?", en:true},
+      {q:"If your family had a theme song, what would it be and who chose it?", en:true},
+      {q:"Who's the family's secret comedian — and what's their best line?", en:true},
+      {q:"Darija or French when you're angry — what does that say about you? 😂", en:true},
+    ],
+    nana: [
+      {q:"Is there a misunderstanding in this family that never got fully resolved? Tonight is the night.", en:true},
+      {q:"What do you wish someone in this family knew about how you actually feel?", en:true},
+      {q:"When was the last time you felt truly understood by someone in this family?", en:true},
+      {q:"What's one thing about our family that you're proud of and want to protect?", en:true},
+      {q:"Something you've wanted to say at a family gathering for years — say it now.", en:true},
+      {q:"What does being part of this family cost you — and what does it give you?", en:true},
+    ],
+    zellige: [
+      {q:"If each person here were a tile in a zellige mosaic, what color and shape would they be?", en:true},
+      {q:"What does the word بركة (baraka) mean to you? Have you ever felt it?", en:true},
+      {q:"Which Moroccan tradition do you hope never disappears?", en:true},
+      {q:"Fes, Marrakech, Casablanca, or Tangier — which city best describes this family?", en:true},
+      {q:"What piece of your cultural heritage do you want to pass to the next generation?", en:true},
+      {q:"What Moroccan value holds this family together?", en:true},
+    ],
+    steam: [
+      {q:"لو الصينية قدرت تهضر، شنو كانت تقول علينا؟ — If this seneya could speak, what secret would it reveal?", en:true},
+      {q:"Imagine this family 20 years from now. What does the gathering look like?", en:true},
+      {q:"What would your younger self be most surprised to see about your family today?", en:true},
+      {q:"If each family member were a spice in a tagine, what would they be?", en:true},
+      {q:"What trip does this family keep talking about but never takes — and why?", en:true},
+      {q:"If you could change one thing about how this family communicates, what would it be?", en:true},
+    ],
+    tray: [
+      {q:"Everyone shares one thing they've never told anyone at this table. No skipping.", en:true},
+      {q:"Pick someone here. Say one thing you genuinely admire about them — out loud, right now.", en:true},
+      {q:"Dare: Tell your most embarrassing childhood memory. Full story. No shortcuts.", en:true},
+      {q:"Go around: each person shares their single happiest moment of the past year.", en:true},
+      {q:"What question have you always wanted to ask this family but never dared to?", en:true},
+      {q:"Dare: Teach everyone a Moroccan expression they've probably never heard.", en:true},
+    ],
+  },
+  couples: {
+    atay: [
+      {q:"When did you first feel truly at home with me — seneya-level comfortable?", en:true},
+      {q:"What's something small I do that you secretly love but have never told me?", en:true},
+      {q:"If our relationship were a Moroccan city, which one would it be and why?", en:true},
+      {q:"What was the moment you knew this was actually serious?", en:true},
+      {q:"What memory of ours comes up when you hear a song you love?", en:true},
+      {q:"What did you think about me the very first time we met?", en:true},
+    ],
+    sweets: [
+      {q:"Would our love story be a pastilla — layered and surprising — or a tagine — slow and deep?", en:true},
+      {q:"What silly couple habit do we have that you secretly love?", en:true},
+      {q:"What's something I do that always makes you laugh without fail?", en:true},
+      {q:"If we were a tea blend, what flavors would make us up?", en:true},
+      {q:"What's your favorite memory of us being completely ridiculous together?", en:true},
+      {q:"What would you title the chapter of our relationship we're living right now?", en:true},
+    ],
+    nana: [
+      {q:"Is there something you've wanted to say to me but kept finding the wrong moment for?", en:true},
+      {q:"What do you need from me that I haven't given enough of lately?", en:true},
+      {q:"What's a dream you have that you haven't told me yet?", en:true},
+      {q:"When do you feel most loved by me — and does what I do match that?", en:true},
+      {q:"What's something about yourself you're still figuring out — and how do I fit into that?", en:true},
+      {q:"What's a fear you have about us that you've never said out loud?", en:true},
+    ],
+    zellige: [
+      {q:"Which Moroccan value — hospitality, loyalty, patience — defines us as a couple?", en:true},
+      {q:"What tradition from your upbringing do you want us to build into our life together?", en:true},
+      {q:"لو عندنا رياض ديالنا، كيف غتصممه؟ — If we had our own riad, how would you design it to feel like us?", en:true},
+      {q:"What does home mean to you — a place, a feeling, or a person?", en:true},
+      {q:"What's one thing about our love that feels uniquely ours?", en:true},
+      {q:"Which part of your Moroccan identity do you hope we carry into our future?", en:true},
+    ],
+    steam: [
+      {q:"What would you want us to still be talking about over atay when we're 70?", en:true},
+      {q:"What trip have we said we'll take but keep delaying — and when are we actually going?", en:true},
+      {q:"If you could relive one day with me, which one would you choose?", en:true},
+      {q:"What version of our future secretly thrills you the most?", en:true},
+      {q:"Where do you see us in five years that makes you smile when you think about it?", en:true},
+      {q:"What would you change about our story — if you could change anything?", en:true},
+    ],
+    tray: [
+      {q:"Tell your partner the one thing you love most about them that you don't say enough.", en:true},
+      {q:"What's the most vulnerable thing you've let me see — and how did it feel to be seen?", en:true},
+      {q:"Dare: Re-enact the moment you realized you were falling for me. Right now.", en:true},
+      {q:"Say one thing you've been meaning to apologize for — or one thing you want to thank me for.", en:true},
+      {q:"Name the three words that best describe what we are to each other.", en:true},
+      {q:"Tell me something about yourself you've never told anyone else.", en:true},
+    ],
+  },
+  friends: {
+    atay: [
+      {q:"When did you know this friendship was the real kind — not just surface level?", en:true},
+      {q:"What's a moment in our friendship that you still think about?", en:true},
+      {q:"Which one of us would your parents secretly adopt if they could?", en:true},
+      {q:"What's something the group did years ago that still makes you laugh every time?", en:true},
+      {q:"Who gives the best advice — and who gives the most dramatic advice?", en:true},
+      {q:"What's the best thing this friendship has given you?", en:true},
+    ],
+    sweets: [
+      {q:"Who would eat the last chebakia and deny it with total confidence? 😂", en:true},
+      {q:"If each person were a character in a Moroccan drama, who plays which role?", en:true},
+      {q:"Who is the group's سكر — sweet but always too much? 😄", en:true},
+      {q:"What's the most chaotic group plan you've all survived together?", en:true},
+      {q:"Who would get completely lost in the Marrakech medina — and who would get everyone else lost?", en:true},
+      {q:"If the group had a theme song for this era of your lives, what would it be?", en:true},
+    ],
+    nana: [
+      {q:"Is there something that happened between us that we never officially talked about?", en:true},
+      {q:"What do you wish your friends knew about how you're really doing right now?", en:true},
+      {q:"Who do you call first when something goes wrong — is that person in this room?", en:true},
+      {q:"What's a side of yourself this group has never really seen?", en:true},
+      {q:"What's something you've always appreciated about this group but never said?", en:true},
+      {q:"When did this group let you down — and how did you handle it?", en:true},
+    ],
+    zellige: [
+      {q:"If this friend group were a zellige mosaic, what's the full picture?", en:true},
+      {q:"What Moroccan value do you think holds this friendship together?", en:true},
+      {q:"Fes, Marrakech, Casablanca, Tangier — who is which city and why?", en:true},
+      {q:"What does loyalty mean to you — and does this group live up to it?", en:true},
+      {q:"What friendship tradition do you want to keep for the next 20 years?", en:true},
+      {q:"If you could describe this group in one Moroccan proverb, which one?", en:true},
+    ],
+    steam: [
+      {q:"What trip have we kept planning but never actually taken — and what's the real reason?", en:true},
+      {q:"Where do you see this group of friends in 10 years?", en:true},
+      {q:"What's a dream you've never told this group about?", en:true},
+      {q:"What would each person here be doing if they'd taken a completely different path?", en:true},
+      {q:"If you could change one dynamic in this friendship, what would it be?", en:true},
+      {q:"What do you think this friendship will look like when you're all 50?", en:true},
+    ],
+    tray: [
+      {q:"Say one true thing about each person in this group. No filter.", en:true},
+      {q:"Go around — each person says one thing they've never told the others.", en:true},
+      {q:"Dare: Do your best impression of someone in this room. Right now.", en:true},
+      {q:"Who owes who an apology — and is tonight the night?", en:true},
+      {q:"What's the most daring thing you've ever done because of this friendship?", en:true},
+      {q:"Tell the group what you'd say about each of them at a wedding toast.", en:true},
+    ],
+  },
+  all: {
+    atay: [
+      {q:"What memory comes up every time you smell mint?", en:true},
+      {q:"If you had to live in any Moroccan city, which would you choose — and which would you avoid?", en:true},
+      {q:"What does Ramadan mean to you beyond the religious dimension?", en:true},
+      {q:"What smell or sound instantly takes you back to your childhood?", en:true},
+      {q:"What Moroccan dish is tied to your happiest memory?", en:true},
+      {q:"واش كاين حاجة من المغرب ما قدرتيش تنساها؟ — Is there something from Morocco you've never been able to forget?", en:true},
+    ],
+    sweets: [
+      {q:"Would you rather be a tagine — slow and deep — or a pastilla — layered and surprising?", en:true},
+      {q:"What's the most Moroccan thing about you that someone else pointed out?", en:true},
+      {q:"If you were a stall in the souk, what would you sell?", en:true},
+      {q:"What Moroccan stereotype about your city is actually completely true for you?", en:true},
+      {q:"Darija, French, or Arabic — which language do you dream in?", en:true},
+      {q:"What's a Moroccan food you love but are slightly embarrassed to admit you love?", en:true},
+    ],
+    nana: [
+      {q:"What's something you've learned about yourself in the past year that genuinely surprised you?", en:true},
+      {q:"What do people misunderstand about you the most?", en:true},
+      {q:"When did you feel most like yourself this year?", en:true},
+      {q:"What has been your biggest lesson — disguised as a failure?", en:true},
+      {q:"What do you keep saying you'll change — but haven't?", en:true},
+      {q:"What's one thing you know to be true that most people around you don't believe?", en:true},
+    ],
+    zellige: [
+      {q:"What does بركة (baraka) mean to you personally — have you ever felt it?", en:true},
+      {q:"Which Moroccan proverb describes your life philosophy right now?", en:true},
+      {q:"What aspect of Moroccan identity are you most proud of?", en:true},
+      {q:"What does being a good host mean to you — and who taught you that?", en:true},
+      {q:"What Moroccan tradition do you think the world needs more of?", en:true},
+      {q:"واش المغرب بلد ولا حالة؟ — Is Morocco a country or a feeling? Explain.", en:true},
+    ],
+    steam: [
+      {q:"لو الصينية قدرت تحكي، شنو كانت تقول؟ — If this seneya could speak, what story would it tell tonight?", en:true},
+      {q:"If you had a riad all to yourself, how would you design it — and who would you invite?", en:true},
+      {q:"What version of yourself are you still working toward?", en:true},
+      {q:"If you could have dinner with any historical Moroccan figure, who and what would you ask?", en:true},
+      {q:"What's a life you could have lived — but didn't choose?", en:true},
+      {q:"What would you do differently if you were starting your life over today?", en:true},
+    ],
+    tray: [
+      {q:"Dare: Teach everyone a Moroccan expression they've probably never heard.", en:true},
+      {q:"Say the most honest thing about yourself that you rarely admit.", en:true},
+      {q:"Go around — everyone shares the single best piece of advice they've ever received.", en:true},
+      {q:"What question would you most want to ask everyone here — right now?", en:true},
+      {q:"Dare: Perform your best chaabi dance move. No skipping. No excuses. 🎶", en:true},
+      {q:"Everyone shares one thing they believe in that they've never said out loud before.", en:true},
+    ],
+  },
+};
+
+// ADULTS MODE — deeper, more personal questions
+const QUESTIONS_ADULTS = {
+  family: {
+    atay: [
+      {q:"What's something your parents did that you swore you'd never do — and now you understand why they did it?"},
+      {q:"What family secret did you find out as an adult that changed how you see your childhood?"},
+      {q:"When did you first realize your parents were just figuring it out too?"},
+      {q:"What's the hardest conversation you've had to have with a family member — and did it help?"},
+      {q:"Is there a choice one of your parents made that you still haven't fully forgiven?"},
+      {q:"What do you think your children or future children will judge you for?"},
+    ],
+    sweets: [
+      {q:"What's the most inappropriate thing that's ever been said at a family dinner — and who said it? 😂"},
+      {q:"Who's the family member everyone loves but also finds absolutely exhausting?"},
+      {q:"What family drama, years later, is now actually funny?"},
+      {q:"Who in the family thinks they're subtle but absolutely isn't?"},
+      {q:"What's the family's biggest open secret that nobody talks about?"},
+      {q:"What's the most awkward thing you've witnessed at an Eid or wedding gathering?"},
+    ],
+    nana: [
+      {q:"Is there someone in this family you've grown distant from — and do you want to fix it?"},
+      {q:"What's something your family expects of you that doesn't feel like you?"},
+      {q:"Have you ever felt like the black sheep of the family? When?"},
+      {q:"What's a grief this family carries that no one has really named?"},
+      {q:"What's something you needed from your parents that they weren't able to give you?"},
+      {q:"What's a sacrifice someone in this family made for you that you've never fully thanked them for?"},
+    ],
+    zellige: [
+      {q:"What Moroccan tradition do you feel obligated to follow but don't actually believe in?"},
+      {q:"How much of who you are is Moroccan — and how much is just you?"},
+      {q:"What's something about Moroccan family culture you'd change if you could?"},
+      {q:"Do you feel like you belong more to the Morocco your parents came from, or the one you live in now?"},
+      {q:"What does it mean to be 'a good child' in this culture — and do you measure up to it?"},
+      {q:"What parts of your identity do you hide depending on who you're around?"},
+    ],
+    steam: [
+      {q:"If you could speak to a younger version of a family member, what would you tell them?"},
+      {q:"What's a future you're scared of — involving this family?"},
+      {q:"If you knew you only had a year left with this family as it is now, what would you do differently?"},
+      {q:"What does getting older mean to you — especially in the context of this family?"},
+      {q:"What conversation do you keep putting off with someone in this family?"},
+      {q:"What do you hope this family looks like in 20 years — be honest, not just hopeful."},
+    ],
+    tray: [
+      {q:"Say one true, unfiltered thing to each person at this table. No softening."},
+      {q:"What have you never forgiven someone in this family for — and why haven't you?"},
+      {q:"Dare: Say out loud the thing this family never talks about. Right now."},
+      {q:"What decision of yours has most affected this family — and do you regret it?"},
+      {q:"What do you need from this family that you've never asked for?"},
+      {q:"Go around: each person says what they're most afraid of losing about this family."},
+    ],
+  },
+  couples: {
+    atay: [
+      {q:"When was the last time you saw me differently — in a new light?"},
+      {q:"What's something about our dynamic you noticed early on but never mentioned?"},
+      {q:"Is there a version of us you mourn — from an earlier chapter?"},
+      {q:"What do you think is the real foundation of what we have?"},
+      {q:"What do you know about me that you don't think I know you know?"},
+      {q:"When do you feel most proud to be with me?"},
+    ],
+    sweets: [
+      {q:"What's the most absurd argument we've ever had — that you find hilarious now?"},
+      {q:"What's a quirk of mine that drove you crazy at first but you now secretly find endearing?"},
+      {q:"What would our relationship look like if it were a Netflix show — genre, title, tone?"},
+      {q:"What's something ridiculous we've done together that we should probably admit to the group? 😄"},
+      {q:"What's the most 'us' thing we've ever done?"},
+      {q:"If someone had to play me in a film, who — and would I be the hero or the villain?"},
+    ],
+    nana: [
+      {q:"What's something about yourself you've been hiding from me — even a little?"},
+      {q:"What's a version of yourself you lost when we got together — and do you miss it?"},
+      {q:"What's something I do that genuinely hurts you that you've never told me directly?"},
+      {q:"What do you think I'm most afraid of in this relationship?"},
+      {q:"Is there something you've needed to hear from me that I've never said?"},
+      {q:"What's the most honest thing you've never let yourself say about us?"},
+    ],
+    zellige: [
+      {q:"What cultural expectation around relationships do you feel most — and least — able to meet?"},
+      {q:"How does your Moroccan upbringing show up in how you love — the good and the complicated?"},
+      {q:"What did your parents' relationship teach you that you've carried into ours?"},
+      {q:"What does commitment mean to you — be specific, not just 'I'll always be here'?"},
+      {q:"What part of your identity do you feel you've had to shrink or hide in this relationship?"},
+      {q:"What does a truly good partnership look like to you — different from what you grew up seeing?"},
+    ],
+    steam: [
+      {q:"What's a version of our future that excites and terrifies you at the same time?"},
+      {q:"What's a need you have that you don't think I can meet — and what do you do with that?"},
+      {q:"If we broke up tomorrow, what would you miss the most? Be honest."},
+      {q:"What's a limit you have that I still don't fully understand?"},
+      {q:"Five years from now — what do you hope we've built that we don't have yet?"},
+      {q:"What part of yourself do you want to grow that has nothing to do with me?"},
+    ],
+    tray: [
+      {q:"Tell me the one thing you've been too scared to say. Tonight is the seneya. Say it."},
+      {q:"What's the moment in our relationship where you felt most alone?"},
+      {q:"Dare: Write down — right now — one thing you've been avoiding saying. Read it out loud."},
+      {q:"What's something you've blamed me for that was actually about something else?"},
+      {q:"What would you change about how we've handled a specific moment in our relationship?"},
+      {q:"If this were our last seneya together, what would you want to make sure I knew?"},
+    ],
+  },
+  friends: {
+    atay: [
+      {q:"What's something you've never said to this group because you were afraid of how they'd react?"},
+      {q:"When did this friendship actually save you — even if nobody noticed at the time?"},
+      {q:"What do you genuinely envy about someone in this group — be honest, not polished?"},
+      {q:"Is there a version of yourself you've been hiding from this friend group?"},
+      {q:"What do you know about someone in this group that you've never told them you know?"},
+      {q:"What's something this friendship has cost you that you've never mentioned?"},
+    ],
+    sweets: [
+      {q:"What's the most chaotic group decision you've all made that somehow worked out?"},
+      {q:"Who in this group has the worst taste — in anything — and what is it?"},
+      {q:"What group moment has become legendary that outsiders would never understand?"},
+      {q:"Who in this group is the most delusional about themselves — and how?"},
+      {q:"What's the most dangerous thing you've all done together that you've never told your parents?"},
+      {q:"If this friendship group were a true crime podcast, what's the episode title?"},
+    ],
+    nana: [
+      {q:"Has someone in this group ever hurt you in a way you've never properly addressed?"},
+      {q:"What do you genuinely think this group gets wrong about you?"},
+      {q:"Have you ever felt left out by this group — when, and did it change anything?"},
+      {q:"What's something you've been going through that you haven't told anyone here?"},
+      {q:"Is there a version of yourself you became partly because of this group — and do you like that version?"},
+      {q:"What's a limit you have in this friendship that you've never said out loud?"},
+    ],
+    zellige: [
+      {q:"How has being Moroccan — or growing up in Morocco — shaped how you show up in friendships?"},
+      {q:"What do you think this culture gets right about friendship — and wrong?"},
+      {q:"What does loyalty actually mean to you — and has this group met that standard?"},
+      {q:"How does masculinity or femininity — in the Moroccan sense — affect how you connect with people?"},
+      {q:"What part of your identity do you feel safest bringing to this friend group?"},
+      {q:"What aspect of who you are do you feel this group has never quite understood?"},
+    ],
+    steam: [
+      {q:"What do you think this friendship group will look like in 20 years — be real, not optimistic?"},
+      {q:"What's a future version of yourself that you're building quietly — without telling anyone here?"},
+      {q:"If you could redesign this friend group from scratch, what would you keep and what would you change?"},
+      {q:"What decision of yours have you been afraid to tell this group about?"},
+      {q:"What's a version of your life you're slowly moving toward that might surprise people in this room?"},
+      {q:"Is there something you've outgrown that this friendship still ties you to?"},
+    ],
+    tray: [
+      {q:"Say one completely unfiltered, no-softening-allowed truth about each person in this group."},
+      {q:"What's the real reason you and someone in this room grew apart — if you did?"},
+      {q:"Dare: Tell the group the thing about yourself you've been most ashamed of. No vague answers."},
+      {q:"What's something you'd say about this group if they weren't in the room?"},
+      {q:"Who in this group do you think doesn't truly know you — and why?"},
+      {q:"What would you need to feel truly seen by this friend group?"},
+    ],
+  },
+  all: {
+    atay: [
+      {q:"What's something you've been carrying alone that you've never told anyone?"},
+      {q:"When did you last feel like you had no idea who you were?"},
+      {q:"What's a belief you grew up with that you've had to unlearn?"},
+      {q:"What part of growing up Moroccan shaped you in ways you're still untangling?"},
+      {q:"What does it mean to be honest in a culture that values keeping the peace?"},
+      {q:"What's the most important conversation you've been avoiding — and with whom?"},
+    ],
+    sweets: [
+      {q:"What's the most Moroccan thing you've done that made you burst out laughing afterward?"},
+      {q:"What's a completely irrational opinion you have that you'll die defending? 😄"},
+      {q:"What would your 15-year-old self be horrified to know about your life now?"},
+      {q:"What's the most embarrassing thing you've done while pretending to be very composed?"},
+      {q:"If your life were a Moroccan film, what's the genre — comedy, tragedy, or something in between?"},
+      {q:"What's your most chaotic but completely true origin story?"},
+    ],
+    nana: [
+      {q:"What part of yourself do you show the world that isn't really you?"},
+      {q:"What's something you want that you feel guilty for wanting?"},
+      {q:"What are you most afraid of becoming?"},
+      {q:"What do you think people see when they look at you — and how different is it from reality?"},
+      {q:"What's something you've done that you've never fully forgiven yourself for?"},
+      {q:"What's the hardest part about being the person you are right now?"},
+    ],
+    zellige: [
+      {q:"How much of who you are is performance — for family, for culture, for others?"},
+      {q:"What part of Moroccan identity do you carry with pride and what part feels like a weight?"},
+      {q:"What does الحشومة (shame) mean to you — has it ever kept you from something real?"},
+      {q:"What would you do differently if you weren't afraid of what people would say?"},
+      {q:"How do you hold your Moroccan identity when you're far from Morocco — or when Morocco is far from what you imagined?"},
+      {q:"What does freedom mean to you within the context of the culture you were raised in?"},
+    ],
+    steam: [
+      {q:"What are you building — quietly, slowly — that nobody around you knows about yet?"},
+      {q:"What's a version of your life you've abandoned — and do you mourn it?"},
+      {q:"What scares you most about the next 10 years?"},
+      {q:"What would you do if you knew you couldn't fail — and why aren't you doing it?"},
+      {q:"What's the life you'd live if nobody was watching — not even yourself?"},
+      {q:"If you could send a letter to your 80-year-old self, what would you ask them?"},
+    ],
+    tray: [
+      {q:"Say out loud the one thing about yourself you've been most afraid to admit."},
+      {q:"Dare: Share something you've never told anyone in this room. No easy answers."},
+      {q:"What's the most honest thing you believe about life that you never say?"},
+      {q:"Who in this room do you think is lying to themselves — and how?"},
+      {q:"What would you say to the version of yourself from 5 years ago?"},
+      {q:"If this were the last conversation you'd have with the people in this room, what would you say?"},
+    ],
+  },
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let gameMode = null;
+let audience = 'family';
+let category = 'atay';
+let drawnCount = 0;
+let roundNum = 1;
+let usedMap = {};
+
+const categoryMeta = {
+  atay:    { label:'🫖 Atay · النوستالجيا',     colorClass:'qc-atay',    displayName:'Atay' },
+  sweets:  { label:'🍬 Sweets · المرح',           colorClass:'qc-sweets',  displayName:'Sweets' },
+  nana:    { label:"🌿 Na'na · الصدق",            colorClass:'qc-nana',    displayName:"Na'na" },
+  zellige: { label:'🔷 Zellige · الهوية',         colorClass:'qc-zellige', displayName:'Zellige' },
+  steam:   { label:'💨 Steam · الأحلام',          colorClass:'qc-steam',   displayName:'Steam' },
+  tray:    { label:'✨ The Tray · بطاقة حرة',     colorClass:'qc-tray',    displayName:'Tray' },
+};
+const catIcons = { atay:'🫖', sweets:'🍬', nana:'🌿', zellige:'🔷', steam:'💨', tray:'✨' };
+
+// ── LANDING ───────────────────────────────────────────────────────────────
+function selectMode(mode, el) {
+  gameMode = mode;
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const btn = document.getElementById('btn-start');
+  btn.classList.add('ready');
+  if (mode === 'adults') btn.classList.add('adults-ready');
+  else btn.classList.remove('adults-ready');
+}
+
+function handleStart() {
+  if (!gameMode) return;
+  if (gameMode === 'adults') {
+    document.getElementById('screen-agegate').classList.add('visible');
+  } else {
+    launchGame();
+  }
+}
+
+function confirmAdults() {
+  document.getElementById('screen-agegate').classList.remove('visible');
+  launchGame();
+}
+
+function denyAdults() {
+  gameMode = 'family';
+  document.getElementById('screen-agegate').classList.remove('visible');
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  document.querySelector('.mode-family').classList.add('selected');
+  const btn = document.getElementById('btn-start');
+  btn.classList.remove('adults-ready');
+  showToast('Switched to Family mode 🫖');
+}
+
+function launchGame() {
+  document.getElementById('screen-landing').style.display = 'none';
+  const gs = document.getElementById('screen-game');
+  gs.classList.add('visible');
+  const modeLabel = document.getElementById('topbar-mode-label');
+  const drawBtn = document.getElementById('btn-draw-main');
+  if (gameMode === 'adults') {
+    modeLabel.textContent = '🌙 Night';
+    modeLabel.className = 'topbar-mode adults';
+    drawBtn.classList.add('adults');
+  } else {
+    modeLabel.textContent = '🫖 Family';
+    modeLabel.className = 'topbar-mode family';
+    drawBtn.classList.remove('adults');
+  }
+  rotateProverb();
+  drawnCount = 0; roundNum = 1; usedMap = {};
+  updateStats();
+}
+
+function goHome() {
+  document.getElementById('screen-game').classList.remove('visible');
+  document.getElementById('screen-landing').style.display = 'flex';
+  document.getElementById('card-stage').innerHTML = `
+    <div class="welcome-placeholder">
+      <span style="font-size:2.8rem">🫖</span>
+      <h3>The seneya is ready</h3>
+      <p>Pick your crowd above, choose a category, then tap "Draw a card" to begin.</p>
+      <p style="font-family:'Tajawal',sans-serif; color:var(--gold-dark); font-size:0.82rem; margin-top:4px;">اختر الفئة واضغط لتبدأ</p>
+    </div>`;
+}
+
+// ── GAME LOGIC ─────────────────────────────────────────────────────────────
+function setAudience(aud, el) {
+  audience = aud;
+  document.querySelectorAll('.aud-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  usedMap = {};
+}
+
+function setCategory(cat, el) {
+  category = cat;
+  document.querySelectorAll('.cat-tile').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  updateStats();
+  rotateProverb();
+}
+
+function getPool() {
+  const data = gameMode === 'adults' ? QUESTIONS_ADULTS : QUESTIONS;
+  return (data[audience] && data[audience][category])
+    || (data['all'] && data['all'][category])
+    || QUESTIONS['all'][category];
+}
+
+function drawCard() {
+  const pool = getPool();
+  const key = `${gameMode}_${audience}_${category}`;
+  if (!usedMap[key]) usedMap[key] = [];
+
+  let available = pool.map((_,i)=>i).filter(i => !usedMap[key].includes(i));
+  if (available.length === 0) {
+    usedMap[key] = [];
+    available = pool.map((_,i)=>i);
+    roundNum++;
+    showToast("New round! كرونة جديدة 🔁");
+  }
+
+  const idx = available[Math.floor(Math.random() * available.length)];
+  usedMap[key].push(idx);
+  const card = pool[idx];
+  drawnCount++;
+  updateStats();
+
+  const meta = categoryMeta[category];
+  const icon = catIcons[category];
+
+  document.getElementById('card-stage').innerHTML = `
+    <div class="q-card ${meta.colorClass}" onclick="drawCard()">
+      <div class="q-card-pattern"></div>
+      <div class="q-card-badge">${meta.label}</div>
+      <div class="q-card-icon">${icon}</div>
+      <div class="q-card-text">${card.q}</div>
+      <div class="q-card-num">#${drawnCount}</div>
+      <div class="q-card-hint">tap card to draw next · اسحب للتالية</div>
+    </div>`;
+
+  if (drawnCount % 5 === 0) rotateProverb();
+}
+
+function skipDraw() {
+  rotateProverb();
+  drawCard();
+}
+
+function updateStats() {
+  document.getElementById('stat-drawn').textContent = drawnCount;
+  document.getElementById('stat-round').textContent = roundNum;
+  document.getElementById('stat-cat').textContent = categoryMeta[category]?.displayName || category;
+}
+
+// ── PROVERB ────────────────────────────────────────────────────────────────
+let lastProverbIdx = -1;
+function rotateProverb() {
+  let idx;
+  do { idx = Math.floor(Math.random() * proverbs.length); } while (idx === lastProverbIdx);
+  lastProverbIdx = idx;
+  const p = proverbs[idx];
+  const band = document.getElementById('proverb-band');
+  band.style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('prov-ar').textContent = p.ar;
+    document.getElementById('prov-en').textContent = p.en;
+    band.style.opacity = '1';
+  }, 200);
+  band.style.transition = 'opacity 0.2s';
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
