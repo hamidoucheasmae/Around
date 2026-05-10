@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Around the Seneya — All Editions 💕</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#B85C4A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Seneya">
+<link rel="apple-touch-icon" href="icon.svg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cairo:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -25,6 +34,37 @@
   --muted: #A07060;
 }
 
+/* ── DARK MODE ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cream: #1C0E0A;
+    --warm-white: #231510;
+    --blush: #2A1812;
+    --blush-deep: #321E15;
+    --ink: #F0D5CC;
+    --ink-soft: #C4907A;
+    --muted: #8A6050;
+    --nude: #3A2018;
+    --gold-light: #2A1E10;
+  }
+  .auth-card { background: #231510 !important; border-color: rgba(217,135,122,0.1) !important; }
+  .auth-field input { background: #1C0E0A !important; color: var(--ink) !important; border-color: rgba(217,135,122,0.2) !important; }
+  .auth-field input:focus { background: #231510 !important; }
+  .edition-card { background: #231510 !important; }
+  .welcome-card { background: #231510 !important; border-color: rgba(217,135,122,0.12) !important; }
+  .welcome-card h3 { color: var(--ink) !important; }
+  .stat-cell { background: #1C0E0A !important; }
+  .btn-skip { background: #1C0E0A !important; }
+  .confirm-sheet { background: #231510 !important; }
+  .btn-confirm-cancel { background: #1C0E0A !important; }
+  .land-cat-pill { background: #231510 !important; border-color: rgba(217,135,122,0.12) !important; }
+  .cat-btn { background: #231510 !important; }
+  .cat-strip-wrap::after { background: linear-gradient(to right, transparent, #231510) !important; }
+  .fav-inner { background: #231510 !important; }
+  .fav-item { background: #1C0E0A !important; border-color: rgba(217,135,122,0.08) !important; }
+  .land-progress-chip { background: #231510 !important; }
+}
+
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html, body { height:100%; overflow:hidden; }
 
@@ -32,507 +72,278 @@ body {
   font-family: 'DM Sans', sans-serif;
   background: var(--cream);
   color: var(--ink);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  max-width: 480px;
-  margin: 0 auto;
-  position: relative;
+  display: flex; flex-direction: column;
+  height: 100%; max-width: 480px;
+  margin: 0 auto; position: relative;
 }
 
 /* ── ZELLIGE BG ── */
 body::before {
-  content:'';
-  position:fixed; inset:0; z-index:0; pointer-events:none;
-  opacity:0.035;
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.035;
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23B85C4A'%3E%3Cpath d='M30 2L58 30L30 58L2 30Z' fill='none' stroke='%23B85C4A' stroke-width='0.8'/%3E%3Cpath d='M30 14L46 30L30 46L14 30Z' fill='none' stroke='%23C49A6C' stroke-width='0.6'/%3E%3Cpath d='M30 22L38 30L30 38L22 30Z' fill='%23D9877A' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 /* ══ PAGE VEIL ══ */
-#page-veil {
-  position: fixed; inset: 0; z-index: 500;
-  background: var(--cream);
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.22s ease;
-}
-#page-veil.fading { opacity: 1; pointer-events: all; }
+#page-veil { position:fixed; inset:0; z-index:500; background:var(--cream); opacity:0; pointer-events:none; transition:opacity 0.22s ease; }
+#page-veil.fading { opacity:1; pointer-events:all; }
 
-@keyframes screenIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes screenIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
-/* ══════════════════ AUTH SCREEN ══════════════════ */
+/* ══════════════════ AUTH ══════════════════ */
 #auth-screen {
-  position: relative; z-index:10;
-  flex:1; display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  padding: 2rem 1.5rem;
-  background: linear-gradient(160deg, #FDF8F4 0%, #F7EDE9 50%, #EED5CC 100%);
-  overflow-y: auto;
+  position:relative; z-index:10; flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; padding:2rem 1.5rem;
+  background:linear-gradient(160deg,#FDF8F4 0%,#F7EDE9 50%,#EED5CC 100%); overflow-y:auto;
 }
-
-.auth-logo { text-align: center; margin-bottom: 1.6rem; }
-.auth-logo-icon {
-  font-size: 2.8rem;
-  animation: pulse 2.5s ease-in-out infinite;
-  display: block;
-}
+.auth-logo { text-align:center; margin-bottom:1.6rem; }
+.auth-logo-icon { font-size:2.8rem; animation:pulse 2.5s ease-in-out infinite; display:block; }
 @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
-
-.auth-logo-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.5rem, 5vw, 2rem);
-  font-weight: 500; color: var(--ink);
-  line-height: 1.2; margin-top: 0.4rem;
-}
-.auth-logo-title em { color: var(--rose-deep); font-style: italic; }
-.auth-logo-sub {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.62rem; color: var(--muted);
-  letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.3rem;
-}
-
-.auth-card {
-  width: 100%; max-width: 360px;
-  background: white; border-radius: 24px;
-  padding: 1.6rem 1.5rem 1.5rem;
-  box-shadow: 0 20px 60px rgba(184,92,74,0.14), 0 4px 16px rgba(184,92,74,0.08);
-  border: 1px solid rgba(184,92,74,0.1);
-}
-
-.auth-tabs {
-  display: flex; background: var(--blush);
-  border-radius: 12px; padding: 4px;
-  margin-bottom: 1.4rem; gap: 3px;
-}
-.auth-tab {
-  flex: 1; padding: 9px; border: none;
-  background: transparent; border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.85rem; font-weight: 500;
-  color: var(--muted); cursor: pointer; transition: all 0.22s;
-}
-.auth-tab.active {
-  background: white; color: var(--rose-deep);
-  box-shadow: 0 2px 8px rgba(184,92,74,0.15); font-weight: 600;
-}
-
-.auth-field { margin-bottom: 0.9rem; }
-.auth-field label {
-  display: block; font-family: 'DM Sans', sans-serif;
-  font-size: 0.7rem; font-weight: 600; color: var(--ink-soft);
-  letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 0.35rem;
-}
-.auth-field input {
-  width: 100%; padding: 11px 14px;
-  border: 1.5px solid rgba(184,92,74,0.18); border-radius: 12px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--ink);
-  background: var(--warm-white); outline: none;
-  transition: border-color 0.2s, background 0.2s;
-}
-.auth-field input:focus { border-color: var(--rose-deep); background: white; }
-.auth-field input::placeholder { color: var(--muted); opacity: 0.6; }
-
-.auth-error {
-  background: #FFF0F0; border: 1px solid rgba(184,92,74,0.3);
-  border-radius: 10px; padding: 9px 13px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
-  color: var(--rose-deep); margin-bottom: 1rem;
-  display: none; line-height: 1.5;
-}
-.auth-error.show { display: block; }
-
-.btn-auth {
-  width: 100%; padding: 14px; border: none; border-radius: 14px;
-  background: linear-gradient(135deg, var(--rose-deep) 0%, var(--terracotta) 100%);
-  color: white; font-family: 'Cairo', sans-serif;
-  font-size: 1rem; font-weight: 600; cursor: pointer;
-  transition: all 0.22s; box-shadow: 0 6px 20px rgba(184,92,74,0.35);
-  letter-spacing: 0.04em; margin-top: 0.25rem;
-}
-.btn-auth:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(184,92,74,0.45); }
-.btn-auth:active { transform: scale(0.97); }
-.btn-auth:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; box-shadow: none; }
-
-.auth-loading {
-  display: inline-block; width: 16px; height: 16px;
-  border: 2px solid rgba(255,255,255,0.4); border-top-color: white;
-  border-radius: 50%; animation: spin 0.7s linear infinite;
-  vertical-align: middle; margin-right: 6px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.auth-footer {
-  text-align: center; margin-top: 1rem;
-  font-family: 'Cairo', sans-serif; font-size: 0.68rem;
-  color: var(--muted); direction: rtl; letter-spacing: 0.02em;
-}
+.auth-logo-title { font-family:'Playfair Display',serif; font-size:clamp(1.5rem,5vw,2rem); font-weight:500; color:var(--ink); line-height:1.2; margin-top:.4rem; }
+.auth-logo-title em { color:var(--rose-deep); font-style:italic; }
+.auth-logo-sub { font-family:'DM Sans',sans-serif; font-size:.62rem; color:var(--muted); letter-spacing:.15em; text-transform:uppercase; margin-top:.3rem; }
+.auth-card { width:100%; max-width:360px; background:white; border-radius:24px; padding:1.6rem 1.5rem 1.5rem; box-shadow:0 20px 60px rgba(184,92,74,.14),0 4px 16px rgba(184,92,74,.08); border:1px solid rgba(184,92,74,.1); }
+.auth-tabs { display:flex; background:var(--blush); border-radius:12px; padding:4px; margin-bottom:1.4rem; gap:3px; }
+.auth-tab { flex:1; padding:9px; border:none; background:transparent; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:.85rem; font-weight:500; color:var(--muted); cursor:pointer; transition:all .22s; }
+.auth-tab.active { background:white; color:var(--rose-deep); box-shadow:0 2px 8px rgba(184,92,74,.15); font-weight:600; }
+.auth-field { margin-bottom:.9rem; }
+.auth-field label { display:block; font-family:'DM Sans',sans-serif; font-size:.7rem; font-weight:600; color:var(--ink-soft); letter-spacing:.07em; text-transform:uppercase; margin-bottom:.35rem; }
+.auth-field input { width:100%; padding:11px 14px; border:1.5px solid rgba(184,92,74,.18); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:.9rem; color:var(--ink); background:var(--warm-white); outline:none; transition:border-color .2s,background .2s; }
+.auth-field input:focus { border-color:var(--rose-deep); background:white; }
+.auth-field input::placeholder { color:var(--muted); opacity:.6; }
+.auth-error { background:#FFF0F0; border:1px solid rgba(184,92,74,.3); border-radius:10px; padding:9px 13px; font-family:'DM Sans',sans-serif; font-size:.78rem; color:var(--rose-deep); margin-bottom:1rem; display:none; line-height:1.5; }
+.auth-error.show { display:block; }
+.btn-auth { width:100%; padding:14px; border:none; border-radius:14px; background:linear-gradient(135deg,var(--rose-deep) 0%,var(--terracotta) 100%); color:white; font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600; cursor:pointer; transition:all .22s; box-shadow:0 6px 20px rgba(184,92,74,.35); letter-spacing:.04em; margin-top:.25rem; }
+.btn-auth:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(184,92,74,.45); }
+.btn-auth:active { transform:scale(.97); }
+.btn-auth:disabled { opacity:.6; cursor:not-allowed; transform:none !important; box-shadow:none; }
+.auth-loading { display:inline-block; width:16px; height:16px; border:2px solid rgba(255,255,255,.4); border-top-color:white; border-radius:50%; animation:spin .7s linear infinite; vertical-align:middle; margin-right:6px; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.auth-footer { text-align:center; margin-top:1rem; font-family:'Cairo',sans-serif; font-size:.68rem; color:var(--muted); direction:rtl; letter-spacing:.02em; }
 
 /* ══════════════════ EDITION SELECT ══════════════════ */
 #edition-select {
-  position: relative; z-index:10;
-  flex:1; display:none; flex-direction:column;
-  align-items:center; justify-content:center;
-  padding: 2rem 1.5rem 3rem; text-align:center;
-  background: linear-gradient(160deg, #FDF8F4 0%, #F7EDE9 50%, #EED5CC 100%);
-  overflow-y: auto;
+  position:relative; z-index:10; flex:1; display:none; flex-direction:column;
+  align-items:center; padding:4rem 1.5rem 3rem; text-align:center;
+  background:linear-gradient(160deg,#FDF8F4 0%,#F7EDE9 50%,#EED5CC 100%);
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
 }
-#edition-select.on { display: flex; animation: screenIn 0.3s ease; }
+#edition-select.on { display:flex; animation:screenIn .3s ease; }
 
-.es-user-bar {
-  position: absolute; top: 12px; right: 14px; left: 14px;
-  display: flex; align-items: center; justify-content: flex-end; gap: 8px;
-}
-.es-user-email {
-  font-family: 'DM Sans', sans-serif; font-size: 0.68rem; color: var(--muted);
-  max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.btn-logout-small {
-  display: flex; align-items: center; gap: 5px;
-  background: transparent; border: 1px solid rgba(184,92,74,0.2);
-  border-radius: 50px; padding: 5px 12px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.7rem; color: var(--muted);
-  cursor: pointer; transition: all 0.2s; white-space: nowrap;
-}
-.btn-logout-small:hover { background: var(--blush); color: var(--rose-deep); border-color: var(--rose); }
+.es-user-bar { position:fixed; top:0; right:50%; transform:translateX(50%); width:100%; max-width:480px; padding:10px 14px; display:flex; align-items:center; justify-content:flex-end; gap:8px; z-index:20; background:linear-gradient(to bottom,rgba(253,248,244,.95) 70%,transparent); }
+.es-user-email { font-family:'DM Sans',sans-serif; font-size:.68rem; color:var(--muted); max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.btn-logout-small { display:flex; align-items:center; gap:5px; background:transparent; border:1px solid rgba(184,92,74,.2); border-radius:50px; padding:5px 12px; font-family:'DM Sans',sans-serif; font-size:.7rem; color:var(--muted); cursor:pointer; transition:all .2s; white-space:nowrap; }
+.btn-logout-small:hover { background:var(--blush); color:var(--rose-deep); border-color:var(--rose); }
 
-.es-ornament { font-size: 3rem; margin-bottom: 0.5rem; animation: pulse 2.5s ease-in-out infinite; }
-.es-brand { font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
-.es-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 7vw, 2.8rem); font-weight: 500; line-height: 1.15; color: var(--ink); margin-bottom: 0.3rem; }
-.es-title em { color: var(--rose-deep); font-style: italic; }
-.es-subtitle { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--muted); margin-bottom: 2.5rem; }
+.es-ornament { font-size:3rem; margin-bottom:.5rem; animation:pulse 2.5s ease-in-out infinite; }
+.es-brand { font-family:'DM Sans',sans-serif; font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:.6rem; }
+.es-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,7vw,2.8rem); font-weight:500; line-height:1.15; color:var(--ink); margin-bottom:.3rem; }
+.es-title em { color:var(--rose-deep); font-style:italic; }
+.es-subtitle { font-family:'DM Sans',sans-serif; font-size:.9rem; color:var(--muted); margin-bottom:.6rem; }
 
-/* ── Edition grid with --accent ── */
-.editions-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 12px; width: 100%; max-width: 360px; margin-bottom: 1rem;
-}
-.edition-card {
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 18px 12px 14px;
-  border-radius: 16px;
-  border: 2px solid rgba(184,92,74,0.12);
-  border-top: 3px solid var(--accent);
-  background: white;
-  cursor: pointer; transition: all 0.28s;
-  box-shadow: 0 2px 8px rgba(184,92,74,0.06);
-}
-.edition-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.1);
-}
-.edition-card:active { transform: scale(0.97); }
+/* Lifetime counter */
+.es-lifetime { font-family:'DM Sans',sans-serif; font-size:.68rem; color:var(--rose-deep); font-weight:600; letter-spacing:.04em; margin-bottom:1.8rem; display:none; }
 
-.edition-card.talking { --accent: #D4A574; }
-.edition-card.couples { --accent: #D9877A; }
-.edition-card.fiance  { --accent: #B85C4A; }
-.edition-card.married { --accent: #8B3A5C; }
-.edition-card.friends { --accent: #6B5F9C; }
-.edition-card.spicy   { --accent: #DC143C; }
+/* Fav open button */
+.btn-fav-open { display:none; align-items:center; gap:6px; background:var(--blush); border:1px solid rgba(184,92,74,.2); border-radius:50px; padding:6px 14px; font-family:'DM Sans',sans-serif; font-size:.72rem; font-weight:600; color:var(--rose-deep); cursor:pointer; transition:all .2s; margin-bottom:1.8rem; }
+.btn-fav-open:hover { background:var(--blush-deep); }
 
-.ec-icon-wrap {
-  position: relative;
-  width: 58px; height: 58px;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 0.6rem;
-}
-.ec-icon-wrap::before {
-  content: '';
-  position: absolute; inset: 0;
-  border-radius: 50%;
-  background: var(--accent);
-  opacity: 0.12;
-  transition: opacity 0.28s;
-}
-.edition-card:hover .ec-icon-wrap::before { opacity: 0.22; }
-.ec-icon { font-size: 2rem; position: relative; z-index: 1; }
-.ec-name  { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 0.15rem; }
-.ec-label { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
-
-/* Edition progress badge on card */
-.ec-progress {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.58rem; font-weight: 600;
-  color: var(--muted); margin-top: 4px;
-  min-height: 0.8em; letter-spacing: 0.02em;
-  transition: color 0.2s;
-}
-.ec-progress.has-data { color: var(--rose-deep); }
+/* Edition grid */
+.editions-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; max-width:360px; margin-bottom:1rem; }
+.edition-card { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px 12px 14px; border-radius:16px; border:2px solid rgba(184,92,74,.12); border-top:3px solid var(--accent); background:white; cursor:pointer; transition:all .28s; box-shadow:0 2px 8px rgba(184,92,74,.06); }
+.edition-card:hover { border-color:var(--accent); transform:translateY(-5px); box-shadow:0 10px 24px rgba(0,0,0,.1); }
+.edition-card:active { transform:scale(.97); }
+.edition-card.talking { --accent:#D4A574; }
+.edition-card.couples { --accent:#D9877A; }
+.edition-card.fiance  { --accent:#B85C4A; }
+.edition-card.married { --accent:#8B3A5C; }
+.edition-card.friends { --accent:#6B5F9C; }
+.edition-card.spicy   { --accent:#DC143C; }
+.ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; }
+.ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
+.edition-card:hover .ec-icon-wrap::before { opacity:.22; }
+.ec-icon { font-size:2rem; position:relative; z-index:1; }
+.ec-name  { font-family:'Playfair Display',serif; font-size:1rem; font-weight:500; color:var(--ink); margin-bottom:.15rem; }
+.ec-label { font-size:.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:500; }
+.ec-progress { font-family:'DM Sans',sans-serif; font-size:.58rem; font-weight:600; color:var(--muted); margin-top:4px; min-height:.8em; }
+.ec-progress.has-data { color:var(--rose-deep); }
 
 /* ══════════════════ LANDING ══════════════════ */
 #landing {
-  position: relative; z-index:10;
-  flex:1; display:none; flex-direction:column;
-  align-items:center; justify-content:center;
-  padding: 2rem 1.5rem 3rem; text-align:center;
-  background: linear-gradient(160deg, #FDF8F4 0%, #F7EDE9 50%, #EED5CC 100%);
+  position:relative; z-index:10; flex:1; display:none; flex-direction:column;
+  align-items:center; justify-content:center; padding:2rem 1.5rem 3rem; text-align:center;
+  background:linear-gradient(160deg,#FDF8F4 0%,#F7EDE9 50%,#EED5CC 100%);
 }
-#landing.on { display: flex; animation: screenIn 0.3s ease; }
-
-.btn-land-back {
-  position: absolute; top: 16px; left: 16px;
-  display: flex; align-items: center; gap: 5px;
-  background: transparent; border: 1px solid rgba(184,92,74,0.2);
-  border-radius: 50px; padding: 6px 14px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: var(--muted);
-  cursor: pointer; transition: all 0.2s;
-}
-.btn-land-back:hover { background: var(--blush); color: var(--rose-deep); border-color: var(--rose); }
-
-.land-ornament { font-size: 3rem; margin-bottom: 0.5rem; animation: pulse 2.5s ease-in-out infinite; }
-.land-brand { font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
-.land-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 7vw, 2.8rem); font-weight: 500; line-height: 1.15; color: var(--ink); margin-bottom: 0.3rem; }
-.land-title em { color: var(--rose-deep); font-style: italic; }
-.land-ar { font-family: 'Cairo', sans-serif; font-size: 1.1rem; font-weight: 400; color: var(--gold); margin-bottom: 0.6rem; direction: rtl; letter-spacing: 0.03em; }
-.land-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.95rem; color: var(--muted); margin-bottom: 2.5rem; max-width: 280px; line-height: 1.6; }
-.edition-badge { display: inline-flex; align-items:center; gap:6px; background: linear-gradient(135deg, var(--rose-deep), var(--terracotta)); color: white; font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 2.5rem; box-shadow: 0 4px 16px rgba(184,92,74,0.35); }
-.land-divider { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, var(--rose), transparent); margin: 0 auto 1.5rem; }
-.land-cats { display: flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom: 2rem; }
-.land-cat-pill { padding: 6px 14px; border-radius:20px; font-size:0.75rem; font-family:'DM Sans',sans-serif; font-weight:500; display:flex; align-items:center; gap:5px; background: white; border:1px solid rgba(184,92,74,0.15); color: var(--ink-soft); box-shadow: 0 2px 8px rgba(184,92,74,0.08); }
-
-/* Landing action area */
-.land-action { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; max-width: 280px; }
-.btn-enter {
-  display: flex; align-items:center; justify-content:center; gap:10px;
-  padding: 14px 36px; border:none; border-radius:50px;
-  background: linear-gradient(135deg, var(--rose-deep) 0%, var(--terracotta) 100%);
-  color: white; font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600;
-  cursor:pointer; transition: all 0.25s; box-shadow: 0 6px 24px rgba(184,92,74,0.4);
-  letter-spacing:0.04em; width: 100%;
-}
-.btn-enter:hover { transform:translateY(-2px); box-shadow:0 10px 32px rgba(184,92,74,0.5); }
-.btn-enter:active { transform:scale(0.97); }
-
-.land-progress-chip {
-  display: none;
-  font-family: 'DM Sans', sans-serif; font-size: 0.72rem;
-  color: var(--rose-deep); font-weight: 600;
-  background: var(--blush); border: 1px solid rgba(184,92,74,0.2);
-  border-radius: 20px; padding: 4px 14px;
-}
-.btn-start-fresh {
-  display: none;
-  font-size: 0.75rem; color: var(--muted); cursor: pointer;
-  background: none; border: none; font-family: 'DM Sans', sans-serif;
-  text-decoration: underline; text-underline-offset: 3px;
-}
-.btn-start-fresh:hover { color: var(--rose-deep); }
+#landing.on { display:flex; animation:screenIn .3s ease; }
+.btn-land-back { position:absolute; top:16px; left:16px; display:flex; align-items:center; gap:5px; background:transparent; border:1px solid rgba(184,92,74,.2); border-radius:50px; padding:6px 14px; font-family:'DM Sans',sans-serif; font-size:.75rem; color:var(--muted); cursor:pointer; transition:all .2s; }
+.btn-land-back:hover { background:var(--blush); color:var(--rose-deep); border-color:var(--rose); }
+.land-ornament { font-size:3rem; margin-bottom:.5rem; animation:pulse 2.5s ease-in-out infinite; }
+.land-brand { font-family:'DM Sans',sans-serif; font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:.6rem; }
+.land-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,7vw,2.8rem); font-weight:500; line-height:1.15; color:var(--ink); margin-bottom:.3rem; }
+.land-title em { color:var(--rose-deep); font-style:italic; }
+.land-ar { font-family:'Cairo',sans-serif; font-size:1.1rem; font-weight:400; color:var(--gold); margin-bottom:.6rem; direction:rtl; letter-spacing:.03em; }
+.land-tagline { font-family:'Playfair Display',serif; font-style:italic; font-size:.95rem; color:var(--muted); margin-bottom:2.5rem; max-width:280px; line-height:1.6; }
+.edition-badge { display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg,var(--rose-deep),var(--terracotta)); color:white; font-family:'DM Sans',sans-serif; font-size:.72rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; padding:5px 14px; border-radius:20px; margin-bottom:2.5rem; box-shadow:0 4px 16px rgba(184,92,74,.35); }
+.land-divider { width:40px; height:1px; background:linear-gradient(90deg,transparent,var(--rose),transparent); margin:0 auto 1.5rem; }
+.land-cats { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:2rem; }
+.land-cat-pill { padding:6px 14px; border-radius:20px; font-size:.75rem; font-family:'DM Sans',sans-serif; font-weight:500; display:flex; align-items:center; gap:5px; background:white; border:1px solid rgba(184,92,74,.15); color:var(--ink-soft); box-shadow:0 2px 8px rgba(184,92,74,.08); }
+.land-action { display:flex; flex-direction:column; align-items:center; gap:10px; width:100%; max-width:280px; }
+.btn-enter { display:flex; align-items:center; justify-content:center; gap:10px; padding:14px 36px; border:none; border-radius:50px; background:linear-gradient(135deg,var(--rose-deep) 0%,var(--terracotta) 100%); color:white; font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600; cursor:pointer; transition:all .25s; box-shadow:0 6px 24px rgba(184,92,74,.4); letter-spacing:.04em; width:100%; }
+.btn-enter:hover { transform:translateY(-2px); box-shadow:0 10px 32px rgba(184,92,74,.5); }
+.btn-enter:active { transform:scale(.97); }
+.land-progress-chip { display:none; font-family:'DM Sans',sans-serif; font-size:.72rem; color:var(--rose-deep); font-weight:600; background:var(--blush); border:1px solid rgba(184,92,74,.2); border-radius:20px; padding:4px 14px; }
+.btn-start-fresh { display:none; font-size:.75rem; color:var(--muted); cursor:pointer; background:none; border:none; font-family:'DM Sans',sans-serif; text-decoration:underline; text-underline-offset:3px; }
+.btn-start-fresh:hover { color:var(--rose-deep); }
 
 /* ══════════════════ GAME ══════════════════ */
-#game { display:none; flex-direction:column; height:100%; position:relative; z-index:10; background: var(--cream); }
-#game.on { display:flex; animation: screenIn 0.3s ease; }
+#game { display:none; flex-direction:column; height:100%; position:relative; z-index:10; background:var(--cream); }
+#game.on { display:flex; animation:screenIn .3s ease; }
 
-.topbar { display:flex; align-items:center; justify-content:space-between; padding: 12px 16px 10px; background: var(--warm-white); border-bottom: 1px solid rgba(217,135,122,0.12); flex-shrink:0; }
-.topbar-logo { font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:500; color: var(--rose-deep); display:flex; align-items:center; gap:5px; }
-.topbar-edition { font-family:'DM Sans',sans-serif; font-size:0.62rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:3px 10px; border-radius:20px; background: linear-gradient(135deg,var(--nude),var(--blush-deep)); color: var(--rose-deep); }
-.topbar-actions { display:flex; gap:6px; align-items:center; }
-.topbar-back { background:transparent; border:1px solid rgba(184,92,74,0.18); border-radius:50px; padding:5px 12px; font-size:0.72rem; font-family:'DM Sans',sans-serif; color: var(--muted); cursor:pointer; transition:all 0.2s; }
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px 10px; background:var(--warm-white); border-bottom:1px solid rgba(217,135,122,.12); flex-shrink:0; }
+.topbar-logo { font-family:'Playfair Display',serif; font-size:.95rem; font-weight:500; color:var(--rose-deep); display:flex; align-items:center; gap:5px; }
+.topbar-edition { font-family:'DM Sans',sans-serif; font-size:.62rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:3px 10px; border-radius:20px; background:linear-gradient(135deg,var(--nude),var(--blush-deep)); color:var(--rose-deep); }
+.topbar-actions { display:flex; gap:5px; align-items:center; }
+.topbar-back { background:transparent; border:1px solid rgba(184,92,74,.18); border-radius:50px; padding:5px 12px; font-size:.72rem; font-family:'DM Sans',sans-serif; color:var(--muted); cursor:pointer; transition:all .2s; }
 .topbar-back:hover { background:var(--blush); color:var(--rose-deep); }
+.btn-sound { background:transparent; border:1px solid rgba(184,92,74,.18); border-radius:50px; padding:5px 9px; font-size:.78rem; cursor:pointer; transition:all .2s; color:var(--muted); line-height:1; }
+.btn-sound:hover { background:var(--blush); }
 
-/* Cat strip */
-.cat-strip { display:flex; gap:6px; padding: 10px 14px; overflow-x:auto; flex-shrink:0; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+/* Cat strip with right-fade */
+.cat-strip-wrap { position:relative; flex-shrink:0; }
+.cat-strip-wrap::after { content:''; position:absolute; right:0; top:0; bottom:0; width:40px; background:linear-gradient(to right,transparent,var(--warm-white)); pointer-events:none; z-index:1; }
+.cat-strip { display:flex; gap:6px; padding:10px 14px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
 .cat-strip::-webkit-scrollbar { display:none; }
-.cat-btn {
-  flex-shrink:0; display:flex; align-items:center; gap:5px;
-  padding: 7px 12px; border-radius:20px;
-  border: 1.5px solid rgba(184,92,74,0.15); background: white;
-  font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:500;
-  color: var(--muted); cursor:pointer; transition: all 0.22s; white-space:nowrap;
-}
+.cat-btn { flex-shrink:0; display:flex; align-items:center; gap:4px; padding:7px 12px; border-radius:20px; border:1.5px solid rgba(184,92,74,.15); background:white; font-family:'DM Sans',sans-serif; font-size:.78rem; font-weight:500; color:var(--muted); cursor:pointer; transition:all .22s; white-space:nowrap; }
 .cat-btn:hover { border-color:var(--rose); color:var(--rose-deep); }
-.cat-btn.active { background: linear-gradient(135deg, var(--rose-deep), var(--terracotta)); border-color: transparent; color:white; box-shadow: 0 3px 12px rgba(184,92,74,0.3); }
+.cat-btn.active { background:linear-gradient(135deg,var(--rose-deep),var(--terracotta)); border-color:transparent; color:white; box-shadow:0 3px 12px rgba(184,92,74,.3); }
+.cat-progress { font-size:.5rem; font-weight:700; opacity:.65; font-family:'DM Sans',sans-serif; }
+.cat-btn.active .cat-progress { opacity:1; color:rgba(255,255,255,.85); }
+.cat-btn.cat-done { border-color:rgba(60,160,100,.35); }
+.cat-btn.cat-done .cat-progress { color:#3CA064; }
+.cat-btn.active.cat-done { background:linear-gradient(135deg,#2E7D52,#48A96E); }
 
-/* Category progress badge inside cat button */
-.cat-progress {
-  font-size: 0.5rem; font-weight: 700; letter-spacing: 0.02em;
-  opacity: 0.65; margin-left: 1px;
-  font-family: 'DM Sans', sans-serif;
-}
-.cat-btn.active .cat-progress { opacity: 1; color: rgba(255,255,255,0.85); }
-.cat-btn.cat-done { border-color: rgba(60,160,100,0.35); }
-.cat-btn.cat-done .cat-progress { color: #3CA064; }
-.cat-btn.active.cat-done {
-  background: linear-gradient(135deg, #2E7D52, #48A96E);
-}
-
-/* Card Stage */
-.card-stage { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 8px 16px; overflow:hidden; user-select:none; }
-
+/* Card stage */
+.card-stage { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 16px; overflow:hidden; user-select:none; }
 .q-card-wrap { width:100%; max-width:380px; perspective:1000px; }
-.q-card {
-  width:100%; min-height: 340px; border-radius: 24px;
-  position:relative; overflow:hidden; display:flex; flex-direction:column;
-  cursor: grab;
-  animation: cardSlideIn 0.42s cubic-bezier(.34,1.56,.64,1);
-  box-shadow: 0 20px 60px rgba(184,92,74,0.22), 0 4px 16px rgba(184,92,74,0.12);
-  transition: box-shadow 0.15s;
-}
-.q-card:active { cursor: grabbing; }
-.q-card.swipe-left  { animation: swipeLeft  0.28s ease-in forwards; }
-.q-card.swipe-right { animation: swipeRight 0.28s ease-in forwards; }
+.q-card { width:100%; min-height:340px; border-radius:24px; position:relative; overflow:hidden; display:flex; flex-direction:column; cursor:grab; animation:cardSlideIn .42s cubic-bezier(.34,1.56,.64,1); box-shadow:0 20px 60px rgba(184,92,74,.22),0 4px 16px rgba(184,92,74,.12); transition:box-shadow .15s; }
+.q-card:active { cursor:grabbing; }
+.q-card.swipe-left  { animation:swipeLeft  .28s ease-in forwards; }
+.q-card.swipe-right { animation:swipeRight .28s ease-in forwards; }
+@keyframes cardSlideIn { 0%{opacity:0;transform:translateY(40px) rotate(-1.5deg) scale(.93)} 100%{opacity:1;transform:translateY(0) rotate(0) scale(1)} }
+@keyframes swipeLeft  { to{opacity:0;transform:translateX(-110%) rotate(-8deg)} }
+@keyframes swipeRight { to{opacity:0;transform:translateX(110%) rotate(8deg)} }
 
-@keyframes cardSlideIn {
-  0%   { opacity:0; transform:translateY(40px) rotate(-1.5deg) scale(0.93); }
-  100% { opacity:1; transform:translateY(0) rotate(0) scale(1); }
-}
-@keyframes swipeLeft  { to { opacity:0; transform:translateX(-110%) rotate(-8deg); } }
-@keyframes swipeRight { to { opacity:0; transform:translateX(110%) rotate(8deg); } }
+.card-soft       { background:linear-gradient(155deg,#E8B4AC 0%,#D4837A 40%,#C4614A 100%); }
+.card-real       { background:linear-gradient(155deg,#4A2820 0%,#8C3C2A 50%,#B85C4A 100%); }
+.card-psych      { background:linear-gradient(155deg,#2A3040 0%,#4A3858 50%,#6B5070 100%); }
+.card-power      { background:linear-gradient(155deg,#1C1208 0%,#3D2818 50%,#6B4030 100%); }
+.card-between    { background:linear-gradient(155deg,#1A2030 0%,#2A3848 50%,#3A5068 100%); }
+.card-desires    { background:linear-gradient(155deg,#6B1B47 0%,#8B3A5C 50%,#A94D73 100%); }
+.card-future     { background:linear-gradient(155deg,#1B5E4A 0%,#2A8B6F 50%,#3DB89F 100%); }
+.card-friendship { background:linear-gradient(155deg,#5B4F8F 0%,#7B6BAF 50%,#9B8BCF 100%); }
+.card-challenges { background:linear-gradient(155deg,#FF6B35 0%,#F7931E 50%,#FDB913 100%); }
+.card-spicy      { background:linear-gradient(155deg,#8B0000 0%,#DC143C 50%,#FF1493 100%); }
 
-/* Card backgrounds */
-.card-soft       { background: linear-gradient(155deg, #E8B4AC 0%, #D4837A 40%, #C4614A 100%); }
-.card-real       { background: linear-gradient(155deg, #4A2820 0%, #8C3C2A 50%, #B85C4A 100%); }
-.card-psych      { background: linear-gradient(155deg, #2A3040 0%, #4A3858 50%, #6B5070 100%); }
-.card-power      { background: linear-gradient(155deg, #1C1208 0%, #3D2818 50%, #6B4030 100%); }
-.card-between    { background: linear-gradient(155deg, #1A2030 0%, #2A3848 50%, #3A5068 100%); }
-.card-desires    { background: linear-gradient(155deg, #6B1B47 0%, #8B3A5C 50%, #A94D73 100%); }
-.card-future     { background: linear-gradient(155deg, #1B5E4A 0%, #2A8B6F 50%, #3DB89F 100%); }
-.card-friendship { background: linear-gradient(155deg, #5B4F8F 0%, #7B6BAF 50%, #9B8BCF 100%); }
-.card-challenges { background: linear-gradient(155deg, #FF6B35 0%, #F7931E 50%, #FDB913 100%); }
-.card-spicy      { background: linear-gradient(155deg, #8B0000 0%, #DC143C 50%, #FF1493 100%); }
-
-.card-overlay { position:absolute; inset:0; background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'%3E%3Cpath d='M40 4L76 40L40 76L4 40Z'/%3E%3Cpath d='M40 18L62 40L40 62L18 40Z'/%3E%3Cpath d='M40 28L52 40L40 52L28 40Z'/%3E%3Ccircle cx='40' cy='40' r='32'/%3E%3Ccircle cx='40' cy='40' r='18'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
-.card-deco { position:absolute; font-size:4rem; opacity:0.06; pointer-events:none; user-select:none; line-height:1; }
+.card-overlay { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'%3E%3Cpath d='M40 4L76 40L40 76L4 40Z'/%3E%3Cpath d='M40 18L62 40L40 62L18 40Z'/%3E%3Cpath d='M40 28L52 40L40 52L28 40Z'/%3E%3Ccircle cx='40' cy='40' r='32'/%3E%3Ccircle cx='40' cy='40' r='18'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
+.card-deco { position:absolute; font-size:4rem; opacity:.06; pointer-events:none; user-select:none; line-height:1; }
 .card-deco.tl { top:-8px; left:-8px; transform:rotate(-20deg); }
 .card-deco.br { bottom:-8px; right:-8px; transform:rotate(160deg); }
-
-.card-badge { position:absolute; top:14px; left:50%; transform:translateX(-50%); white-space:nowrap; background: rgba(255,255,255,0.15); backdrop-filter:blur(4px); border-radius:20px; padding:4px 16px; display:flex; align-items:center; gap:6px; }
-.badge-sym { font-size:0.85rem; }
-.badge-en  { font-family:'DM Sans',sans-serif; font-size:0.6rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.9); }
-.badge-ar  { font-family:'Cairo',sans-serif; font-size:0.65rem; font-weight:500; color:rgba(255,255,255,0.7); direction:rtl; }
-
-.card-body { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 70px 24px 60px; text-align:center; position:relative; z-index:1; gap:16px; }
-.card-q-en { font-family:'Playfair Display',serif; font-size:clamp(1.05rem, 3.2vw, 1.25rem); font-weight:400; line-height:1.65; color:white; }
-.card-divider { width:30px; height:1px; background:rgba(255,255,255,0.25); flex-shrink:0; }
-.card-q-ar { font-family:'Cairo',sans-serif; font-size:clamp(0.82rem, 2.5vw, 0.95rem); font-weight:400; line-height:1.8; color:rgba(255,255,255,0.7); direction:rtl; }
-
-.card-footer { position:absolute; bottom:14px; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding: 0 18px; z-index:1; }
-.card-num  { font-family:'DM Sans',sans-serif; font-size:0.62rem; color:rgba(255,255,255,0.3); font-weight:500; }
-.card-hint { font-family:'DM Sans',sans-serif; font-size:0.6rem; color:rgba(255,255,255,0.35); font-style:italic; }
+.card-badge { position:absolute; top:14px; left:50%; transform:translateX(-50%); white-space:nowrap; background:rgba(255,255,255,.15); backdrop-filter:blur(4px); border-radius:20px; padding:4px 16px; display:flex; align-items:center; gap:6px; }
+.badge-sym { font-size:.85rem; }
+.badge-en  { font-family:'DM Sans',sans-serif; font-size:.6rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.9); }
+.badge-ar  { font-family:'Cairo',sans-serif; font-size:.65rem; font-weight:500; color:rgba(255,255,255,.7); direction:rtl; }
+.card-body { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:70px 24px 60px; text-align:center; position:relative; z-index:1; gap:16px; }
+.card-q-en { font-family:'Playfair Display',serif; font-size:clamp(1.05rem,3.2vw,1.25rem); font-weight:400; line-height:1.65; color:white; }
+.card-divider { width:30px; height:1px; background:rgba(255,255,255,.25); flex-shrink:0; }
+.card-q-ar { font-family:'Cairo',sans-serif; font-size:clamp(.82rem,2.5vw,.95rem); font-weight:400; line-height:1.8; color:rgba(255,255,255,.7); direction:rtl; }
+.card-footer { position:absolute; bottom:14px; left:18px; right:18px; display:flex; align-items:center; justify-content:space-between; z-index:1; }
+.card-num  { font-family:'DM Sans',sans-serif; font-size:.62rem; color:rgba(255,255,255,.4); font-weight:600; }
+.card-footer-actions { display:flex; gap:6px; align-items:center; }
+.btn-card-action { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.2); border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:.85rem; cursor:pointer; color:rgba(255,255,255,.8); transition:all .2s; backdrop-filter:blur(4px); line-height:1; }
+.btn-card-action:hover { background:rgba(255,255,255,.25); }
+.btn-card-action.fav-active { background:rgba(220,20,60,.4); border-color:rgba(220,20,60,.6); color:white; }
 
 /* Welcome card */
-.welcome-card { width:100%; max-width:380px; min-height:300px; border-radius:24px; background: white; border: 2px dashed rgba(217,135,122,0.25); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center; padding:2rem; box-shadow: 0 4px 20px rgba(184,92,74,0.06); }
+.welcome-card { width:100%; max-width:380px; min-height:300px; border-radius:24px; background:white; border:2px dashed rgba(217,135,122,.25); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center; padding:2rem; box-shadow:0 4px 20px rgba(184,92,74,.06); }
 .welcome-card h3 { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:500; color:var(--ink); }
-.welcome-card p  { font-size:0.82rem; color:var(--muted); line-height:1.65; max-width:240px; }
-.welcome-card .wc-ar { font-family:'Cairo',sans-serif; font-size:0.8rem; color:var(--gold); direction:rtl; }
+.welcome-card p  { font-size:.82rem; color:var(--muted); line-height:1.65; max-width:240px; }
+.welcome-card .wc-ar { font-family:'Cairo',sans-serif; font-size:.8rem; color:var(--gold); direction:rtl; }
 
-/* ── All-done card ── */
-.done-card {
-  width:100%; max-width:380px; min-height:320px; border-radius:24px;
-  background: linear-gradient(155deg, #1A2A1A 0%, #2E5E3A 50%, #3D8A4D 100%);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:14px; text-align:center; padding:2rem;
-  box-shadow: 0 20px 60px rgba(30,100,60,0.3);
-  animation: cardSlideIn 0.42s cubic-bezier(.34,1.56,.64,1);
-}
-.done-card-icon { font-size: 3rem; }
-.done-card-title {
-  font-family:'Playfair Display',serif; font-size:1.3rem;
-  color:white; font-weight:500;
-}
-.done-card-sub {
-  font-size:0.82rem; color:rgba(255,255,255,0.65); line-height:1.7;
-}
-.done-card-sub strong { color:rgba(255,255,255,0.92); }
-.done-card-ar {
-  font-family:'Cairo',sans-serif; font-size:0.78rem;
-  color:rgba(180,220,190,0.7); direction:rtl;
-}
-.btn-done-continue {
-  padding:12px 28px; border:1px solid rgba(255,255,255,0.3); border-radius:50px;
-  background: rgba(255,255,255,0.18); backdrop-filter:blur(4px);
-  color:white; font-family:'Cairo',sans-serif; font-size:0.95rem; font-weight:600;
-  cursor:pointer; transition:all 0.2s; margin-top:4px;
-}
-.btn-done-continue:hover { background:rgba(255,255,255,0.28); }
+/* All-done card */
+.done-card { width:100%; max-width:380px; min-height:320px; border-radius:24px; background:linear-gradient(155deg,#1A2A1A 0%,#2E5E3A 50%,#3D8A4D 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; text-align:center; padding:2rem; box-shadow:0 20px 60px rgba(30,100,60,.3); animation:cardSlideIn .42s cubic-bezier(.34,1.56,.64,1); }
+.done-card-icon { font-size:3rem; }
+.done-card-title { font-family:'Playfair Display',serif; font-size:1.3rem; color:white; font-weight:500; }
+.done-card-sub { font-size:.82rem; color:rgba(255,255,255,.65); line-height:1.7; }
+.done-card-sub strong { color:rgba(255,255,255,.92); }
+.done-card-ar { font-family:'Cairo',sans-serif; font-size:.78rem; color:rgba(180,220,190,.7); direction:rtl; }
+.btn-done-continue { padding:12px 28px; border:1px solid rgba(255,255,255,.3); border-radius:50px; background:rgba(255,255,255,.18); backdrop-filter:blur(4px); color:white; font-family:'Cairo',sans-serif; font-size:.95rem; font-weight:600; cursor:pointer; transition:all .2s; margin-top:4px; }
+.btn-done-continue:hover { background:rgba(255,255,255,.28); }
 
 /* Bottom bar */
-.bottom-bar { flex-shrink:0; padding: 10px 14px 16px; background: var(--warm-white); border-top: 1px solid rgba(217,135,122,0.1); }
-.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:10px; }
-.stat-cell { background:white; border-radius:10px; padding:8px 6px; text-align:center; border:1px solid rgba(184,92,74,0.08); }
-.stat-n { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:500; color:var(--rose-deep); }
-.stat-l { font-size:0.58rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; font-family:'DM Sans',sans-serif; margin-top:1px; }
-
+.bottom-bar { flex-shrink:0; padding:10px 14px 16px; background:var(--warm-white); border-top:1px solid rgba(217,135,122,.1); }
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-bottom:10px; }
+.stat-cell { background:white; border-radius:10px; padding:7px 4px; text-align:center; border:1px solid rgba(184,92,74,.08); }
+.stat-n { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:500; color:var(--rose-deep); }
+.stat-l { font-size:.52rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-family:'DM Sans',sans-serif; margin-top:1px; }
 .draw-row { display:flex; gap:8px; }
-.btn-skip {
-  width: 54px; flex-shrink: 0;
-  border: 1.5px solid rgba(184,92,74,0.2);
-  background: white; border-radius:14px;
-  display:flex; flex-direction: column; align-items:center; justify-content:center;
-  gap: 2px; font-size:1rem; cursor:pointer; transition:all 0.2s;
-}
-.btn-skip-label { font-size: 0.5rem; color: var(--muted); font-family: 'DM Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.06em; }
+.btn-skip { width:54px; flex-shrink:0; border:1.5px solid rgba(184,92,74,.2); background:white; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; font-size:1rem; cursor:pointer; transition:all .2s; }
+.btn-skip-label { font-size:.5rem; color:var(--muted); font-family:'DM Sans',sans-serif; text-transform:uppercase; letter-spacing:.06em; }
 .btn-skip:hover { background:var(--blush); border-color:var(--rose); }
-.btn-draw { flex:1; border:none; border-radius:14px; padding:14px 10px; background: linear-gradient(135deg, var(--rose-deep), var(--terracotta)); color:white; font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600; cursor:pointer; transition:all 0.22s; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow: 0 4px 16px rgba(184,92,74,0.3); letter-spacing:0.03em; }
-.btn-draw:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(184,92,74,0.4); }
-.btn-draw:active { transform:scale(0.97); }
+.btn-draw { flex:1; border:none; border-radius:14px; padding:14px 10px; background:linear-gradient(135deg,var(--rose-deep),var(--terracotta)); color:white; font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600; cursor:pointer; transition:all .22s; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 16px rgba(184,92,74,.3); letter-spacing:.03em; }
+.btn-draw:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(184,92,74,.4); }
+.btn-draw:active { transform:scale(.97); }
 
 /* ══ CONFIRM HOME MODAL ══ */
-#confirm-home {
-  position: fixed; inset: 0; z-index: 400;
-  background: rgba(28,14,10,0.45);
-  display: none; align-items: flex-end; justify-content: center;
-  backdrop-filter: blur(4px);
-}
-#confirm-home.open { display: flex; }
+#confirm-home { position:fixed; inset:0; z-index:400; background:rgba(28,14,10,.45); display:none; align-items:flex-end; justify-content:center; backdrop-filter:blur(4px); }
+#confirm-home.open { display:flex; }
+.confirm-sheet { width:100%; max-width:480px; background:white; border-radius:24px 24px 0 0; padding:2rem 1.5rem 2.5rem; text-align:center; animation:slideUp .32s cubic-bezier(.34,1.56,.64,1); }
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.confirm-icon  { font-size:2.5rem; margin-bottom:.75rem; }
+.confirm-title { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:500; color:var(--ink); margin-bottom:.4rem; }
+.confirm-sub   { font-size:.8rem; color:var(--muted); margin-bottom:1.5rem; line-height:1.6; }
+.confirm-btns  { display:flex; gap:10px; }
+.btn-confirm-cancel { flex:1; padding:13px; cursor:pointer; transition:all .2s; border:1.5px solid rgba(184,92,74,.2); border-radius:14px; background:white; font-family:'DM Sans',sans-serif; font-size:.9rem; color:var(--muted); }
+.btn-confirm-cancel:hover { background:var(--blush); color:var(--rose-deep); }
+.btn-confirm-ok { flex:1; padding:13px; cursor:pointer; border:none; border-radius:14px; background:linear-gradient(135deg,var(--rose-deep),var(--terracotta)); color:white; font-family:'DM Sans',sans-serif; font-size:.9rem; font-weight:600; box-shadow:0 4px 14px rgba(184,92,74,.3); }
 
-.confirm-sheet {
-  width: 100%; max-width: 480px;
-  background: white; border-radius: 24px 24px 0 0;
-  padding: 2rem 1.5rem 2.5rem; text-align: center;
-  animation: slideUp 0.32s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to   { transform: translateY(0); }
-}
-.confirm-icon  { font-size: 2.5rem; margin-bottom: 0.75rem; }
-.confirm-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
-.confirm-sub   { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; }
-.confirm-btns  { display: flex; gap: 10px; }
-.btn-confirm-cancel {
-  flex: 1; padding: 13px; cursor: pointer; transition: all 0.2s;
-  border: 1.5px solid rgba(184,92,74,0.2); border-radius: 14px; background: white;
-  font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--muted);
-}
-.btn-confirm-cancel:hover { background: var(--blush); color: var(--rose-deep); }
-.btn-confirm-ok {
-  flex: 1; padding: 13px; cursor: pointer;
-  border: none; border-radius: 14px;
-  background: linear-gradient(135deg, var(--rose-deep), var(--terracotta));
-  color: white; font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem; font-weight: 600;
-  box-shadow: 0 4px 14px rgba(184,92,74,0.3);
-}
+/* ══ FAVOURITES SHEET ══ */
+#fav-sheet { position:fixed; inset:0; z-index:450; display:none; flex-direction:column; justify-content:flex-end; }
+#fav-sheet.open { display:flex; }
+.fav-backdrop { position:absolute; inset:0; background:rgba(28,14,10,.45); backdrop-filter:blur(4px); }
+.fav-inner { position:relative; background:white; border-radius:24px 24px 0 0; max-height:82vh; display:flex; flex-direction:column; animation:slideUp .32s cubic-bezier(.34,1.56,.64,1); }
+.fav-header { display:flex; align-items:center; justify-content:space-between; padding:1.25rem 1.5rem 1rem; border-bottom:1px solid rgba(184,92,74,.08); flex-shrink:0; }
+.fav-title { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:500; color:var(--ink); }
+.fav-close { background:var(--blush); border:none; border-radius:50%; width:32px; height:32px; font-size:1rem; cursor:pointer; color:var(--muted); display:flex; align-items:center; justify-content:center; }
+.fav-list { overflow-y:auto; padding:1rem 1.5rem; display:flex; flex-direction:column; gap:10px; -webkit-overflow-scrolling:touch; }
+.fav-item { background:var(--blush); border-radius:14px; padding:12px 14px; position:relative; border:1px solid rgba(184,92,74,.1); }
+.fav-item-meta { font-family:'DM Sans',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rose-deep); margin-bottom:5px; }
+.fav-item-q-en { font-family:'Playfair Display',serif; font-size:.9rem; color:var(--ink); line-height:1.55; margin-bottom:4px; }
+.fav-item-q-ar { font-family:'Cairo',sans-serif; font-size:.78rem; color:var(--muted); direction:rtl; line-height:1.6; }
+.fav-item-del { position:absolute; top:10px; right:10px; background:transparent; border:none; font-size:.85rem; color:var(--muted); cursor:pointer; padding:2px 6px; border-radius:6px; transition:all .2s; }
+.fav-item-del:hover { background:rgba(184,92,74,.12); color:var(--rose-deep); }
+.fav-empty { padding:2rem 1.5rem; text-align:center; font-family:'DM Sans',sans-serif; font-size:.85rem; color:var(--muted); line-height:1.7; display:none; }
 
 /* TOAST */
-.toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--nude); padding:8px 18px; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.78rem; opacity:0; transition:all 0.3s; z-index:999; white-space:nowrap; pointer-events:none; }
+.toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--nude); padding:8px 18px; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:.78rem; opacity:0; transition:all .3s; z-index:999; white-space:nowrap; pointer-events:none; }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- ══ PAGE VEIL ══ -->
 <div id="page-veil"></div>
 
-<!-- ══ AUTH SCREEN ══ -->
+<!-- ══ AUTH ══ -->
 <div id="auth-screen">
   <div class="auth-logo">
     <span class="auth-logo-icon">💕</span>
     <div class="auth-logo-title">Around the <em>Seneya</em></div>
     <div class="auth-logo-sub">حول الصينية · Real Talk · Bilingual</div>
   </div>
-
   <div class="auth-card">
     <div class="auth-tabs">
       <button class="auth-tab active" id="tab-login"    onclick="switchTab('login')">دخول &nbsp; Login</button>
       <button class="auth-tab"        id="tab-register" onclick="switchTab('register')">حساب جديد &nbsp; Register</button>
     </div>
-
     <div id="auth-error" class="auth-error"></div>
-
     <div class="auth-field" id="field-name" style="display:none">
       <label>الاسم · Name</label>
       <input type="text" id="input-name" placeholder="Your name…" autocomplete="name">
@@ -545,7 +356,6 @@ body::before {
       <label>كلمة المرور · Password</label>
       <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password">
     </div>
-
     <button class="btn-auth" id="btn-auth-submit" onclick="handleAuth()">دخول — Sign In</button>
     <div class="auth-footer">الصدق هو القاعدة الوحيدة 💕</div>
   </div>
@@ -555,16 +365,14 @@ body::before {
 <div id="edition-select">
   <div class="es-user-bar">
     <span class="es-user-email" id="user-email"></span>
-    <button class="btn-logout-small" onclick="handleSignOut()">
-      <span>↩</span> Sign out
-    </button>
+    <button class="btn-logout-small" onclick="handleSignOut()"><span>↩</span> Sign out</button>
   </div>
-
   <div class="es-ornament">💕</div>
   <div class="es-brand">Around the Seneya · حول الصينية</div>
   <h1 class="es-title">Choose Your <em>Edition</em></h1>
   <p class="es-subtitle">Where are you in your journey?</p>
-
+  <div class="es-lifetime" id="es-lifetime"></div>
+  <button class="btn-fav-open" id="btn-fav-open" onclick="openFavSheet()">💝 <span id="fav-count">0</span> Saved</button>
   <div class="editions-grid">
     <div class="edition-card talking" onclick="selectEdition('talking')">
       <div class="ec-icon-wrap"><span class="ec-icon">🥰</span></div>
@@ -608,7 +416,6 @@ body::before {
 <!-- ══ LANDING ══ -->
 <div id="landing">
   <button class="btn-land-back" onclick="backToEditions()">← Editions</button>
-
   <div class="land-ornament">💕</div>
   <div class="land-brand">Around the Seneya · حول الصينية</div>
   <h1 class="land-title"><span id="ed-title">Lovers</span> <em>Edition</em></h1>
@@ -617,7 +424,6 @@ body::before {
   <div class="edition-badge" id="ed-badge">💕 &nbsp; Special Edition · إصدار خاص</div>
   <div class="land-divider"></div>
   <div class="land-cats" id="ed-cats"></div>
-
   <div class="land-action">
     <button class="btn-enter" id="btn-land-enter">💕 &nbsp; ابدأ — Begin</button>
     <div class="land-progress-chip" id="land-progress-chip"></div>
@@ -631,11 +437,14 @@ body::before {
     <div class="topbar-logo">🫖 Seneya</div>
     <div class="topbar-edition" id="game-edition">💕 Lovers</div>
     <div class="topbar-actions">
+      <button class="btn-sound" id="btn-sound" onclick="toggleSound()" title="Sound">🔊</button>
       <button class="topbar-back" onclick="askGoHome()">← Home</button>
     </div>
   </div>
 
-  <div class="cat-strip" id="cat-strip"></div>
+  <div class="cat-strip-wrap">
+    <div class="cat-strip" id="cat-strip"></div>
+  </div>
 
   <div class="card-stage" id="card-stage">
     <div class="welcome-card">
@@ -648,18 +457,10 @@ body::before {
 
   <div class="bottom-bar">
     <div class="stats-row">
-      <div class="stat-cell">
-        <div class="stat-n" id="s-drawn">0</div>
-        <div class="stat-l">Drawn</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-n" id="s-round">1</div>
-        <div class="stat-l">Round</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-n" id="s-cat">🌷</div>
-        <div class="stat-l" id="s-cat-name">Category</div>
-      </div>
+      <div class="stat-cell"><div class="stat-n" id="s-drawn">0</div><div class="stat-l">Drawn</div></div>
+      <div class="stat-cell"><div class="stat-n" id="s-round">1</div><div class="stat-l">Round</div></div>
+      <div class="stat-cell"><div class="stat-n" id="s-cat">🌷</div><div class="stat-l" id="s-cat-name">Category</div></div>
+      <div class="stat-cell"><div class="stat-n" id="s-time">0:00</div><div class="stat-l">Time</div></div>
     </div>
     <div class="draw-row">
       <button class="btn-skip" onclick="skipCard()" title="Skip — doesn't count">
@@ -671,7 +472,7 @@ body::before {
   </div>
 </div>
 
-<!-- ══ CONFIRM HOME MODAL ══ -->
+<!-- ══ CONFIRM HOME ══ -->
 <div id="confirm-home">
   <div class="confirm-sheet">
     <div class="confirm-icon">🏠</div>
@@ -681,6 +482,19 @@ body::before {
       <button class="btn-confirm-cancel" onclick="closeConfirmHome()">Stay · ابق</button>
       <button class="btn-confirm-ok"     onclick="doGoHome()">Yes, go back</button>
     </div>
+  </div>
+</div>
+
+<!-- ══ FAVOURITES SHEET ══ -->
+<div id="fav-sheet">
+  <div class="fav-backdrop" onclick="closeFavSheet()"></div>
+  <div class="fav-inner">
+    <div class="fav-header">
+      <span class="fav-title">💝 Saved Questions · المحفوظات</span>
+      <button class="fav-close" onclick="closeFavSheet()">✕</button>
+    </div>
+    <div id="fav-list" class="fav-list"></div>
+    <div class="fav-empty" id="fav-empty">No saved questions yet.<br>Tap ♡ on any card to save it.<br><span style="font-family:'Cairo',sans-serif;font-size:.8rem;color:var(--gold)">اضغط ♡ على أي بطاقة لحفظها</span></div>
   </div>
 </div>
 
@@ -699,7 +513,7 @@ import {
   getFirestore, doc, getDoc, setDoc
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-/* ── Firebase ── */
+/* ── Firebase init ── */
 const app = initializeApp({
   apiKey:            "AIzaSyCeSLeVlfivD9XS128dUT-0MJ9W184f8kg",
   authDomain:        "aroundtheseneya.firebaseapp.com",
@@ -713,7 +527,118 @@ getAnalytics(app);
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
-/* ── Auth state ── */
+/* ── PWA service worker ── */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+
+/* ══════════ SOUND ══════════ */
+let audioCtx    = null;
+let soundEnabled = localStorage.getItem('seneya_sound') !== 'false';
+
+document.getElementById('btn-sound').textContent = soundEnabled ? '🔊' : '🔇';
+
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playDraw() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getCtx();
+    const len = Math.floor(ctx.sampleRate * 0.12);
+    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 1.5) * 0.28;
+    const src = ctx.createBufferSource();
+    const f = ctx.createBiquadFilter();
+    f.type = 'bandpass'; f.frequency.value = 1100; f.Q.value = 0.8;
+    src.buffer = buf; src.connect(f); f.connect(ctx.destination); src.start();
+  } catch(e){}
+}
+
+function playSkip() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getCtx();
+    const len = Math.floor(ctx.sampleRate * 0.08);
+    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 2) * 0.15;
+    const src = ctx.createBufferSource();
+    const f = ctx.createBiquadFilter();
+    f.type = 'highpass'; f.frequency.value = 2200;
+    src.buffer = buf; src.connect(f); f.connect(ctx.destination); src.start();
+  } catch(e){}
+}
+
+function playDone() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getCtx();
+    [523.25, 659.25, 783.99].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const g   = ctx.createGain();
+      const t   = ctx.currentTime + i * 0.13;
+      osc.type = 'sine'; osc.frequency.value = freq;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.12, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+      osc.connect(g); g.connect(ctx.destination);
+      osc.start(t); osc.stop(t + 0.55);
+    });
+  } catch(e){}
+}
+
+function playFavSound() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getCtx();
+    const osc = ctx.createOscillator();
+    const g   = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1108, ctx.currentTime + 0.15);
+    g.gain.setValueAtTime(0.1, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime + 0.3);
+  } catch(e){}
+}
+
+window.toggleSound = function() {
+  soundEnabled = !soundEnabled;
+  localStorage.setItem('seneya_sound', soundEnabled);
+  document.getElementById('btn-sound').textContent = soundEnabled ? '🔊' : '🔇';
+  if (soundEnabled) playDraw();
+};
+
+/* ══════════ SESSION TIMER ══════════ */
+let sessionStart  = null;
+let timerInterval = null;
+
+function startSessionTimer() {
+  sessionStart = Date.now();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    const e = Date.now() - sessionStart;
+    const m = Math.floor(e / 60000);
+    const s = Math.floor((e % 60000) / 1000);
+    const el = document.getElementById('s-time');
+    if (el) el.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+  }, 1000);
+}
+
+function stopSessionTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  sessionStart  = null;
+  const el = document.getElementById('s-time');
+  if (el) el.textContent = '0:00';
+}
+
+/* ══════════ AUTH STATE ══════════ */
 let currentUser = null;
 
 onAuthStateChanged(auth, (user) => {
@@ -723,16 +648,15 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById('edition-select').classList.add('on');
     document.getElementById('user-email').textContent = user.displayName || user.email;
     loadAllProgress(user.uid);
+    loadFavourites(user.uid);
   } else {
     document.getElementById('auth-screen').style.display = 'flex';
-    document.getElementById('edition-select').classList.remove('on');
-    document.getElementById('landing').classList.remove('on');
-    document.getElementById('game').classList.remove('on');
-    allProgress = {};
+    ['edition-select','landing','game'].forEach(id =>
+      document.getElementById(id).classList.remove('on'));
+    allProgress = {}; favourites = [];
   }
 });
 
-/* ── Screen transition helper ── */
 function transition(cb) {
   const veil = document.getElementById('page-veil');
   veil.classList.add('fading');
@@ -742,18 +666,17 @@ function transition(cb) {
   }, 220);
 }
 
-/* ══════════ FIRESTORE PROGRESS ══════════ */
-let allProgress = {}; // { editionKey: { drawn, round, used, currentCat, lastPlayed } }
+/* ══════════ FIRESTORE — PROGRESS ══════════ */
+let allProgress = {};
 let saveTimer   = null;
 
 async function loadAllProgress(uid) {
   try {
     const snap = await getDoc(doc(db, 'users', uid, 'meta', 'progress'));
     allProgress = snap.exists() ? (snap.data().editions || {}) : {};
-  } catch (e) {
-    allProgress = {};
-  }
+  } catch(e) { allProgress = {}; }
   updateEditionProgressBadges();
+  updateLifetimeDisplay();
 }
 
 function scheduleSave() {
@@ -766,24 +689,18 @@ async function persistProgress() {
   if (!currentUser || !currentEdition) return;
   try {
     allProgress[currentEdition] = { drawn, round, used, currentCat, lastPlayed: Date.now() };
-    await setDoc(
-      doc(db, 'users', currentUser.uid, 'meta', 'progress'),
-      { editions: allProgress },
-      { merge: true }
-    );
-  } catch (e) { /* silent — offline or rules */ }
+    await setDoc(doc(db, 'users', currentUser.uid, 'meta', 'progress'),
+      { editions: allProgress }, { merge: true });
+  } catch(e){}
 }
 
 async function clearEditionProgress(edition) {
   if (!currentUser) return;
   try {
     delete allProgress[edition];
-    await setDoc(
-      doc(db, 'users', currentUser.uid, 'meta', 'progress'),
-      { editions: allProgress },
-      { merge: true }
-    );
-  } catch (e) { /* silent */ }
+    await setDoc(doc(db, 'users', currentUser.uid, 'meta', 'progress'),
+      { editions: allProgress }, { merge: true });
+  } catch(e){}
 }
 
 function updateEditionProgressBadges() {
@@ -801,12 +718,119 @@ function updateEditionProgressBadges() {
   });
 }
 
-/* ── Auth ── */
+function updateLifetimeDisplay() {
+  const total = Object.values(allProgress).reduce((s, p) => s + (p?.drawn || 0), 0);
+  const el = document.getElementById('es-lifetime');
+  if (!el) return;
+  if (total > 0) {
+    el.textContent = `✦ ${total} questions explored across all editions`;
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+/* ══════════ FIRESTORE — FAVOURITES ══════════ */
+let favourites = [];
+
+async function loadFavourites(uid) {
+  try {
+    const snap = await getDoc(doc(db, 'users', uid, 'meta', 'favourites'));
+    favourites = snap.exists() ? (snap.data().items || []) : [];
+  } catch(e) { favourites = []; }
+  updateFavUI();
+}
+
+async function saveFavourites() {
+  if (!currentUser) return;
+  try {
+    await setDoc(doc(db, 'users', currentUser.uid, 'meta', 'favourites'),
+      { items: favourites }, { merge: false });
+  } catch(e){}
+}
+
+function updateFavUI() {
+  const btn   = document.getElementById('btn-fav-open');
+  const count = document.getElementById('fav-count');
+  if (btn && count) {
+    count.textContent = favourites.length;
+    btn.style.display = favourites.length > 0 ? 'flex' : 'none';
+  }
+}
+
+window.toggleFav = function() {
+  if (!currentQuestion) return;
+  const idx = favourites.findIndex(f => f.en === currentQuestion.en && f.edition === currentEdition);
+  if (idx >= 0) {
+    favourites.splice(idx, 1);
+  } else {
+    favourites.push({ en: currentQuestion.en, ar: currentQuestion.ar, cat: currentCat, edition: currentEdition, savedAt: Date.now() });
+    playFavSound();
+    if (navigator.vibrate) navigator.vibrate([10, 30, 10]);
+  }
+  const isFav = idx < 0; // was added
+  const favBtn = document.querySelector('.btn-card-fav');
+  if (favBtn) {
+    favBtn.classList.toggle('fav-active', isFav);
+    favBtn.textContent = isFav ? '♥' : '♡';
+  }
+  updateFavUI();
+  saveFavourites();
+};
+
+window.shareCard = async function() {
+  if (!currentQuestion) return;
+  const text = `${currentQuestion.en}\n\n${currentQuestion.ar}\n\n— Around the Seneya · حول الصينية`;
+  if (navigator.share) {
+    try { await navigator.share({ title: 'Around the Seneya', text }); } catch(e){}
+  } else {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast('Copied to clipboard · تم النسخ ✓');
+    } catch(e) { toast('Share not available on this device'); }
+  }
+};
+
+window.openFavSheet = function() {
+  const list  = document.getElementById('fav-list');
+  const empty = document.getElementById('fav-empty');
+  if (favourites.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    list.innerHTML = favourites.slice().reverse().map((f, i) => {
+      const cat = CATEGORIES[f.cat];
+      const ed  = EDITIONS[f.edition];
+      const realIdx = favourites.length - 1 - i;
+      return `<div class="fav-item">
+        <div class="fav-item-meta">${cat?.sym || '💕'} ${cat?.en || f.cat} · ${ed?.name || f.edition}</div>
+        <div class="fav-item-q-en">${f.en}</div>
+        <div class="fav-item-q-ar">${f.ar}</div>
+        <button class="fav-item-del" onclick="removeFav(${realIdx})">✕</button>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('fav-sheet').classList.add('open');
+};
+
+window.closeFavSheet = function() {
+  document.getElementById('fav-sheet').classList.remove('open');
+};
+
+window.removeFav = function(idx) {
+  favourites.splice(idx, 1);
+  updateFavUI();
+  saveFavourites();
+  window.openFavSheet();
+};
+
+/* ══════════ AUTH ══════════ */
 let authMode = 'login';
 
 window.switchTab = function(mode) {
   authMode = mode;
-  document.getElementById('tab-login').classList.toggle('active',    mode === 'login');
+  document.getElementById('tab-login').classList.toggle('active', mode === 'login');
   document.getElementById('tab-register').classList.toggle('active', mode === 'register');
   document.getElementById('field-name').style.display = mode === 'register' ? 'block' : 'none';
   document.getElementById('btn-auth-submit').textContent =
@@ -819,14 +843,11 @@ window.handleAuth = async function() {
   const password = document.getElementById('input-password').value;
   const name     = document.getElementById('input-name').value.trim();
   const btn      = document.getElementById('btn-auth-submit');
-
   hideAuthError();
   if (!email || !password) { showAuthError('Enter your email and password · أدخل البريد وكلمة المرور'); return; }
   if (authMode === 'register' && password.length < 6) { showAuthError('Password must be 6+ characters · كلمة المرور 6 أحرف على الأقل'); return; }
-
   btn.disabled  = true;
   btn.innerHTML = '<span class="auth-loading"></span> جاري التحميل…';
-
   try {
     if (authMode === 'register') {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -834,7 +855,7 @@ window.handleAuth = async function() {
     } else {
       await signInWithEmailAndPassword(auth, email, password);
     }
-  } catch (err) {
+  } catch(err) {
     btn.disabled    = false;
     btn.textContent = authMode === 'register' ? 'إنشاء حساب — Create Account' : 'دخول — Sign In';
     showAuthError(friendlyError(err.code));
@@ -842,17 +863,15 @@ window.handleAuth = async function() {
 };
 
 window.handleSignOut = async function() {
+  clearTimeout(saveTimer);
   await persistProgress();
   drawn = 0; round = 1; used = {}; currentEdition = null; currentCat = 'soft'; currentCats = [];
-  updateStats();
+  stopSessionTimer(); updateStats();
   await signOut(auth);
 };
 
-function showAuthError(msg) {
-  const el = document.getElementById('auth-error');
-  el.textContent = msg; el.classList.add('show');
-}
-function hideAuthError() { document.getElementById('auth-error').classList.remove('show'); }
+function showAuthError(msg) { const el = document.getElementById('auth-error'); el.textContent = msg; el.classList.add('show'); }
+function hideAuthError()    { document.getElementById('auth-error').classList.remove('show'); }
 function friendlyError(code) {
   return ({
     'auth/user-not-found':         'No account with this email · لا يوجد حساب بهذا البريد',
@@ -886,283 +905,242 @@ const CAT_SHORT = {
 };
 
 const CATEGORIES = {
-  soft: {
-    sym:'🌷', en:'SOFT OPENING', ar:'البداية الناعمة', bgClass:'card-soft', statIcon:'🌷',
+  soft:{ sym:'🌷', en:'SOFT OPENING', ar:'البداية الناعمة', bgClass:'card-soft', statIcon:'🌷',
     qs:[
-      {en:"What made you feel safe with me for the first time?",                   ar:"أشنا أول حاجة خلاتك تحس بالأمان معايا؟"},
-      {en:"What small detail about me have you noticed that I don't realize?",      ar:"شنو تفصيلة صغيرة فيا لاحظتيها وأنا ما كننتبهش ليها؟"},
-      {en:"When do you feel closest to me without us talking?",                     ar:"فاش كتحس براسك قريب ليا بلا ما نهضرو؟"},
-      {en:"What kind of love feels most natural to you?",                           ar:"شنو نوع الحب اللي كتحس بيه طبيعي؟"},
-      {en:"What do you enjoy most in our connection right now?",                    ar:"شنو أكثر حاجة كتعجبك فالعلاقة ديالنا دابا؟"},
-      {en:"What's something you wish we do more together?",                         ar:"شنو حاجة باغي نزيدو نديروها بجوج؟"},
-      {en:"When do I make you smile without even trying?",                          ar:"فاش كنخليك تبتاسم بلا ما نحاول؟"},
-      {en:"What energy do I bring into your life?",                                 ar:"شنو الطاقة اللي كنجيبها لحياتك؟"},
-    ]
-  },
-  real: {
-    sym:'🔥', en:'REAL TALK', ar:'الحقيقة بلا فلتر', bgClass:'card-real', statIcon:'🔥',
+      {en:"What made you feel safe with me for the first time?",ar:"أشنا أول حاجة خلاتك تحس بالأمان معايا؟"},
+      {en:"What small detail about me have you noticed that I don't realize?",ar:"شنو تفصيلة صغيرة فيا لاحظتيها وأنا ما كننتبهش ليها؟"},
+      {en:"When do you feel closest to me without us talking?",ar:"فاش كتحس براسك قريب ليا بلا ما نهضرو؟"},
+      {en:"What kind of love feels most natural to you?",ar:"شنو نوع الحب اللي كتحس بيه طبيعي؟"},
+      {en:"What do you enjoy most in our connection right now?",ar:"شنو أكثر حاجة كتعجبك فالعلاقة ديالنا دابا؟"},
+      {en:"What's something you wish we do more together?",ar:"شنو حاجة باغي نزيدو نديروها بجوج؟"},
+      {en:"When do I make you smile without even trying?",ar:"فاش كنخليك تبتاسم بلا ما نحاول؟"},
+      {en:"What energy do I bring into your life?",ar:"شنو الطاقة اللي كنجيبها لحياتك؟"},
+    ]},
+  real:{ sym:'🔥', en:'REAL TALK', ar:'الحقيقة بلا فلتر', bgClass:'card-real', statIcon:'🔥',
     qs:[
-      {en:"What are you afraid I might discover about you?",                        ar:"شنو الحاجة اللي خايف نكتاشفها عليك؟"},
-      {en:"When was the last time you felt misunderstood in a relationship?",        ar:"فاش آخر مرة حسيتي ما تفهمتيش فشي علاقة؟"},
-      {en:"What kind of love hurt you before?",                                      ar:"شنو نوع الحب اللي جرحك قبل؟"},
-      {en:"What do you need emotionally but struggle to ask for?",                  ar:"شنو اللي محتاجو عاطفياً ولكن صعيب تطلبو؟"},
-      {en:"What does commitment mean to you, really?",                              ar:"شنو كتعني ليك الالتزام بصح؟"},
-      {en:"What are you scared to repeat from your past?",                          ar:"شنو خايف تعاودو من الماضي ديالك؟"},
-      {en:"When do you shut down emotionally?",                                      ar:"فاش كتسد راسك عاطفياً؟"},
-      {en:"What makes you feel rejected?",                                           ar:"شنو كيخليك تحس بالرفض؟"},
-      {en:"What does loyalty look like for you?",                                   ar:"شنو شكل الوفاء بالنسبة ليك؟"},
-      {en:"What is something you never told someone you loved?",                    ar:"شنو حاجة ما عمرك قلتيها لشي واحد كنتي كتحبو؟"},
-      {en:"What kind of silence hurts you?",                                         ar:"شنو نوع الصمت اللي كيألمك؟"},
-      {en:"What makes you feel truly seen?",                                         ar:"شنو كيخليك تحس أنك متشاف بصح؟"},
-      {en:"What emotional need do you hide the most?",                              ar:"شنو الحاجة العاطفية اللي كتخبيها بزاف؟"},
-      {en:"What would break your trust instantly?",                                 ar:"شنو الحاجة اللي تقدر تكسر الثقة ديالك فوراً؟"},
-      {en:"What do you expect from someone who loves you?",                         ar:"شنو كتسنى من شي واحد كيحبك؟"},
-    ]
-  },
-  psych: {
-    sym:'🧠', en:'MIND PATTERNS', ar:'أنماطك العاطفية', bgClass:'card-psych', statIcon:'🧠',
+      {en:"What are you afraid I might discover about you?",ar:"شنو الحاجة اللي خايف نكتاشفها عليك؟"},
+      {en:"When was the last time you felt misunderstood in a relationship?",ar:"فاش آخر مرة حسيتي ما تفهمتيش فشي علاقة؟"},
+      {en:"What kind of love hurt you before?",ar:"شنو نوع الحب اللي جرحك قبل؟"},
+      {en:"What do you need emotionally but struggle to ask for?",ar:"شنو اللي محتاجو عاطفياً ولكن صعيب تطلبو؟"},
+      {en:"What does commitment mean to you, really?",ar:"شنو كتعني ليك الالتزام بصح؟"},
+      {en:"What are you scared to repeat from your past?",ar:"شنو خايف تعاودو من الماضي ديالك؟"},
+      {en:"When do you shut down emotionally?",ar:"فاش كتسد راسك عاطفياً؟"},
+      {en:"What makes you feel rejected?",ar:"شنو كيخليك تحس بالرفض؟"},
+      {en:"What does loyalty look like for you?",ar:"شنو شكل الوفاء بالنسبة ليك؟"},
+      {en:"What is something you never told someone you loved?",ar:"شنو حاجة ما عمرك قلتيها لشي واحد كنتي كتحبو؟"},
+      {en:"What kind of silence hurts you?",ar:"شنو نوع الصمت اللي كيألمك؟"},
+      {en:"What makes you feel truly seen?",ar:"شنو كيخليك تحس أنك متشاف بصح؟"},
+      {en:"What emotional need do you hide the most?",ar:"شنو الحاجة العاطفية اللي كتخبيها بزاف؟"},
+      {en:"What would break your trust instantly?",ar:"شنو الحاجة اللي تقدر تكسر الثقة ديالك فوراً؟"},
+      {en:"What do you expect from someone who loves you?",ar:"شنو كتسنى من شي واحد كيحبك؟"},
+    ]},
+  psych:{ sym:'🧠', en:'MIND PATTERNS', ar:'أنماطك العاطفية', bgClass:'card-psych', statIcon:'🧠',
     qs:[
-      {en:"Do you tend to attach fast or slowly? Why?",                             ar:"واش كتتعلق بسرعة ولا بشوية؟ وعلاش؟"},
-      {en:"What pattern do you repeat in relationships?",                            ar:"شنو النمط اللي كتعاودو فالعلاقات ديالك؟"},
-      {en:"Do you choose people who feel safe or exciting?",                         ar:"واش كتختار الناس اللي كيعطيو الأمان ولا الإثارة؟"},
-      {en:"How do you react when you feel vulnerable?",                              ar:"كيفاش كتصرف ملي كتحس بالضعف؟"},
-      {en:"Do you push people away when you care too much?",                         ar:"واش كتبعد الناس ملي كتهتم بزاف؟"},
-      {en:"What triggers your insecurity the most?",                                 ar:"شنو أكثر حاجة كتحرك عدم الأمان ديالك؟"},
-      {en:"Do you test people before trusting them?",                                ar:"واش كتمتحن الناس قبل ما تثق فيهم؟"},
-      {en:"What is your biggest emotional defense mechanism?",                       ar:"شنو أكبر طريقة كتدافع بها على مشاعرك؟"},
-      {en:"Do you communicate directly or avoid conflict?",                          ar:"واش كتعبر مباشرة ولا كتتهرب من المواجهة؟"},
-      {en:"When you feel hurt, do you express it or hide it?",                       ar:"ملي كتتجرح، واش كتعبر ولا كتخبي؟"},
-    ]
-  },
-  between: {
-    sym:'🌙', en:'BETWEEN THE LINES', ar:'ما بين السطور', bgClass:'card-between', statIcon:'🌙',
+      {en:"Do you tend to attach fast or slowly? Why?",ar:"واش كتتعلق بسرعة ولا بشوية؟ وعلاش؟"},
+      {en:"What pattern do you repeat in relationships?",ar:"شنو النمط اللي كتعاودو فالعلاقات ديالك؟"},
+      {en:"Do you choose people who feel safe or exciting?",ar:"واش كتختار الناس اللي كيعطيو الأمان ولا الإثارة؟"},
+      {en:"How do you react when you feel vulnerable?",ar:"كيفاش كتصرف ملي كتحس بالضعف؟"},
+      {en:"Do you push people away when you care too much?",ar:"واش كتبعد الناس ملي كتهتم بزاف؟"},
+      {en:"What triggers your insecurity the most?",ar:"شنو أكثر حاجة كتحرك عدم الأمان ديالك؟"},
+      {en:"Do you test people before trusting them?",ar:"واش كتمتحن الناس قبل ما تثق فيهم؟"},
+      {en:"What is your biggest emotional defense mechanism?",ar:"شنو أكبر طريقة كتدافع بها على مشاعرك؟"},
+      {en:"Do you communicate directly or avoid conflict?",ar:"واش كتعبر مباشرة ولا كتتهرب من المواجهة؟"},
+      {en:"When you feel hurt, do you express it or hide it?",ar:"ملي كتتجرح، واش كتعبر ولا كتخبي؟"},
+    ]},
+  between:{ sym:'🌙', en:'BETWEEN THE LINES', ar:'ما بين السطور', bgClass:'card-between', statIcon:'🌙',
     qs:[
-      {en:"What do you feel but don't say out loud?",                               ar:"شنو اللي كتحس بيه ولكن ما كتقولوش؟"},
-      {en:"When do you feel closest to me without speaking?",                       ar:"فاش كتحس براسك أقرب ليا بلا كلام؟"},
-      {en:"What small detail about me matters more than I think?",                  ar:"شنو تفصيلة صغيرة فيا كتعني ليك أكثر مما كنعتقد؟"},
-      {en:"What kind of silence makes you uncomfortable?",                          ar:"شنو نوع الصمت اللي كيزعجك؟"},
-      {en:"What do you wish I understood without you explaining?",                  ar:"شنو اللي باغي نفهمو بلا ما تشرحو؟"},
-      {en:"When do you feel truly seen by me?",                                     ar:"فاش كتحس بلي كنشوفك بصح؟"},
-      {en:"What emotion do you hide the most?",                                     ar:"شنو المشاعر اللي كتخبيها أكثر شي؟"},
-      {en:"What do you notice about me that I might not see in myself?",            ar:"شنو اللي كتلاحظو فيا وأنا ما كنشوفوش؟"},
-    ]
-  },
-  power: {
-    sym:'♟', en:'THE REAL TEST', ar:'الاختبار الحقيقي', bgClass:'card-power', statIcon:'♟',
+      {en:"What do you feel but don't say out loud?",ar:"شنو اللي كتحس بيه ولكن ما كتقولوش؟"},
+      {en:"When do you feel closest to me without speaking?",ar:"فاش كتحس براسك أقرب ليا بلا كلام؟"},
+      {en:"What small detail about me matters more than I think?",ar:"شنو تفصيلة صغيرة فيا كتعني ليك أكثر مما كنعتقد؟"},
+      {en:"What kind of silence makes you uncomfortable?",ar:"شنو نوع الصمت اللي كيزعجك؟"},
+      {en:"What do you wish I understood without you explaining?",ar:"شنو اللي باغي نفهمو بلا ما تشرحو؟"},
+      {en:"When do you feel truly seen by me?",ar:"فاش كتحس بلي كنشوفك بصح؟"},
+      {en:"What emotion do you hide the most?",ar:"شنو المشاعر اللي كتخبيها أكثر شي؟"},
+      {en:"What do you notice about me that I might not see in myself?",ar:"شنو اللي كتلاحظو فيا وأنا ما كنشوفوش؟"},
+    ]},
+  power:{ sym:'♟', en:'THE REAL TEST', ar:'الاختبار الحقيقي', bgClass:'card-power', statIcon:'♟',
     qs:[
-      {en:"Would you choose love or peace if you had to pick one?",                 ar:"واش تختار الحب ولا الراحة إلا كان خاصك تختار؟"},
-      {en:"If we don't work out, what do you think will be the reason?",            ar:"إلا ما نجحاتش العلاقة، شنو السبب برأيك؟"},
-      {en:"What would make you walk away from me?",                                 ar:"شنو يخليك تبعد عليا؟"},
-      {en:"Do you think you're truly ready for something serious?",                 ar:"واش نتا مستعد فعلاً لعلاقة جدية؟"},
-    ]
-  },
-  desires_talking: {
-    sym:'💝', en:'CURIOUS MINDS', ar:'الفضول المشروع', bgClass:'card-desires', statIcon:'💝',
+      {en:"Would you choose love or peace if you had to pick one?",ar:"واش تختار الحب ولا الراحة إلا كان خاصك تختار؟"},
+      {en:"If we don't work out, what do you think will be the reason?",ar:"إلا ما نجحاتش العلاقة، شنو السبب برأيك؟"},
+      {en:"What would make you walk away from me?",ar:"شنو يخليك تبعد عليا؟"},
+      {en:"Do you think you're truly ready for something serious?",ar:"واش نتا مستعد فعلاً لعلاقة جدية؟"},
+    ]},
+  desires_talking:{ sym:'💝', en:'CURIOUS MINDS', ar:'الفضول المشروع', bgClass:'card-desires', statIcon:'💝',
     qs:[
-      {en:"What intrigues you most about getting closer to me?",                    ar:"شنو اللي كيثير فضولك أكثر فالقرب ليا؟"},
-      {en:"What would make you feel more comfortable opening up?",                  ar:"شنو اللي كيخليك تحس براسك مرتاح أكثر لنفتح؟"},
-      {en:"Do you think about me when we're apart?",                                ar:"واش كتفكر فيا ملي كنكونو بعيدين؟"},
-      {en:"What's something you'd like to experience with me?",                     ar:"شنو حاجة باغيتي تجربها معايا؟"},
-      {en:"When do you feel most attracted to me?",                                 ar:"فاش كتحس بأكثر انجذاب نحويا؟"},
-      {en:"What would a perfect day with me look like?",                            ar:"شنو شكل اليوم المثالي معايا؟"},
-    ]
-  },
-  desires_couples: {
-    sym:'🔥', en:'INTIMACY DESIRES', ar:'رغبات الحميمية', bgClass:'card-desires', statIcon:'🔥',
+      {en:"What intrigues you most about getting closer to me?",ar:"شنو اللي كيثير فضولك أكثر فالقرب ليا؟"},
+      {en:"What would make you feel more comfortable opening up?",ar:"شنو اللي كيخليك تحس براسك مرتاح أكثر لنفتح؟"},
+      {en:"Do you think about me when we're apart?",ar:"واش كتفكر فيا ملي كنكونو بعيدين؟"},
+      {en:"What's something you'd like to experience with me?",ar:"شنو حاجة باغيتي تجربها معايا؟"},
+      {en:"When do you feel most attracted to me?",ar:"فاش كتحس بأكثر انجذاب نحويا؟"},
+      {en:"What would a perfect day with me look like?",ar:"شنو شكل اليوم المثالي معايا؟"},
+    ]},
+  desires_couples:{ sym:'🔥', en:'INTIMACY DESIRES', ar:'رغبات الحميمية', bgClass:'card-desires', statIcon:'🔥',
     qs:[
-      {en:"What do you find most attractive about my body?",                        ar:"شنو أكثر حاجة كتعجبك فجسدي؟"},
-      {en:"What physical touch makes you feel most desired?",                       ar:"شنو نوع التلامس اللي كيخليك تحس نفسك مطلوب؟"},
-      {en:"What turns you on about our intimacy?",                                  ar:"شنو اللي كيحفزك فعلاقتنا الحميمة؟"},
-      {en:"What would you want me to do more of?",                                  ar:"شنو حاجة باغيتي نزيد نديرها؟"},
-      {en:"How do you want to be seduced?",                                         ar:"كيفاش باغي أغويك أنا؟"},
-      {en:"What makes you feel most connected to me physically?",                   ar:"شنو كيخليك تحس قرب جسدي أكثر؟"},
-      {en:"What's your favorite way I touch you?",                                  ar:"شنو الطريقة اللي كتفضل نلمسك بيها؟"},
-      {en:"When do you feel most wanted by me?",                                    ar:"فاش كتحس بلي كنقدرك وكنحتاجك؟"},
-    ]
-  },
-  desires_fiance: {
-    sym:'💍', en:'BEFORE THE ALTAR', ar:'قبل الفرح', bgClass:'card-desires', statIcon:'💍',
+      {en:"What do you find most attractive about my body?",ar:"شنو أكثر حاجة كتعجبك فجسدي؟"},
+      {en:"What physical touch makes you feel most desired?",ar:"شنو نوع التلامس اللي كيخليك تحس نفسك مطلوب؟"},
+      {en:"What turns you on about our intimacy?",ar:"شنو اللي كيحفزك فعلاقتنا الحميمة؟"},
+      {en:"What would you want me to do more of?",ar:"شنو حاجة باغيتي نزيد نديرها؟"},
+      {en:"How do you want to be seduced?",ar:"كيفاش باغي أغويك أنا؟"},
+      {en:"What makes you feel most connected to me physically?",ar:"شنو كيخليك تحس قرب جسدي أكثر؟"},
+      {en:"What's your favorite way I touch you?",ar:"شنو الطريقة اللي كتفضل نلمسك بيها؟"},
+      {en:"When do you feel most wanted by me?",ar:"فاش كتحس بلي كنقدرك وكنحتاجك؟"},
+    ]},
+  desires_fiance:{ sym:'💍', en:'BEFORE THE ALTAR', ar:'قبل الفرح', bgClass:'card-desires', statIcon:'💍',
     qs:[
-      {en:"What excites you most about becoming my spouse?",                        ar:"شنو اللي كيثيرك فأن تصبح زوجي/زوجتي؟"},
-      {en:"What are your hopes for our first night together?",                      ar:"شنو أحلامك لأول ليلة بجوج؟"},
-      {en:"What physical intimacy means to you in marriage?",                       ar:"شنو كتعني ليك الحميمية الجسدية فالزواج؟"},
-      {en:"How do you want to express desire in our marriage?",                     ar:"كيفاش باغي نعبر على الرغبة فالزواج؟"},
-      {en:"What makes you feel sexy and powerful?",                                 ar:"شنو كيخليك تحس بقوة وجاذبية؟"},
-      {en:"What's something you want to explore together after marriage?",          ar:"شنو حاجة باغيتي نكتشفوها معاً بعد الزفاف؟"},
-      {en:"How important is passion in our intimate life?",                         ar:"شنو أهمية الشهوة فحياتنا الحميمة؟"},
-      {en:"What's your fantasy for our honeymoon?",                                 ar:"شنو خيالك لشهر العسل ديالنا؟"},
-    ]
-  },
-  spicy_part1: {
-    sym:'🔥', en:'18+ UNFILTERED - PART 1', ar:'بدون تصفية - الجزء 1', bgClass:'card-spicy', statIcon:'🔥',
+      {en:"What excites you most about becoming my spouse?",ar:"شنو اللي كيثيرك فأن تصبح زوجي/زوجتي؟"},
+      {en:"What are your hopes for our first night together?",ar:"شنو أحلامك لأول ليلة بجوج؟"},
+      {en:"What physical intimacy means to you in marriage?",ar:"شنو كتعني ليك الحميمية الجسدية فالزواج؟"},
+      {en:"How do you want to express desire in our marriage?",ar:"كيفاش باغي نعبر على الرغبة فالزواج؟"},
+      {en:"What makes you feel sexy and powerful?",ar:"شنو كيخليك تحس بقوة وجاذبية؟"},
+      {en:"What's something you want to explore together after marriage?",ar:"شنو حاجة باغيتي نكتشفوها معاً بعد الزفاف؟"},
+      {en:"How important is passion in our intimate life?",ar:"شنو أهمية الشهوة فحياتنا الحميمة؟"},
+      {en:"What's your fantasy for our honeymoon?",ar:"شنو خيالك لشهر العسل ديالنا؟"},
+    ]},
+  spicy_part1:{ sym:'🔥', en:'18+ UNFILTERED - PART 1', ar:'بدون تصفية - الجزء 1', bgClass:'card-spicy', statIcon:'🔥',
     qs:[
-      {en:"What's the most intimate fantasy you've never shared with anyone?",      ar:"شنو أعمق خيال جنسي عندك ما قلتو لحد؟"},
-      {en:"How explicit can our conversations about sex be?",                        ar:"كيفاش نقدرو نهضرو بصراحة على الجنس؟"},
-      {en:"What parts of your body do you want me to worship?",                     ar:"شنو أجزاء جسدك اللي بغيتي نحتفل بيها؟"},
-      {en:"What turns you on the most when we're alone?",                           ar:"شنو اللي كيثيرك أكثر ملي كنكونو وحدنا؟"},
-      {en:"How do you want to be touched intimately?",                              ar:"كيفاش باغي نلمسك بشكل حميمي؟"},
-      {en:"What's a sexual position or act you're curious about?",                  ar:"شنو وضعية أو حاجة جنسية باغي تجربها؟"},
-      {en:"Are there any taboos you want to explore?",                              ar:"واش كاين حاجات محرمة بغيتي تستكشفها؟"},
-      {en:"How often do you fantasize about being intimate?",                        ar:"شحال مرة فالنهار كتخيل أشياء حميمة؟"},
-    ]
-  },
-  spicy_part2: {
-    sym:'🌶️', en:'18+ UNFILTERED - PART 2', ar:'بدون تصفية - الجزء 2', bgClass:'card-spicy', statIcon:'🌶️',
+      {en:"What's the most intimate fantasy you've never shared with anyone?",ar:"شنو أعمق خيال جنسي عندك ما قلتو لحد؟"},
+      {en:"How explicit can our conversations about sex be?",ar:"كيفاش نقدرو نهضرو بصراحة على الجنس؟"},
+      {en:"What parts of your body do you want me to worship?",ar:"شنو أجزاء جسدك اللي بغيتي نحتفل بيها؟"},
+      {en:"What turns you on the most when we're alone?",ar:"شنو اللي كيثيرك أكثر ملي كنكونو وحدنا؟"},
+      {en:"How do you want to be touched intimately?",ar:"كيفاش باغي نلمسك بشكل حميمي؟"},
+      {en:"What's a sexual position or act you're curious about?",ar:"شنو وضعية أو حاجة جنسية باغي تجربها؟"},
+      {en:"Are there any taboos you want to explore?",ar:"واش كاين حاجات محرمة بغيتي تستكشفها؟"},
+      {en:"How often do you fantasize about being intimate?",ar:"شحال مرة فالنهار كتخيل أشياء حميمة؟"},
+    ]},
+  spicy_part2:{ sym:'🌶️', en:'18+ UNFILTERED - PART 2', ar:'بدون تصفية - الجزء 2', bgClass:'card-spicy', statIcon:'🌶️',
     qs:[
-      {en:"What would you do if I surprised you with lingerie?",                    ar:"شنو غادي تدير إلا فاجأتك بملابس حميمة؟"},
-      {en:"How dominant or submissive do you want to be?",                          ar:"واش باغي تكون مسيطر أو خاضع؟"},
-      {en:"What's something you've always wanted someone to do for you sexually?",  ar:"شنو حاجة ديما بغيتي حد يديرها ليك جنسياً؟"},
-      {en:"How comfortable are you with being vocal during intimacy?",              ar:"واش متاح نكون صوتي ملي كنكونو حميمين؟"},
-      {en:"What's your biggest sexual insecurity?",                                 ar:"شنو أكبر خوف جنسي عندك؟"},
-      {en:"How would you feel about us recording something intimate?",              ar:"كيفاش كتحس إلا قررنا نسجلو فيديو حميم؟"},
-      {en:"What's the wildest place you'd want to be intimate?",                    ar:"شنو أجرأ مكان باغي نكونو حميمين فيه؟"},
-      {en:"How important is foreplay to you?",                                      ar:"شنو أهمية التمهيد ليك؟"},
-    ]
-  },
-  spicy_part3: {
-    sym:'👑', en:'18+ UNFILTERED - PART 3', ar:'بدون تصفية - الجزء 3', bgClass:'card-spicy', statIcon:'👑',
+      {en:"What would you do if I surprised you with lingerie?",ar:"شنو غادي تدير إلا فاجأتك بملابس حميمة؟"},
+      {en:"How dominant or submissive do you want to be?",ar:"واش باغي تكون مسيطر أو خاضع؟"},
+      {en:"What's something you've always wanted someone to do for you sexually?",ar:"شنو حاجة ديما بغيتي حد يديرها ليك جنسياً؟"},
+      {en:"How comfortable are you with being vocal during intimacy?",ar:"واش متاح نكون صوتي ملي كنكونو حميمين؟"},
+      {en:"What's your biggest sexual insecurity?",ar:"شنو أكبر خوف جنسي عندك؟"},
+      {en:"How would you feel about us recording something intimate?",ar:"كيفاش كتحس إلا قررنا نسجلو فيديو حميم؟"},
+      {en:"What's the wildest place you'd want to be intimate?",ar:"شنو أجرأ مكان باغي نكونو حميمين فيه؟"},
+      {en:"How important is foreplay to you?",ar:"شنو أهمية التمهيد ليك؟"},
+    ]},
+  spicy_part3:{ sym:'👑', en:'18+ UNFILTERED - PART 3', ar:'بدون تصفية - الجزء 3', bgClass:'card-spicy', statIcon:'👑',
     qs:[
-      {en:"What's something you'd never tell your friends but want me to know?",    ar:"شنو حاجة ما غاديش تقول ليها لأصحابك بس باغي نعرفها؟"},
-      {en:"How would you react if I confessed a sexual fantasy?",                   ar:"كيفاش غادي تتفاعل إلا قلت ليك حاجة جنسية خصوصي؟"},
-      {en:"What would make you feel most desired?",                                 ar:"شنو اللي كيخليك تحس أنك مطلوب؟"},
-      {en:"How do you want our sex life to evolve over time?",                      ar:"كيفاش بغيتي حياتنا الجنسية تتطور مع الوقت؟"},
-      {en:"What's something you've seen/read that intrigued you?",                  ar:"شنو حاجة شفتيها أو قريتيها وعجبتك؟"},
-      {en:"How open are you to trying new things in bed?",                          ar:"واش مستعد نجرب حاجات جديدة فالفراش؟"},
-      {en:"What role does emotional intimacy play during sex?",                     ar:"شنو دور القرب العاطفي فالعلاقة الجنسية؟"},
-      {en:"What's something that would make sex even better?",                      ar:"شنو حاجة اللي غادي تخليك تحس الجنس أحسن؟"},
-    ]
-  },
-  spicy_part4: {
-    sym:'💋', en:'18+ UNFILTERED - PART 4', ar:'بدون تصفية - الجزء 4', bgClass:'card-spicy', statIcon:'💋',
+      {en:"What's something you'd never tell your friends but want me to know?",ar:"شنو حاجة ما غاديش تقول ليها لأصحابك بس باغي نعرفها؟"},
+      {en:"How would you react if I confessed a sexual fantasy?",ar:"كيفاش غادي تتفاعل إلا قلت ليك حاجة جنسية خصوصي؟"},
+      {en:"What would make you feel most desired?",ar:"شنو اللي كيخليك تحس أنك مطلوب؟"},
+      {en:"How do you want our sex life to evolve over time?",ar:"كيفاش بغيتي حياتنا الجنسية تتطور مع الوقت؟"},
+      {en:"What's something you've seen/read that intrigued you?",ar:"شنو حاجة شفتيها أو قريتيها وعجبتك؟"},
+      {en:"How open are you to trying new things in bed?",ar:"واش مستعد نجرب حاجات جديدة فالفراش؟"},
+      {en:"What role does emotional intimacy play during sex?",ar:"شنو دور القرب العاطفي فالعلاقة الجنسية؟"},
+      {en:"What's something that would make sex even better?",ar:"شنو حاجة اللي غادي تخليك تحس الجنس أحسن؟"},
+    ]},
+  spicy_part4:{ sym:'💋', en:'18+ UNFILTERED - PART 4', ar:'بدون تصفية - الجزء 4', bgClass:'card-spicy', statIcon:'💋',
     qs:[
-      {en:"What's the most intimate conversation we should have?",                  ar:"شنو أعمق حوار حميمي غاديش نديروه؟"},
-      {en:"How do you want me to initiate intimacy?",                               ar:"كيفاش باغي نبدأ الحميمية معاك؟"},
-      {en:"What's something about your body you want me to love?",                  ar:"شنو حاجة فجسدك بغيتي نحبها؟"},
-      {en:"What would turn you on about seeing me in different scenarios?",         ar:"شنو اللي كيثيرك إذا شفتني فحالات مختلفة؟"},
-      {en:"How vulnerable can we be about our deepest desires?",                    ar:"شنو مستوى الضعف اللي قادرين نكونو بيه على الرغبات؟"},
-      {en:"What's your ultimate fantasy with me?",                                  ar:"شنو أحلى خيال كتخيله معايا؟"},
-      {en:"How often do you want to be intimate?",                                  ar:"شحال مرة باغيتي نكونو حميمين فالأسبوع؟"},
-      {en:"What's the ultimate intimate moment you dream about?",                   ar:"شنو أحلى لحظة حميمة كتخيلها معايا؟"},
-    ]
-  },
-  desires_married: {
-    sym:'👑', en:'FOREVER DESIRES', ar:'الرغبات الأبدية', bgClass:'card-desires', statIcon:'👑',
+      {en:"What's the most intimate conversation we should have?",ar:"شنو أعمق حوار حميمي غاديش نديروه؟"},
+      {en:"How do you want me to initiate intimacy?",ar:"كيفاش باغي نبدأ الحميمية معاك؟"},
+      {en:"What's something about your body you want me to love?",ar:"شنو حاجة فجسدك بغيتي نحبها؟"},
+      {en:"What would turn you on about seeing me in different scenarios?",ar:"شنو اللي كيثيرك إذا شفتني فحالات مختلفة؟"},
+      {en:"How vulnerable can we be about our deepest desires?",ar:"شنو مستوى الضعف اللي قادرين نكونو بيه على الرغبات؟"},
+      {en:"What's your ultimate fantasy with me?",ar:"شنو أحلى خيال كتخيله معايا؟"},
+      {en:"How often do you want to be intimate?",ar:"شحال مرة باغيتي نكونو حميمين فالأسبوع؟"},
+      {en:"What's the ultimate intimate moment you dream about?",ar:"شنو أحلى لحظة حميمة كتخيلها معايا؟"},
+    ]},
+  desires_married:{ sym:'👑', en:'FOREVER DESIRES', ar:'الرغبات الأبدية', bgClass:'card-desires', statIcon:'👑',
     qs:[
-      {en:"After all this time, what still excites you about me?",                  ar:"بعد كل هاذا الوقت، شنو اللي مازال كيثيرك فيا؟"},
-      {en:"How do you want our intimacy to evolve?",                                ar:"كيفاش بغيتي حميميتنا تتطور؟"},
-      {en:"What's a desire you've never shared with me?",                           ar:"شنو رغبة ما عمرك قلتيها ليا؟"},
-      {en:"How can we keep passion alive in our marriage?",                         ar:"كيفاش نقدرو نخليو الشهوة حية فالزواج؟"},
-      {en:"What makes you feel most loved and desired?",                            ar:"شنو كيخليك تحس أنك محبوب ومطلوب؟"},
-      {en:"What physical moment from our journey together stands out?",             ar:"شنو لحظة جسدية من رحلتنا مازالت فالبال؟"},
-      {en:"How do you want to keep surprising me?",                                 ar:"كيفاش باغي تفاجئني بزاف؟"},
-      {en:"What's something we haven't tried that you'd like to?",                 ar:"شنو حاجة ما جربناش بعد وباغيتي نجربوها؟"},
-      {en:"How do you see our intimate life in another 10 years?",                  ar:"كيفاش كتشوف حياتنا الحميمة بعد 10 سنين؟"},
-    ]
-  },
-  future_talking: {
-    sym:'🌱', en:'IMAGINED FUTURES', ar:'المستقبل الممكن', bgClass:'card-future', statIcon:'🌱',
+      {en:"After all this time, what still excites you about me?",ar:"بعد كل هاذا الوقت، شنو اللي مازال كيثيرك فيا؟"},
+      {en:"How do you want our intimacy to evolve?",ar:"كيفاش بغيتي حميميتنا تتطور؟"},
+      {en:"What's a desire you've never shared with me?",ar:"شنو رغبة ما عمرك قلتيها ليا؟"},
+      {en:"How can we keep passion alive in our marriage?",ar:"كيفاش نقدرو نخليو الشهوة حية فالزواج؟"},
+      {en:"What makes you feel most loved and desired?",ar:"شنو كيخليك تحس أنك محبوب ومطلوب؟"},
+      {en:"What physical moment from our journey together stands out?",ar:"شنو لحظة جسدية من رحلتنا مازالت فالبال؟"},
+      {en:"How do you want to keep surprising me?",ar:"كيفاش باغي تفاجئني بزاف؟"},
+      {en:"What's something we haven't tried that you'd like to?",ar:"شنو حاجة ما جربناش بعد وباغيتي نجربوها؟"},
+      {en:"How do you see our intimate life in another 10 years?",ar:"كيفاش كتشوف حياتنا الحميمة بعد 10 سنين؟"},
+    ]},
+  future_talking:{ sym:'🌱', en:'IMAGINED FUTURES', ar:'المستقبل الممكن', bgClass:'card-future', statIcon:'🌱',
     qs:[
-      {en:"Do you see yourself wanting a serious future?",                          ar:"واش كتشوف راسك باغي مستقبل جدي؟"},
-      {en:"What does 'forever' look like in your mind?",                            ar:"شنو شكل 'الأبد' برأيك؟"},
-      {en:"Where do you see yourself in 5 years?",                                 ar:"فاش كتشوف راسك فـ 5 سنين؟"},
-      {en:"What are your biggest life goals?",                                      ar:"شنو أكبر أحلامك فالحياة؟"},
-      {en:"What kind of life do you want to build?",                               ar:"شنو نوع الحياة اللي باغي نبنيها؟"},
-      {en:"What values matter most to you in a partner?",                          ar:"شنو القيم اللي أكثر شي مهمة فالشريك؟"},
-    ]
-  },
-  future_couples: {
-    sym:'👶', en:'FUTURE & FAMILY', ar:'المستقبل والعائلة', bgClass:'card-future', statIcon:'👶',
+      {en:"Do you see yourself wanting a serious future?",ar:"واش كتشوف راسك باغي مستقبل جدي؟"},
+      {en:"What does 'forever' look like in your mind?",ar:"شنو شكل 'الأبد' برأيك؟"},
+      {en:"Where do you see yourself in 5 years?",ar:"فاش كتشوف راسك فـ 5 سنين؟"},
+      {en:"What are your biggest life goals?",ar:"شنو أكبر أحلامك فالحياة؟"},
+      {en:"What kind of life do you want to build?",ar:"شنو نوع الحياة اللي باغي نبنيها؟"},
+      {en:"What values matter most to you in a partner?",ar:"شنو القيم اللي أكثر شي مهمة فالشريك؟"},
+    ]},
+  future_couples:{ sym:'👶', en:'FUTURE & FAMILY', ar:'المستقبل والعائلة', bgClass:'card-future', statIcon:'👶',
     qs:[
-      {en:"Do you want to have children someday?",                                 ar:"واش باغي نكون عندنا درايا؟"},
-      {en:"If yes, when do you imagine having kids?",                              ar:"إلا أي, فاش كتخطط نكون عندنا أطفال؟"},
-      {en:"How many children would be ideal for you?",                             ar:"شنو العدد الأمثل لك من الأطفال؟"},
-      {en:"What kind of parent do you want to be?",                                ar:"شنو نوع الوالد/الوالدة اللي بغيتي تكون؟"},
-      {en:"What values do you want to pass to our children?",                      ar:"شنو القيم اللي باغي نعلمها لأطفالنا؟"},
-      {en:"How do you see us balancing career and family?",                        ar:"كيفاش كتشوف توازن بين الشغل والعائلة؟"},
-      {en:"What's your vision for raising our kids together?",                     ar:"شنو رؤيتك لتربية الأطفال بجوج؟"},
-      {en:"How involved do you want to be as a parent?",                           ar:"شنو مستوى المشاركة اللي باغيتو كوالد؟"},
-    ]
-  },
-  future_fiance: {
-    sym:'💍', en:'BUILDING OUR HOME', ar:'بناء بيتنا', bgClass:'card-future', statIcon:'💍',
+      {en:"Do you want to have children someday?",ar:"واش باغي نكون عندنا درايا؟"},
+      {en:"If yes, when do you imagine having kids?",ar:"إلا أي, فاش كتخطط نكون عندنا أطفال؟"},
+      {en:"How many children would be ideal for you?",ar:"شنو العدد الأمثل لك من الأطفال؟"},
+      {en:"What kind of parent do you want to be?",ar:"شنو نوع الوالد/الوالدة اللي بغيتي تكون؟"},
+      {en:"What values do you want to pass to our children?",ar:"شنو القيم اللي باغي نعلمها لأطفالنا؟"},
+      {en:"How do you see us balancing career and family?",ar:"كيفاش كتشوف توازن بين الشغل والعائلة؟"},
+      {en:"What's your vision for raising our kids together?",ar:"شنو رؤيتك لتربية الأطفال بجوج؟"},
+      {en:"How involved do you want to be as a parent?",ar:"شنو مستوى المشاركة اللي باغيتو كوالد؟"},
+    ]},
+  future_fiance:{ sym:'💍', en:'BUILDING OUR HOME', ar:'بناء بيتنا', bgClass:'card-future', statIcon:'💍',
     qs:[
-      {en:"When do you want to start our family after marriage?",                  ar:"فاش باغي نبدأ العائلة بعد الزفاف؟"},
-      {en:"How many children do you want?",                                        ar:"شنو العدد الأطفال اللي باغيتو؟"},
-      {en:"What scares you most about parenthood?",                                ar:"شنو أكثر حاجة كتخوفك فالأبوة/الأمومة؟"},
-      {en:"How do you want to prepare for having kids?",                           ar:"كيفاش باغي نتحضرو لاستقبال الأطفال؟"},
-      {en:"What kind of childhood do you want for our kids?",                      ar:"شنو نوع الطفولة اللي باغي نديهم؟"},
-      {en:"How will we handle parenting differences?",                             ar:"كيفاش نتعاملو مع الاختلافات فالتربية؟"},
-      {en:"What's most important to you in raising a family?",                     ar:"شنو أهم حاجة ليك فتربية عائلة؟"},
-      {en:"How do you want our kids to remember us?",                              ar:"كيفاش باغي يتذكرونا أطفالنا؟"},
-      {en:"What role will extended family play in our home?",                      ar:"شنو دور الأسرة الموسعة فبيتنا؟"},
-    ]
-  },
-  future_married: {
-    sym:'👨‍👩‍👧‍👦', en:'PARENTING & LEGACY', ar:'الأبوة والإرث', bgClass:'card-future', statIcon:'👨‍👩‍👧‍👦',
+      {en:"When do you want to start our family after marriage?",ar:"فاش باغي نبدأ العائلة بعد الزفاف؟"},
+      {en:"How many children do you want?",ar:"شنو العدد الأطفال اللي باغيتو؟"},
+      {en:"What scares you most about parenthood?",ar:"شنو أكثر حاجة كتخوفك فالأبوة/الأمومة؟"},
+      {en:"How do you want to prepare for having kids?",ar:"كيفاش باغي نتحضرو لاستقبال الأطفال؟"},
+      {en:"What kind of childhood do you want for our kids?",ar:"شنو نوع الطفولة اللي باغي نديهم؟"},
+      {en:"How will we handle parenting differences?",ar:"كيفاش نتعاملو مع الاختلافات فالتربية؟"},
+      {en:"What's most important to you in raising a family?",ar:"شنو أهم حاجة ليك فتربية عائلة؟"},
+      {en:"How do you want our kids to remember us?",ar:"كيفاش باغي يتذكرونا أطفالنا؟"},
+      {en:"What role will extended family play in our home?",ar:"شنو دور الأسرة الموسعة فبيتنا؟"},
+    ]},
+  future_married:{ sym:'👨‍👩‍👧‍👦', en:'PARENTING & LEGACY', ar:'الأبوة والإرث', bgClass:'card-future', statIcon:'👨‍👩‍👧‍👦',
     qs:[
-      {en:"How do you feel about the journey of parenthood so far?",               ar:"كيفاش كتحس بمسيرة الأبوة/الأمومة دابا؟"},
-      {en:"What's your proudest moment as a parent?",                              ar:"شنو أفتخر لحظة ليك كوالد؟"},
-      {en:"What values have we successfully taught our children?",                 ar:"شنو القيم اللي نجحنا نعلموها للأطفال؟"},
-      {en:"How have children changed our relationship?",                           ar:"كيفاش بدل الأطفال العلاقة ديالنا؟"},
-      {en:"What's still challenging about co-parenting?",                          ar:"شنو الحاجات اللي مازالت صعيبة فالتربية؟"},
-      {en:"How do you want to parent differently from your own parents?",          ar:"كيفاش باغي نربي بطريقة مختلفة عن والدينا؟"},
-      {en:"What legacy do we want to leave for our children?",                     ar:"شنو الإرث اللي باغي نتركوه للأطفال؟"},
-      {en:"How do we keep our relationship strong while parenting?",               ar:"كيفاش نقدرو نخليو العلاقة قوية مع التربية؟"},
-      {en:"What dreams do you still have for our family?",                         ar:"شنو الأحلام اللي مازالك عندك للعائلة؟"},
-    ]
-  },
-  friendship_deep: {
-    sym:'💎', en:'REAL FRIENDSHIP', ar:'الصداقة الحقيقية', bgClass:'card-friendship', statIcon:'💎',
+      {en:"How do you feel about the journey of parenthood so far?",ar:"كيفاش كتحس بمسيرة الأبوة/الأمومة دابا؟"},
+      {en:"What's your proudest moment as a parent?",ar:"شنو أفتخر لحظة ليك كوالد؟"},
+      {en:"What values have we successfully taught our children?",ar:"شنو القيم اللي نجحنا نعلموها للأطفال؟"},
+      {en:"How have children changed our relationship?",ar:"كيفاش بدل الأطفال العلاقة ديالنا؟"},
+      {en:"What's still challenging about co-parenting?",ar:"شنو الحاجات اللي مازالت صعيبة فالتربية؟"},
+      {en:"How do you want to parent differently from your own parents?",ar:"كيفاش باغي نربي بطريقة مختلفة عن والدينا؟"},
+      {en:"What legacy do we want to leave for our children?",ar:"شنو الإرث اللي باغي نتركوه للأطفال؟"},
+      {en:"How do we keep our relationship strong while parenting?",ar:"كيفاش نقدرو نخليو العلاقة قوية مع التربية؟"},
+      {en:"What dreams do you still have for our family?",ar:"شنو الأحلام اللي مازالك عندك للعائلة؟"},
+    ]},
+  friendship_deep:{ sym:'💎', en:'REAL FRIENDSHIP', ar:'الصداقة الحقيقية', bgClass:'card-friendship', statIcon:'💎',
     qs:[
-      {en:"What made you realize I was a true friend?",                            ar:"شنو اللي خليك تحس أني صديق حقيقي؟"},
-      {en:"What do you value most about our friendship?",                          ar:"شنو أكثر حاجة كتقيمها فصداقتنا؟"},
-      {en:"When have I been there for you the most?",                              ar:"فاش كنت موجود ليك أكثر شي؟"},
-      {en:"What's something you trust me with that you don't tell others?",        ar:"شنو حاجة كتثق فيا بيها ما تقول لحد؟"},
-      {en:"How have I influenced you for the better?",                             ar:"كيفاش أثرت فيك بالإيجاب؟"},
-      {en:"What's your favorite memory of us together?",                           ar:"شنو أفضل ذكرى لك معايا؟"},
-      {en:"Do you see us as friends for life?",                                    ar:"واش كتشوفنا أصدقاء للأبد؟"},
-      {en:"What could strengthen our friendship even more?",                       ar:"شنو اللي كيقدر يقوي صداقتنا أكثر؟"},
-      {en:"How do you want to support each other in the future?",                  ar:"كيفاش باغي نتعاونو فالمستقبل؟"},
-    ]
-  },
-  challenges_friends: {
-    sym:'🎯', en:'DARE YOU', ar:'تحديات الصداقة', bgClass:'card-challenges', statIcon:'🎯',
+      {en:"What made you realize I was a true friend?",ar:"شنو اللي خليك تحس أني صديق حقيقي؟"},
+      {en:"What do you value most about our friendship?",ar:"شنو أكثر حاجة كتقيمها فصداقتنا؟"},
+      {en:"When have I been there for you the most?",ar:"فاش كنت موجود ليك أكثر شي؟"},
+      {en:"What's something you trust me with that you don't tell others?",ar:"شنو حاجة كتثق فيا بيها ما تقول لحد؟"},
+      {en:"How have I influenced you for the better?",ar:"كيفاش أثرت فيك بالإيجاب؟"},
+      {en:"What's your favorite memory of us together?",ar:"شنو أفضل ذكرى لك معايا؟"},
+      {en:"Do you see us as friends for life?",ar:"واش كتشوفنا أصدقاء للأبد؟"},
+      {en:"What could strengthen our friendship even more?",ar:"شنو اللي كيقدر يقوي صداقتنا أكثر؟"},
+      {en:"How do you want to support each other in the future?",ar:"كيفاش باغي نتعاونو فالمستقبل؟"},
+    ]},
+  challenges_friends:{ sym:'🎯', en:'DARE YOU', ar:'تحديات الصداقة', bgClass:'card-challenges', statIcon:'🎯',
     qs:[
-      {en:"Share your most embarrassing moment with me.",                           ar:"قول ليا أحرج لحظة فحياتك."},
-      {en:"Do something that scares you, right now (I'll join you!).",             ar:"دير حاجة كتخوفك دابا (غاتكون معاك!)."},
-      {en:"Tell me something you've never told anyone.",                            ar:"قول ليا حاجة ما قلتيها لحد."},
-      {en:"Compliment me in 5 different ways without repeating.",                  ar:"كمل ليا 5 مرات مختلفة بلا تكرار."},
-      {en:"Make me laugh without using words.",                                     ar:"خليني نضحك بلا كلام."},
-      {en:"Send me a voice message reading a love poem about our friendship.",      ar:"بعث ليا رسالة صوتية تقرا قصيدة حب عن صداقتنا."},
-      {en:"Plan something spontaneous for us right now.",                           ar:"خطط لحاجة مفاجئة بجوج دابا."},
-      {en:"Text someone you've been meaning to reach out to.",                      ar:"هضر مع شي واحد كنتي بغيتي توصل ليه."},
-      {en:"Tell me what you really think about my life choices.",                   ar:"قول ليا شنو بصح رأيك فاختياراتي فالحياة."},
-      {en:"Sing a duet with me (even if we're terrible!)",                         ar:"غنيو معايا (حتى إلا كنا مرعبين!)."},
-      {en:"Create a silly dance and film it for us.",                               ar:"عملو رقصة مضحكة وصور فيديو."},
-      {en:"Roast me lovingly for 2 minutes straight.",                             ar:"قول ليا نكات حنونة ديالي لمدة دقيقتين."},
-    ]
-  }
+      {en:"Share your most embarrassing moment with me.",ar:"قول ليا أحرج لحظة فحياتك."},
+      {en:"Do something that scares you, right now (I'll join you!).",ar:"دير حاجة كتخوفك دابا (غاتكون معاك!)."},
+      {en:"Tell me something you've never told anyone.",ar:"قول ليا حاجة ما قلتيها لحد."},
+      {en:"Compliment me in 5 different ways without repeating.",ar:"كمل ليا 5 مرات مختلفة بلا تكرار."},
+      {en:"Make me laugh without using words.",ar:"خليني نضحك بلا كلام."},
+      {en:"Send me a voice message reading a love poem about our friendship.",ar:"بعث ليا رسالة صوتية تقرا قصيدة حب عن صداقتنا."},
+      {en:"Plan something spontaneous for us right now.",ar:"خطط لحاجة مفاجئة بجوج دابا."},
+      {en:"Text someone you've been meaning to reach out to.",ar:"هضر مع شي واحد كنتي بغيتي توصل ليه."},
+      {en:"Tell me what you really think about my life choices.",ar:"قول ليا شنو بصح رأيك فاختياراتي فالحياة."},
+      {en:"Sing a duet with me (even if we're terrible!)",ar:"غنيو معايا (حتى إلا كنا مرعبين!)."},
+      {en:"Create a silly dance and film it for us.",ar:"عملو رقصة مضحكة وصور فيديو."},
+      {en:"Roast me lovingly for 2 minutes straight.",ar:"قول ليا نكات حنونة ديالي لمدة دقيقتين."},
+    ]},
 };
 
 /* ── Game state ── */
-let currentEdition = null;
-let currentCat     = 'soft';
-let currentCats    = [];
-let drawn  = 0;
-let round  = 1;
-let used   = {};
+let currentEdition  = null;
+let currentCat      = 'soft';
+let currentCats     = [];
+let currentQuestion = null;
+let drawn = 0, round = 1;
+let used  = {};
 
 /* ── Edition select ── */
 window.selectEdition = function(edition) {
   currentEdition = edition;
   const ed = EDITIONS[edition];
-
   let cats;
-  if (edition === 'friends') {
-    cats = ['soft','real','psych','between','power','friendship_deep','challenges_friends'];
-  } else if (edition === 'spicy') {
-    cats = ['spicy_part1','spicy_part2','spicy_part3','spicy_part4'];
-  } else {
+  if (edition === 'friends')     cats = ['soft','real','psych','between','power','friendship_deep','challenges_friends'];
+  else if (edition === 'spicy')  cats = ['spicy_part1','spicy_part2','spicy_part3','spicy_part4'];
+  else {
     cats = ['soft','real','psych','between','power',`desires_${edition}`];
     if (['couples','fiance','married'].includes(edition)) cats.push(`future_${edition}`);
   }
@@ -1173,31 +1151,27 @@ window.selectEdition = function(edition) {
   document.getElementById('ed-ar').textContent    = ed.ar;
   document.getElementById('ed-badge').innerHTML   = ed.badge;
   document.getElementById('ed-cats').innerHTML    = cats.map(c =>
-    `<div class="land-cat-pill">${CATEGORIES[c].sym} ${CATEGORIES[c].en}</div>`
-  ).join('');
+    `<div class="land-cat-pill">${CATEGORIES[c].sym} ${CATEGORIES[c].en}</div>`).join('');
 
-  // Show continue or begin depending on saved progress
-  const saved   = allProgress[edition];
+  const saved    = allProgress[edition];
   const enterBtn = document.getElementById('btn-land-enter');
   const chip     = document.getElementById('land-progress-chip');
   const freshBtn = document.getElementById('btn-start-fresh');
-
   if (saved && saved.drawn > 0) {
-    enterBtn.innerHTML    = '▶ &nbsp; Continue · متابعة';
-    enterBtn.onclick      = () => startGame(true);
-    chip.textContent      = `Round ${saved.round} · ${saved.drawn} cards drawn`;
-    chip.style.display    = 'block';
+    enterBtn.innerHTML     = '▶ &nbsp; Continue · متابعة';
+    enterBtn.onclick       = () => startGame(true);
+    chip.textContent       = `Round ${saved.round} · ${saved.drawn} cards drawn`;
+    chip.style.display     = 'block';
     freshBtn.style.display = 'block';
-    freshBtn.onclick      = () => startGame(false);
+    freshBtn.onclick       = () => startGame(false);
   } else {
-    enterBtn.innerHTML    = '💕 &nbsp; ابدأ — Begin';
-    enterBtn.onclick      = () => startGame(false);
-    chip.style.display    = 'none';
+    enterBtn.innerHTML     = '💕 &nbsp; ابدأ — Begin';
+    enterBtn.onclick       = () => startGame(false);
+    chip.style.display     = 'none';
     freshBtn.style.display = 'none';
   }
 
   buildGameInterface(cats);
-
   transition(() => {
     document.getElementById('edition-select').classList.remove('on');
     document.getElementById('landing').classList.add('on');
@@ -1217,15 +1191,14 @@ function buildGameInterface(cats) {
     if (!cat) return '';
     return `<button class="cat-btn ${i===0?'active':''}" data-cat="${c}" onclick="setCat('${c}',this)">${cat.sym} ${cat.en}<span class="cat-progress"></span></button>`;
   }).filter(Boolean).join('');
-
   const ed = EDITIONS[currentEdition];
   if (ed) document.getElementById('game-edition').textContent = ed.icon + ' ' + ed.name;
 }
 
 function updateCatProgress() {
   document.querySelectorAll('.cat-btn[data-cat]').forEach(btn => {
-    const c     = btn.dataset.cat;
-    const cat   = CATEGORIES[c];
+    const c   = btn.dataset.cat;
+    const cat = CATEGORIES[c];
     if (!cat) return;
     const total = cat.qs.length;
     const seen  = (used[c] || []).length;
@@ -1238,26 +1211,29 @@ function updateCatProgress() {
 /* ── Landing → Game ── */
 window.startGame = function(shouldContinue = false) {
   const saved = allProgress[currentEdition];
-
   if (shouldContinue && saved && saved.drawn > 0) {
     drawn      = saved.drawn;
     round      = saved.round;
-    used       = JSON.parse(JSON.stringify(saved.used || {})); // deep copy
+    used       = JSON.parse(JSON.stringify(saved.used || {}));
     currentCat = saved.currentCat || currentCats[0];
   } else {
     drawn = 0; round = 1; used = {};
     currentCat = currentCats[0];
     if (!shouldContinue) clearEditionProgress(currentEdition);
   }
-
   updateStats();
+  startSessionTimer();
+
+  // First-time hint
+  if (!localStorage.getItem('seneya_hint')) {
+    localStorage.setItem('seneya_hint', '1');
+    setTimeout(() => toast('← Draw · → Skip · ♡ Save a question', 3500), 1200);
+  }
 
   transition(() => {
     document.getElementById('landing').classList.remove('on');
     document.getElementById('game').classList.add('on');
     resetWelcomeCard(shouldContinue && saved && saved.drawn > 0);
-
-    // Restore active cat button if continuing
     if (shouldContinue && saved?.currentCat) {
       document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
       const btn = document.querySelector(`.cat-btn[data-cat="${currentCat}"]`);
@@ -1277,7 +1253,7 @@ function resetWelcomeCard(isContinue = false) {
     </div>`;
 }
 
-/* ── Home (with confirmation) ── */
+/* ── Home ── */
 window.askGoHome = function() {
   if (drawn === 0) { doGoHome(); return; }
   document.getElementById('confirm-home').classList.add('open');
@@ -1287,17 +1263,19 @@ window.closeConfirmHome = function() {
 };
 window.doGoHome = function() {
   document.getElementById('confirm-home').classList.remove('open');
-  persistProgress(); // save before reset
-  drawn = 0; round = 1; used = {}; currentEdition = null; currentCat = 'soft'; currentCats = [];
-  updateStats();
+  clearTimeout(saveTimer);
+  persistProgress();
+  drawn = 0; round = 1; used = {}; currentEdition = null; currentCat = 'soft'; currentCats = []; currentQuestion = null;
+  stopSessionTimer(); updateStats();
   transition(() => {
     document.getElementById('game').classList.remove('on');
     document.getElementById('edition-select').classList.add('on');
     updateEditionProgressBadges();
+    updateLifetimeDisplay();
   });
 };
 
-/* ── Category selection — auto-draws ── */
+/* ── Category ── */
 window.setCat = function(cat, el) {
   currentCat = cat;
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -1306,11 +1284,10 @@ window.setCat = function(cat, el) {
   drawCard();
 };
 
-/* ── Draw card (count = true increments drawn) ── */
+/* ── Draw card ── */
 function drawCard(count = true) {
   const catData = CATEGORIES[currentCat];
   if (!catData) return;
-
   const pool = catData.qs;
   const key  = currentCat;
   if (!used[key]) used[key] = [];
@@ -1318,21 +1295,21 @@ function drawCard(count = true) {
   let avail = pool.map((_,i) => i).filter(i => !used[key].includes(i));
 
   if (avail.length === 0) {
-    // All cards seen — show completion card, reset pool for next round
-    used[key] = [];
     if (count) { round++; updateStats(); }
-    showDoneCard(catData);
-    scheduleSave();
-    updateCatProgress();
-    return;
+    showDoneCard(catData, key);
+    scheduleSave(); return;
   }
 
   const idx = avail[Math.floor(Math.random() * avail.length)];
   used[key].push(idx);
   const q = pool[idx];
-  if (count) { drawn++; scheduleSave(); }
+  currentQuestion = { en: q.en, ar: q.ar };
+  if (count) { drawn++; scheduleSave(); if (navigator.vibrate) navigator.vibrate(8); playDraw(); }
   updateStats();
   updateCatProgress();
+
+  const seenInCat = used[key].length;
+  const isFav = favourites.some(f => f.en === q.en && f.edition === currentEdition);
 
   document.getElementById('card-stage').innerHTML = `
     <div class="q-card-wrap">
@@ -1351,25 +1328,33 @@ function drawCard(count = true) {
           <div class="card-q-ar">${q.ar}</div>
         </div>
         <div class="card-footer">
-          <span class="card-num">#${drawn}</span>
-          <span class="card-hint">swipe or tap Draw · اسحب للتالية</span>
+          <span class="card-num">${seenInCat}/${pool.length}</span>
+          <div class="card-footer-actions">
+            <button class="btn-card-action btn-card-fav ${isFav?'fav-active':''}" onclick="toggleFav()" title="Save question">${isFav?'♥':'♡'}</button>
+            <button class="btn-card-action btn-card-share" onclick="shareCard()" title="Share">↑</button>
+          </div>
         </div>
       </div>
     </div>`;
 
-  document.querySelector('.q-card')?.addEventListener('click', () => drawCard(true));
+  document.querySelector('.q-card')?.addEventListener('click', e => {
+    if (e.target.closest('.btn-card-action')) return;
+    drawCard(true);
+  });
 }
 
-function showDoneCard(catData) {
+function showDoneCard(catData, key) {
   const total = catData.qs.length;
+  used[key] = [];
+  updateCatProgress();
+  playDone();
+  if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
+  currentQuestion = null;
   document.getElementById('card-stage').innerHTML = `
     <div class="done-card">
       <div class="done-card-icon">${catData.sym}</div>
       <div class="done-card-title">All Done! · أتممتم!</div>
-      <div class="done-card-sub">
-        You explored all <strong>${total}</strong> questions in<br>
-        <strong>${catData.en}</strong>
-      </div>
+      <div class="done-card-sub">You explored all <strong>${total}</strong> questions in<br><strong>${catData.en}</strong></div>
       <div class="done-card-ar">انتهت الأسئلة — جولة جديدة تنتظركم</div>
       <button class="btn-done-continue" onclick="window.drawCard()">Next Round · جولة جديدة 🔁</button>
     </div>`;
@@ -1377,41 +1362,42 @@ function showDoneCard(catData) {
 
 window.drawCard = () => drawCard(true);
 
-/* Skip: doesn't count toward drawn */
 window.skipCard = function() {
+  if (navigator.vibrate) navigator.vibrate(4);
+  playSkip();
   const card = document.querySelector('.q-card');
-  if (card) {
-    card.classList.add('swipe-right');
-    setTimeout(() => drawCard(false), 290);
-  } else {
-    drawCard(false);
-  }
+  if (card) { card.classList.add('swipe-right'); setTimeout(() => drawCard(false), 290); }
+  else drawCard(false);
 };
 
-/* ── Swipe gesture ── */
+/* ── Swipe ── */
 let touchStartX = 0, touchStartY = 0;
-
 document.getElementById('card-stage').addEventListener('touchstart', e => {
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
 }, { passive: true });
-
 document.getElementById('card-stage').addEventListener('touchend', e => {
   const dx = e.changedTouches[0].clientX - touchStartX;
   const dy = e.changedTouches[0].clientY - touchStartY;
   if (Math.abs(dx) < 55 || Math.abs(dy) > Math.abs(dx) * 0.8) return;
-
   const card = document.querySelector('.q-card');
   if (!card) return;
-
-  if (dx < 0) {
-    card.classList.add('swipe-left');
-    setTimeout(() => drawCard(true), 290);
-  } else {
-    card.classList.add('swipe-right');
-    setTimeout(() => drawCard(false), 290);
-  }
+  if (dx < 0) { card.classList.add('swipe-left');  setTimeout(() => drawCard(true),  290); }
+  else         { card.classList.add('swipe-right'); setTimeout(() => drawCard(false), 290); }
 }, { passive: true });
+
+/* ── Keyboard shortcuts ── */
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('game').classList.contains('on')) return;
+  if (document.getElementById('confirm-home').classList.contains('open')) return;
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  switch(e.code) {
+    case 'Space': case 'ArrowLeft': case 'Enter': e.preventDefault(); drawCard(true);      break;
+    case 'ArrowRight':                            e.preventDefault(); window.skipCard();   break;
+    case 'KeyF':                                  e.preventDefault(); window.toggleFav();  break;
+    case 'KeyS':                                  e.preventDefault(); window.shareCard();  break;
+  }
+});
 
 /* ── Stats ── */
 function updateStats() {
@@ -1421,10 +1407,10 @@ function updateStats() {
   document.getElementById('s-cat-name').textContent = CAT_SHORT[currentCat] || 'Category';
 }
 
-function toast(msg) {
+function toast(msg, duration = 2400) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2400);
+  setTimeout(() => t.classList.remove('show'), duration);
 }
 </script>
 </body>
