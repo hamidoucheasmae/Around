@@ -48,7 +48,7 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23B85C4A'%3E%3Cpath d='M30 2L58 30L30 58L2 30Z' fill='none' stroke='%23B85C4A' stroke-width='0.8'/%3E%3Cpath d='M30 14L46 30L30 46L14 30Z' fill='none' stroke='%23C49A6C' stroke-width='0.6'/%3E%3Cpath d='M30 22L38 30L30 38L22 30Z' fill='%23D9877A' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* ══ PAGE VEIL (screen transition overlay) ══ */
+/* ══ PAGE VEIL ══ */
 #page-veil {
   position: fixed; inset: 0; z-index: 500;
   background: var(--cream);
@@ -176,6 +176,7 @@ body::before {
   align-items:center; justify-content:center;
   padding: 2rem 1.5rem 3rem; text-align:center;
   background: linear-gradient(160deg, #FDF8F4 0%, #F7EDE9 50%, #EED5CC 100%);
+  overflow-y: auto;
 }
 #edition-select.on { display: flex; animation: screenIn 0.3s ease; }
 
@@ -210,7 +211,7 @@ body::before {
 .edition-card {
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 18px 12px 16px;
+  padding: 18px 12px 14px;
   border-radius: 16px;
   border: 2px solid rgba(184,92,74,0.12);
   border-top: 3px solid var(--accent);
@@ -232,7 +233,6 @@ body::before {
 .edition-card.friends { --accent: #6B5F9C; }
 .edition-card.spicy   { --accent: #DC143C; }
 
-/* Icon circle using accent color */
 .ec-icon-wrap {
   position: relative;
   width: 58px; height: 58px;
@@ -249,8 +249,18 @@ body::before {
 }
 .edition-card:hover .ec-icon-wrap::before { opacity: 0.22; }
 .ec-icon { font-size: 2rem; position: relative; z-index: 1; }
-.ec-name  { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 0.2rem; }
+.ec-name  { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 0.15rem; }
 .ec-label { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+
+/* Edition progress badge on card */
+.ec-progress {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.58rem; font-weight: 600;
+  color: var(--muted); margin-top: 4px;
+  min-height: 0.8em; letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.ec-progress.has-data { color: var(--rose-deep); }
 
 /* ══════════════════ LANDING ══════════════════ */
 #landing {
@@ -282,9 +292,34 @@ body::before {
 .land-divider { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, var(--rose), transparent); margin: 0 auto 1.5rem; }
 .land-cats { display: flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom: 2rem; }
 .land-cat-pill { padding: 6px 14px; border-radius:20px; font-size:0.75rem; font-family:'DM Sans',sans-serif; font-weight:500; display:flex; align-items:center; gap:5px; background: white; border:1px solid rgba(184,92,74,0.15); color: var(--ink-soft); box-shadow: 0 2px 8px rgba(184,92,74,0.08); }
-.btn-enter { display: flex; align-items:center; justify-content:center; gap:10px; padding: 14px 36px; border:none; border-radius:50px; background: linear-gradient(135deg, var(--rose-deep) 0%, var(--terracotta) 100%); color: white; font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600; cursor:pointer; transition: all 0.25s; box-shadow: 0 6px 24px rgba(184,92,74,0.4); letter-spacing:0.04em; }
+
+/* Landing action area */
+.land-action { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; max-width: 280px; }
+.btn-enter {
+  display: flex; align-items:center; justify-content:center; gap:10px;
+  padding: 14px 36px; border:none; border-radius:50px;
+  background: linear-gradient(135deg, var(--rose-deep) 0%, var(--terracotta) 100%);
+  color: white; font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600;
+  cursor:pointer; transition: all 0.25s; box-shadow: 0 6px 24px rgba(184,92,74,0.4);
+  letter-spacing:0.04em; width: 100%;
+}
 .btn-enter:hover { transform:translateY(-2px); box-shadow:0 10px 32px rgba(184,92,74,0.5); }
 .btn-enter:active { transform:scale(0.97); }
+
+.land-progress-chip {
+  display: none;
+  font-family: 'DM Sans', sans-serif; font-size: 0.72rem;
+  color: var(--rose-deep); font-weight: 600;
+  background: var(--blush); border: 1px solid rgba(184,92,74,0.2);
+  border-radius: 20px; padding: 4px 14px;
+}
+.btn-start-fresh {
+  display: none;
+  font-size: 0.75rem; color: var(--muted); cursor: pointer;
+  background: none; border: none; font-family: 'DM Sans', sans-serif;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.btn-start-fresh:hover { color: var(--rose-deep); }
 
 /* ══════════════════ GAME ══════════════════ */
 #game { display:none; flex-direction:column; height:100%; position:relative; z-index:10; background: var(--cream); }
@@ -296,22 +331,34 @@ body::before {
 .topbar-actions { display:flex; gap:6px; align-items:center; }
 .topbar-back { background:transparent; border:1px solid rgba(184,92,74,0.18); border-radius:50px; padding:5px 12px; font-size:0.72rem; font-family:'DM Sans',sans-serif; color: var(--muted); cursor:pointer; transition:all 0.2s; }
 .topbar-back:hover { background:var(--blush); color:var(--rose-deep); }
-.topbar-logout {
-  display: flex; align-items: center; gap: 4px;
-  background:transparent; border:1px solid rgba(184,92,74,0.18);
-  border-radius:50px; padding:5px 11px;
-  font-size:0.7rem; font-family:'DM Sans',sans-serif;
-  color: var(--muted); cursor:pointer; transition:all 0.2s;
-}
-.topbar-logout:hover { background:var(--blush); color:var(--rose-deep); }
 
+/* Cat strip */
 .cat-strip { display:flex; gap:6px; padding: 10px 14px; overflow-x:auto; flex-shrink:0; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
 .cat-strip::-webkit-scrollbar { display:none; }
-.cat-btn { flex-shrink:0; display:flex; align-items:center; gap:5px; padding: 7px 14px; border-radius:20px; border: 1.5px solid rgba(184,92,74,0.15); background: white; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:500; color: var(--muted); cursor:pointer; transition: all 0.22s; white-space:nowrap; }
+.cat-btn {
+  flex-shrink:0; display:flex; align-items:center; gap:5px;
+  padding: 7px 12px; border-radius:20px;
+  border: 1.5px solid rgba(184,92,74,0.15); background: white;
+  font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:500;
+  color: var(--muted); cursor:pointer; transition: all 0.22s; white-space:nowrap;
+}
 .cat-btn:hover { border-color:var(--rose); color:var(--rose-deep); }
 .cat-btn.active { background: linear-gradient(135deg, var(--rose-deep), var(--terracotta)); border-color: transparent; color:white; box-shadow: 0 3px 12px rgba(184,92,74,0.3); }
 
-/* ── Card Stage & Swipe ── */
+/* Category progress badge inside cat button */
+.cat-progress {
+  font-size: 0.5rem; font-weight: 700; letter-spacing: 0.02em;
+  opacity: 0.65; margin-left: 1px;
+  font-family: 'DM Sans', sans-serif;
+}
+.cat-btn.active .cat-progress { opacity: 1; color: rgba(255,255,255,0.85); }
+.cat-btn.cat-done { border-color: rgba(60,160,100,0.35); }
+.cat-btn.cat-done .cat-progress { color: #3CA064; }
+.cat-btn.active.cat-done {
+  background: linear-gradient(135deg, #2E7D52, #48A96E);
+}
+
+/* Card Stage */
 .card-stage { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 8px 16px; overflow:hidden; user-select:none; }
 
 .q-card-wrap { width:100%; max-width:380px; perspective:1000px; }
@@ -331,12 +378,8 @@ body::before {
   0%   { opacity:0; transform:translateY(40px) rotate(-1.5deg) scale(0.93); }
   100% { opacity:1; transform:translateY(0) rotate(0) scale(1); }
 }
-@keyframes swipeLeft {
-  to { opacity:0; transform:translateX(-110%) rotate(-8deg); }
-}
-@keyframes swipeRight {
-  to { opacity:0; transform:translateX(110%) rotate(8deg); }
-}
+@keyframes swipeLeft  { to { opacity:0; transform:translateX(-110%) rotate(-8deg); } }
+@keyframes swipeRight { to { opacity:0; transform:translateX(110%) rotate(8deg); } }
 
 /* Card backgrounds */
 .card-soft       { background: linear-gradient(155deg, #E8B4AC 0%, #D4837A 40%, #C4614A 100%); }
@@ -375,6 +418,36 @@ body::before {
 .welcome-card p  { font-size:0.82rem; color:var(--muted); line-height:1.65; max-width:240px; }
 .welcome-card .wc-ar { font-family:'Cairo',sans-serif; font-size:0.8rem; color:var(--gold); direction:rtl; }
 
+/* ── All-done card ── */
+.done-card {
+  width:100%; max-width:380px; min-height:320px; border-radius:24px;
+  background: linear-gradient(155deg, #1A2A1A 0%, #2E5E3A 50%, #3D8A4D 100%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:14px; text-align:center; padding:2rem;
+  box-shadow: 0 20px 60px rgba(30,100,60,0.3);
+  animation: cardSlideIn 0.42s cubic-bezier(.34,1.56,.64,1);
+}
+.done-card-icon { font-size: 3rem; }
+.done-card-title {
+  font-family:'Playfair Display',serif; font-size:1.3rem;
+  color:white; font-weight:500;
+}
+.done-card-sub {
+  font-size:0.82rem; color:rgba(255,255,255,0.65); line-height:1.7;
+}
+.done-card-sub strong { color:rgba(255,255,255,0.92); }
+.done-card-ar {
+  font-family:'Cairo',sans-serif; font-size:0.78rem;
+  color:rgba(180,220,190,0.7); direction:rtl;
+}
+.btn-done-continue {
+  padding:12px 28px; border:1px solid rgba(255,255,255,0.3); border-radius:50px;
+  background: rgba(255,255,255,0.18); backdrop-filter:blur(4px);
+  color:white; font-family:'Cairo',sans-serif; font-size:0.95rem; font-weight:600;
+  cursor:pointer; transition:all 0.2s; margin-top:4px;
+}
+.btn-done-continue:hover { background:rgba(255,255,255,0.28); }
+
 /* Bottom bar */
 .bottom-bar { flex-shrink:0; padding: 10px 14px 16px; background: var(--warm-white); border-top: 1px solid rgba(217,135,122,0.1); }
 .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:10px; }
@@ -383,14 +456,12 @@ body::before {
 .stat-l { font-size:0.58rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; font-family:'DM Sans',sans-serif; margin-top:1px; }
 
 .draw-row { display:flex; gap:8px; }
-/* Skip is visually secondary — ghost style */
 .btn-skip {
   width: 54px; flex-shrink: 0;
   border: 1.5px solid rgba(184,92,74,0.2);
   background: white; border-radius:14px;
   display:flex; flex-direction: column; align-items:center; justify-content:center;
-  gap: 2px;
-  font-size:1rem; cursor:pointer; transition:all 0.2s;
+  gap: 2px; font-size:1rem; cursor:pointer; transition:all 0.2s;
 }
 .btn-skip-label { font-size: 0.5rem; color: var(--muted); font-family: 'DM Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.06em; }
 .btn-skip:hover { background:var(--blush); border-color:var(--rose); }
@@ -499,31 +570,37 @@ body::before {
       <div class="ec-icon-wrap"><span class="ec-icon">🥰</span></div>
       <div class="ec-name">Talking Stage</div>
       <div class="ec-label">Getting to Know</div>
+      <div class="ec-progress" id="ep-talking"></div>
     </div>
     <div class="edition-card couples" onclick="selectEdition('couples')">
       <div class="ec-icon-wrap"><span class="ec-icon">💑</span></div>
       <div class="ec-name">Couples</div>
       <div class="ec-label">Growing Together</div>
+      <div class="ec-progress" id="ep-couples"></div>
     </div>
     <div class="edition-card fiance" onclick="selectEdition('fiance')">
       <div class="ec-icon-wrap"><span class="ec-icon">💍</span></div>
       <div class="ec-name">Fiancé</div>
       <div class="ec-label">Soon to Wed</div>
+      <div class="ec-progress" id="ep-fiance"></div>
     </div>
     <div class="edition-card married" onclick="selectEdition('married')">
       <div class="ec-icon-wrap"><span class="ec-icon">👑</span></div>
       <div class="ec-name">Married</div>
       <div class="ec-label">Forever & Always</div>
+      <div class="ec-progress" id="ep-married"></div>
     </div>
     <div class="edition-card friends" onclick="selectEdition('friends')">
       <div class="ec-icon-wrap"><span class="ec-icon">👯</span></div>
       <div class="ec-name">Friends</div>
       <div class="ec-label">Ride or Die</div>
+      <div class="ec-progress" id="ep-friends"></div>
     </div>
     <div class="edition-card spicy" onclick="selectEdition('spicy')">
       <div class="ec-icon-wrap"><span class="ec-icon">🔥</span></div>
       <div class="ec-name">18+ Unfiltered</div>
       <div class="ec-label">Adults Only</div>
+      <div class="ec-progress" id="ep-spicy"></div>
     </div>
   </div>
 </div>
@@ -541,7 +618,11 @@ body::before {
   <div class="land-divider"></div>
   <div class="land-cats" id="ed-cats"></div>
 
-  <button class="btn-enter" onclick="startGame()">💕 &nbsp; ابدأ — Begin</button>
+  <div class="land-action">
+    <button class="btn-enter" id="btn-land-enter">💕 &nbsp; ابدأ — Begin</button>
+    <div class="land-progress-chip" id="land-progress-chip"></div>
+    <button class="btn-start-fresh" id="btn-start-fresh">Start fresh · ابدأ من جديد</button>
+  </div>
 </div>
 
 <!-- ══ GAME ══ -->
@@ -550,8 +631,7 @@ body::before {
     <div class="topbar-logo">🫖 Seneya</div>
     <div class="topbar-edition" id="game-edition">💕 Lovers</div>
     <div class="topbar-actions">
-      <button class="topbar-back"   onclick="askGoHome()">← Home</button>
-      <button class="topbar-logout" onclick="handleSignOut()">↩ Sign out</button>
+      <button class="topbar-back" onclick="askGoHome()">← Home</button>
     </div>
   </div>
 
@@ -596,7 +676,7 @@ body::before {
   <div class="confirm-sheet">
     <div class="confirm-icon">🏠</div>
     <div class="confirm-title">Go back to editions?</div>
-    <div class="confirm-sub">Your round progress will reset.<br>سيتم إعادة تشغيل الجولة</div>
+    <div class="confirm-sub">Your progress is saved — you can continue later.<br>تقدمك محفوظ — يمكنك المتابعة لاحقاً</div>
     <div class="confirm-btns">
       <button class="btn-confirm-cancel" onclick="closeConfirmHome()">Stay · ابق</button>
       <button class="btn-confirm-ok"     onclick="doGoHome()">Yes, go back</button>
@@ -615,6 +695,9 @@ import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, signOut, updateProfile
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 /* ── Firebase ── */
 const app = initializeApp({
@@ -628,17 +711,24 @@ const app = initializeApp({
 });
 getAnalytics(app);
 const auth = getAuth(app);
+const db   = getFirestore(app);
+
+/* ── Auth state ── */
+let currentUser = null;
 
 onAuthStateChanged(auth, (user) => {
+  currentUser = user;
   if (user) {
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('edition-select').classList.add('on');
     document.getElementById('user-email').textContent = user.displayName || user.email;
+    loadAllProgress(user.uid);
   } else {
     document.getElementById('auth-screen').style.display = 'flex';
     document.getElementById('edition-select').classList.remove('on');
     document.getElementById('landing').classList.remove('on');
     document.getElementById('game').classList.remove('on');
+    allProgress = {};
   }
 });
 
@@ -650,6 +740,65 @@ function transition(cb) {
     cb();
     requestAnimationFrame(() => requestAnimationFrame(() => veil.classList.remove('fading')));
   }, 220);
+}
+
+/* ══════════ FIRESTORE PROGRESS ══════════ */
+let allProgress = {}; // { editionKey: { drawn, round, used, currentCat, lastPlayed } }
+let saveTimer   = null;
+
+async function loadAllProgress(uid) {
+  try {
+    const snap = await getDoc(doc(db, 'users', uid, 'meta', 'progress'));
+    allProgress = snap.exists() ? (snap.data().editions || {}) : {};
+  } catch (e) {
+    allProgress = {};
+  }
+  updateEditionProgressBadges();
+}
+
+function scheduleSave() {
+  if (!currentUser || !currentEdition) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(persistProgress, 1500);
+}
+
+async function persistProgress() {
+  if (!currentUser || !currentEdition) return;
+  try {
+    allProgress[currentEdition] = { drawn, round, used, currentCat, lastPlayed: Date.now() };
+    await setDoc(
+      doc(db, 'users', currentUser.uid, 'meta', 'progress'),
+      { editions: allProgress },
+      { merge: true }
+    );
+  } catch (e) { /* silent — offline or rules */ }
+}
+
+async function clearEditionProgress(edition) {
+  if (!currentUser) return;
+  try {
+    delete allProgress[edition];
+    await setDoc(
+      doc(db, 'users', currentUser.uid, 'meta', 'progress'),
+      { editions: allProgress },
+      { merge: true }
+    );
+  } catch (e) { /* silent */ }
+}
+
+function updateEditionProgressBadges() {
+  Object.keys(EDITIONS).forEach(key => {
+    const el = document.getElementById(`ep-${key}`);
+    if (!el) return;
+    const p = allProgress[key];
+    if (p && p.drawn > 0) {
+      el.textContent = `Round ${p.round} · ${p.drawn} drawn`;
+      el.classList.add('has-data');
+    } else {
+      el.textContent = '';
+      el.classList.remove('has-data');
+    }
+  });
 }
 
 /* ── Auth ── */
@@ -693,7 +842,8 @@ window.handleAuth = async function() {
 };
 
 window.handleSignOut = async function() {
-  drawn = 0; round = 1; used = {}; currentEdition = null; currentCat = 'soft';
+  await persistProgress();
+  drawn = 0; round = 1; used = {}; currentEdition = null; currentCat = 'soft'; currentCats = [];
   updateStats();
   await signOut(auth);
 };
@@ -726,7 +876,6 @@ const EDITIONS = {
   spicy:   { name:'18+ Unfiltered',ar:'بدون تصفية',   badge:'🔥 Adults Only · للبالغين فقط',      icon:'🔥' },
 };
 
-/* Short names for the stat cell */
 const CAT_SHORT = {
   soft:'Soft', real:'Real', psych:'Mind', between:'Lines', power:'Test',
   desires_talking:'Curious', desires_couples:'Intimacy', desires_fiance:'Altar',
@@ -998,6 +1147,7 @@ const CATEGORIES = {
 /* ── Game state ── */
 let currentEdition = null;
 let currentCat     = 'soft';
+let currentCats    = [];
 let drawn  = 0;
 let round  = 1;
 let used   = {};
@@ -1016,7 +1166,8 @@ window.selectEdition = function(edition) {
     cats = ['soft','real','psych','between','power',`desires_${edition}`];
     if (['couples','fiance','married'].includes(edition)) cats.push(`future_${edition}`);
   }
-  currentCat = cats[0];
+  currentCats = cats;
+  currentCat  = cats[0];
 
   document.getElementById('ed-title').textContent = ed.name;
   document.getElementById('ed-ar').textContent    = ed.ar;
@@ -1024,6 +1175,26 @@ window.selectEdition = function(edition) {
   document.getElementById('ed-cats').innerHTML    = cats.map(c =>
     `<div class="land-cat-pill">${CATEGORIES[c].sym} ${CATEGORIES[c].en}</div>`
   ).join('');
+
+  // Show continue or begin depending on saved progress
+  const saved   = allProgress[edition];
+  const enterBtn = document.getElementById('btn-land-enter');
+  const chip     = document.getElementById('land-progress-chip');
+  const freshBtn = document.getElementById('btn-start-fresh');
+
+  if (saved && saved.drawn > 0) {
+    enterBtn.innerHTML    = '▶ &nbsp; Continue · متابعة';
+    enterBtn.onclick      = () => startGame(true);
+    chip.textContent      = `Round ${saved.round} · ${saved.drawn} cards drawn`;
+    chip.style.display    = 'block';
+    freshBtn.style.display = 'block';
+    freshBtn.onclick      = () => startGame(false);
+  } else {
+    enterBtn.innerHTML    = '💕 &nbsp; ابدأ — Begin';
+    enterBtn.onclick      = () => startGame(false);
+    chip.style.display    = 'none';
+    freshBtn.style.display = 'none';
+  }
 
   buildGameInterface(cats);
 
@@ -1044,35 +1215,71 @@ function buildGameInterface(cats) {
   document.getElementById('cat-strip').innerHTML = cats.map((c, i) => {
     const cat = CATEGORIES[c];
     if (!cat) return '';
-    return `<button class="cat-btn ${i===0?'active':''}" onclick="setCat('${c}',this)">${cat.sym} ${cat.en}</button>`;
+    return `<button class="cat-btn ${i===0?'active':''}" data-cat="${c}" onclick="setCat('${c}',this)">${cat.sym} ${cat.en}<span class="cat-progress"></span></button>`;
   }).filter(Boolean).join('');
+
   const ed = EDITIONS[currentEdition];
   if (ed) document.getElementById('game-edition').textContent = ed.icon + ' ' + ed.name;
 }
 
+function updateCatProgress() {
+  document.querySelectorAll('.cat-btn[data-cat]').forEach(btn => {
+    const c     = btn.dataset.cat;
+    const cat   = CATEGORIES[c];
+    if (!cat) return;
+    const total = cat.qs.length;
+    const seen  = (used[c] || []).length;
+    const span  = btn.querySelector('.cat-progress');
+    if (span) span.textContent = seen > 0 ? ` ${seen}/${total}` : '';
+    btn.classList.toggle('cat-done', seen > 0 && seen >= total);
+  });
+}
+
 /* ── Landing → Game ── */
-window.startGame = function() {
+window.startGame = function(shouldContinue = false) {
+  const saved = allProgress[currentEdition];
+
+  if (shouldContinue && saved && saved.drawn > 0) {
+    drawn      = saved.drawn;
+    round      = saved.round;
+    used       = JSON.parse(JSON.stringify(saved.used || {})); // deep copy
+    currentCat = saved.currentCat || currentCats[0];
+  } else {
+    drawn = 0; round = 1; used = {};
+    currentCat = currentCats[0];
+    if (!shouldContinue) clearEditionProgress(currentEdition);
+  }
+
+  updateStats();
+
   transition(() => {
     document.getElementById('landing').classList.remove('on');
     document.getElementById('game').classList.add('on');
-    // Show welcome card — user taps a category to get first card
-    resetWelcomeCard();
+    resetWelcomeCard(shouldContinue && saved && saved.drawn > 0);
+
+    // Restore active cat button if continuing
+    if (shouldContinue && saved?.currentCat) {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector(`.cat-btn[data-cat="${currentCat}"]`);
+      if (btn) btn.classList.add('active');
+    }
+    updateCatProgress();
   });
 };
 
-function resetWelcomeCard() {
+function resetWelcomeCard(isContinue = false) {
   document.getElementById('card-stage').innerHTML = `
     <div class="welcome-card">
-      <span style="font-size:2.5rem">💕</span>
-      <h3>Ready for the real talk?</h3>
-      <p>Pick a category above to draw your first card.</p>
+      <span style="font-size:2.5rem">${isContinue ? '🔄' : '💕'}</span>
+      <h3>${isContinue ? 'Welcome back!' : 'Ready for the real talk?'}</h3>
+      <p>${isContinue ? 'Pick a category to continue where you left off.' : 'Pick a category above to draw your first card.'}</p>
       <p class="wc-ar">اختار الفئة — الصدق هو القاعدة الوحيدة</p>
     </div>`;
 }
 
 /* ── Home (with confirmation) ── */
 window.askGoHome = function() {
-  if (drawn === 0) { doGoHome(); return; } // no progress to lose
+  if (drawn === 0) { doGoHome(); return; }
   document.getElementById('confirm-home').classList.add('open');
 };
 window.closeConfirmHome = function() {
@@ -1080,11 +1287,13 @@ window.closeConfirmHome = function() {
 };
 window.doGoHome = function() {
   document.getElementById('confirm-home').classList.remove('open');
-  drawn = 0; round = 1; used = {}; currentEdition = null; currentCat = 'soft';
+  persistProgress(); // save before reset
+  drawn = 0; round = 1; used = {}; currentEdition = null; currentCat = 'soft'; currentCats = [];
   updateStats();
   transition(() => {
     document.getElementById('game').classList.remove('on');
     document.getElementById('edition-select').classList.add('on');
+    updateEditionProgressBadges();
   });
 };
 
@@ -1094,7 +1303,7 @@ window.setCat = function(cat, el) {
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   updateStats();
-  drawCard(); // always draw on category switch
+  drawCard();
 };
 
 /* ── Draw card (count = true increments drawn) ── */
@@ -1106,17 +1315,24 @@ function drawCard(count = true) {
   const key  = currentCat;
   if (!used[key]) used[key] = [];
 
-  let avail = pool.map((_,i)=>i).filter(i => !used[key].includes(i));
+  let avail = pool.map((_,i) => i).filter(i => !used[key].includes(i));
+
   if (avail.length === 0) {
-    used[key] = []; avail = pool.map((_,i)=>i);
-    if (count) { round++; toast("New round! جولة جديدة 🔁"); }
+    // All cards seen — show completion card, reset pool for next round
+    used[key] = [];
+    if (count) { round++; updateStats(); }
+    showDoneCard(catData);
+    scheduleSave();
+    updateCatProgress();
+    return;
   }
 
   const idx = avail[Math.floor(Math.random() * avail.length)];
   used[key].push(idx);
   const q = pool[idx];
-  if (count) drawn++;
+  if (count) { drawn++; scheduleSave(); }
   updateStats();
+  updateCatProgress();
 
   document.getElementById('card-stage').innerHTML = `
     <div class="q-card-wrap">
@@ -1141,13 +1357,27 @@ function drawCard(count = true) {
       </div>
     </div>`;
 
-  // Tap card = draw next (counts)
   document.querySelector('.q-card')?.addEventListener('click', () => drawCard(true));
+}
+
+function showDoneCard(catData) {
+  const total = catData.qs.length;
+  document.getElementById('card-stage').innerHTML = `
+    <div class="done-card">
+      <div class="done-card-icon">${catData.sym}</div>
+      <div class="done-card-title">All Done! · أتممتم!</div>
+      <div class="done-card-sub">
+        You explored all <strong>${total}</strong> questions in<br>
+        <strong>${catData.en}</strong>
+      </div>
+      <div class="done-card-ar">انتهت الأسئلة — جولة جديدة تنتظركم</div>
+      <button class="btn-done-continue" onclick="window.drawCard()">Next Round · جولة جديدة 🔁</button>
+    </div>`;
 }
 
 window.drawCard = () => drawCard(true);
 
-/* Skip: same pool logic, doesn't increment drawn */
+/* Skip: doesn't count toward drawn */
 window.skipCard = function() {
   const card = document.querySelector('.q-card');
   if (card) {
@@ -1175,11 +1405,9 @@ document.getElementById('card-stage').addEventListener('touchend', e => {
   if (!card) return;
 
   if (dx < 0) {
-    // Swipe left → draw (counts)
     card.classList.add('swipe-left');
     setTimeout(() => drawCard(true), 290);
   } else {
-    // Swipe right → skip (doesn't count)
     card.classList.add('swipe-right');
     setTimeout(() => drawCard(false), 290);
   }
@@ -1187,9 +1415,9 @@ document.getElementById('card-stage').addEventListener('touchend', e => {
 
 /* ── Stats ── */
 function updateStats() {
-  document.getElementById('s-drawn').textContent   = drawn;
-  document.getElementById('s-round').textContent   = round;
-  document.getElementById('s-cat').textContent     = CATEGORIES[currentCat]?.statIcon || '💕';
+  document.getElementById('s-drawn').textContent    = drawn;
+  document.getElementById('s-round').textContent    = round;
+  document.getElementById('s-cat').textContent      = CATEGORIES[currentCat]?.statIcon || '💕';
   document.getElementById('s-cat-name').textContent = CAT_SHORT[currentCat] || 'Category';
 }
 
