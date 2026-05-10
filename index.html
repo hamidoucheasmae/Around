@@ -48,6 +48,20 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23B85C4A'%3E%3Cpath d='M30 2L58 30L30 58L2 30Z' fill='none' stroke='%23B85C4A' stroke-width='0.8'/%3E%3Cpath d='M30 14L46 30L30 46L14 30Z' fill='none' stroke='%23C49A6C' stroke-width='0.6'/%3E%3Cpath d='M30 22L38 30L30 38L22 30Z' fill='%23D9877A' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
 }
 
+/* ══ PAGE VEIL (screen transition overlay) ══ */
+#page-veil {
+  position: fixed; inset: 0; z-index: 500;
+  background: var(--cream);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+#page-veil.fading { opacity: 1; pointer-events: all; }
+
+@keyframes screenIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ══════════════════ AUTH SCREEN ══════════════════ */
 #auth-screen {
   position: relative; z-index:10;
@@ -73,12 +87,10 @@ body::before {
   line-height: 1.2; margin-top: 0.4rem;
 }
 .auth-logo-title em { color: var(--rose-deep); font-style: italic; }
-
 .auth-logo-sub {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.62rem; color: var(--muted);
-  letter-spacing: 0.15em; text-transform: uppercase;
-  margin-top: 0.3rem;
+  letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.3rem;
 }
 
 .auth-card {
@@ -165,7 +177,7 @@ body::before {
   padding: 2rem 1.5rem 3rem; text-align:center;
   background: linear-gradient(160deg, #FDF8F4 0%, #F7EDE9 50%, #EED5CC 100%);
 }
-#edition-select.on { display: flex; }
+#edition-select.on { display: flex; animation: screenIn 0.3s ease; }
 
 .es-user-bar {
   position: absolute; top: 12px; right: 14px; left: 14px;
@@ -176,9 +188,10 @@ body::before {
   max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .btn-logout-small {
+  display: flex; align-items: center; gap: 5px;
   background: transparent; border: 1px solid rgba(184,92,74,0.2);
-  border-radius: 50px; padding: 4px 11px;
-  font-family: 'DM Sans', sans-serif; font-size: 0.68rem; color: var(--muted);
+  border-radius: 50px; padding: 5px 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.7rem; color: var(--muted);
   cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
 .btn-logout-small:hover { background: var(--blush); color: var(--rose-deep); border-color: var(--rose); }
@@ -189,22 +202,76 @@ body::before {
 .es-title em { color: var(--rose-deep); font-style: italic; }
 .es-subtitle { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--muted); margin-bottom: 2.5rem; }
 
-.editions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 360px; margin-bottom: 1rem; }
-.edition-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px 12px; border-radius: 16px; border: 2px solid rgba(184,92,74,0.15); background: white; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(184,92,74,0.06); }
-.edition-card:hover { border-color: var(--rose-deep); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(184,92,74,0.15); }
+/* ── Edition grid with --accent ── */
+.editions-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; width: 100%; max-width: 360px; margin-bottom: 1rem;
+}
+.edition-card {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 18px 12px 16px;
+  border-radius: 16px;
+  border: 2px solid rgba(184,92,74,0.12);
+  border-top: 3px solid var(--accent);
+  background: white;
+  cursor: pointer; transition: all 0.28s;
+  box-shadow: 0 2px 8px rgba(184,92,74,0.06);
+}
+.edition-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.1);
+}
+.edition-card:active { transform: scale(0.97); }
+
 .edition-card.talking { --accent: #D4A574; }
 .edition-card.couples { --accent: #D9877A; }
 .edition-card.fiance  { --accent: #B85C4A; }
 .edition-card.married { --accent: #8B3A5C; }
 .edition-card.friends { --accent: #6B5F9C; }
 .edition-card.spicy   { --accent: #DC143C; }
-.ec-icon  { font-size: 2.5rem; margin-bottom: 0.5rem; }
-.ec-name  { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 0.25rem; }
-.ec-label { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+
+/* Icon circle using accent color */
+.ec-icon-wrap {
+  position: relative;
+  width: 58px; height: 58px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 0.6rem;
+}
+.ec-icon-wrap::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.12;
+  transition: opacity 0.28s;
+}
+.edition-card:hover .ec-icon-wrap::before { opacity: 0.22; }
+.ec-icon { font-size: 2rem; position: relative; z-index: 1; }
+.ec-name  { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 500; color: var(--ink); margin-bottom: 0.2rem; }
+.ec-label { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
 
 /* ══════════════════ LANDING ══════════════════ */
-#landing { position: relative; z-index:10; flex:1; display:none; flex-direction:column; align-items:center; justify-content:center; padding: 2rem 1.5rem 3rem; text-align:center; background: linear-gradient(160deg, #FDF8F4 0%, #F7EDE9 50%, #EED5CC 100%); }
-#landing.on { display: flex; }
+#landing {
+  position: relative; z-index:10;
+  flex:1; display:none; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding: 2rem 1.5rem 3rem; text-align:center;
+  background: linear-gradient(160deg, #FDF8F4 0%, #F7EDE9 50%, #EED5CC 100%);
+}
+#landing.on { display: flex; animation: screenIn 0.3s ease; }
+
+.btn-land-back {
+  position: absolute; top: 16px; left: 16px;
+  display: flex; align-items: center; gap: 5px;
+  background: transparent; border: 1px solid rgba(184,92,74,0.2);
+  border-radius: 50px; padding: 6px 14px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: var(--muted);
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-land-back:hover { background: var(--blush); color: var(--rose-deep); border-color: var(--rose); }
+
 .land-ornament { font-size: 3rem; margin-bottom: 0.5rem; animation: pulse 2.5s ease-in-out infinite; }
 .land-brand { font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
 .land-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 7vw, 2.8rem); font-weight: 500; line-height: 1.15; color: var(--ink); margin-bottom: 0.3rem; }
@@ -221,7 +288,7 @@ body::before {
 
 /* ══════════════════ GAME ══════════════════ */
 #game { display:none; flex-direction:column; height:100%; position:relative; z-index:10; background: var(--cream); }
-#game.on { display:flex; }
+#game.on { display:flex; animation: screenIn 0.3s ease; }
 
 .topbar { display:flex; align-items:center; justify-content:space-between; padding: 12px 16px 10px; background: var(--warm-white); border-bottom: 1px solid rgba(217,135,122,0.12); flex-shrink:0; }
 .topbar-logo { font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:500; color: var(--rose-deep); display:flex; align-items:center; gap:5px; }
@@ -229,7 +296,13 @@ body::before {
 .topbar-actions { display:flex; gap:6px; align-items:center; }
 .topbar-back { background:transparent; border:1px solid rgba(184,92,74,0.18); border-radius:50px; padding:5px 12px; font-size:0.72rem; font-family:'DM Sans',sans-serif; color: var(--muted); cursor:pointer; transition:all 0.2s; }
 .topbar-back:hover { background:var(--blush); color:var(--rose-deep); }
-.topbar-logout { background:transparent; border:1px solid rgba(184,92,74,0.18); border-radius:50px; padding:5px 10px; font-size:0.72rem; font-family:'DM Sans',sans-serif; color: var(--muted); cursor:pointer; transition:all 0.2s; }
+.topbar-logout {
+  display: flex; align-items: center; gap: 4px;
+  background:transparent; border:1px solid rgba(184,92,74,0.18);
+  border-radius:50px; padding:5px 11px;
+  font-size:0.7rem; font-family:'DM Sans',sans-serif;
+  color: var(--muted); cursor:pointer; transition:all 0.2s;
+}
 .topbar-logout:hover { background:var(--blush); color:var(--rose-deep); }
 
 .cat-strip { display:flex; gap:6px; padding: 10px 14px; overflow-x:auto; flex-shrink:0; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
@@ -238,14 +311,34 @@ body::before {
 .cat-btn:hover { border-color:var(--rose); color:var(--rose-deep); }
 .cat-btn.active { background: linear-gradient(135deg, var(--rose-deep), var(--terracotta)); border-color: transparent; color:white; box-shadow: 0 3px 12px rgba(184,92,74,0.3); }
 
-.card-stage { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 8px 16px; overflow:hidden; }
+/* ── Card Stage & Swipe ── */
+.card-stage { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 8px 16px; overflow:hidden; user-select:none; }
 
 .q-card-wrap { width:100%; max-width:380px; perspective:1000px; }
-.q-card { width:100%; min-height: 340px; border-radius: 24px; position:relative; overflow:hidden; display:flex; flex-direction:column; cursor:pointer; animation: cardSlideIn 0.45s cubic-bezier(.34,1.56,.64,1); box-shadow: 0 20px 60px rgba(184,92,74,0.22), 0 4px 16px rgba(184,92,74,0.12); transition: transform 0.15s, box-shadow 0.15s; }
-.q-card:hover { transform:translateY(-3px); box-shadow:0 28px 70px rgba(184,92,74,0.28); }
-.q-card:active { transform:scale(0.98); }
-@keyframes cardSlideIn { 0% { opacity:0; transform:translateY(40px) rotate(-1.5deg) scale(0.93); } 100% { opacity:1; transform:translateY(0) rotate(0) scale(1); } }
+.q-card {
+  width:100%; min-height: 340px; border-radius: 24px;
+  position:relative; overflow:hidden; display:flex; flex-direction:column;
+  cursor: grab;
+  animation: cardSlideIn 0.42s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 20px 60px rgba(184,92,74,0.22), 0 4px 16px rgba(184,92,74,0.12);
+  transition: box-shadow 0.15s;
+}
+.q-card:active { cursor: grabbing; }
+.q-card.swipe-left  { animation: swipeLeft  0.28s ease-in forwards; }
+.q-card.swipe-right { animation: swipeRight 0.28s ease-in forwards; }
 
+@keyframes cardSlideIn {
+  0%   { opacity:0; transform:translateY(40px) rotate(-1.5deg) scale(0.93); }
+  100% { opacity:1; transform:translateY(0) rotate(0) scale(1); }
+}
+@keyframes swipeLeft {
+  to { opacity:0; transform:translateX(-110%) rotate(-8deg); }
+}
+@keyframes swipeRight {
+  to { opacity:0; transform:translateX(110%) rotate(8deg); }
+}
+
+/* Card backgrounds */
 .card-soft       { background: linear-gradient(155deg, #E8B4AC 0%, #D4837A 40%, #C4614A 100%); }
 .card-real       { background: linear-gradient(155deg, #4A2820 0%, #8C3C2A 50%, #B85C4A 100%); }
 .card-psych      { background: linear-gradient(155deg, #2A3040 0%, #4A3858 50%, #6B5070 100%); }
@@ -264,8 +357,8 @@ body::before {
 
 .card-badge { position:absolute; top:14px; left:50%; transform:translateX(-50%); white-space:nowrap; background: rgba(255,255,255,0.15); backdrop-filter:blur(4px); border-radius:20px; padding:4px 16px; display:flex; align-items:center; gap:6px; }
 .badge-sym { font-size:0.85rem; }
-.badge-en { font-family:'DM Sans',sans-serif; font-size:0.6rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.9); }
-.badge-ar { font-family:'Cairo',sans-serif; font-size:0.65rem; font-weight:500; color:rgba(255,255,255,0.7); direction:rtl; }
+.badge-en  { font-family:'DM Sans',sans-serif; font-size:0.6rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.9); }
+.badge-ar  { font-family:'Cairo',sans-serif; font-size:0.65rem; font-weight:500; color:rgba(255,255,255,0.7); direction:rtl; }
 
 .card-body { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 70px 24px 60px; text-align:center; position:relative; z-index:1; gap:16px; }
 .card-q-en { font-family:'Playfair Display',serif; font-size:clamp(1.05rem, 3.2vw, 1.25rem); font-weight:400; line-height:1.65; color:white; }
@@ -274,30 +367,84 @@ body::before {
 
 .card-footer { position:absolute; bottom:14px; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding: 0 18px; z-index:1; }
 .card-num  { font-family:'DM Sans',sans-serif; font-size:0.62rem; color:rgba(255,255,255,0.3); font-weight:500; }
-.card-hint { font-family:'DM Sans',sans-serif; font-size:0.6rem; color:rgba(255,255,255,0.3); font-style:italic; }
+.card-hint { font-family:'DM Sans',sans-serif; font-size:0.6rem; color:rgba(255,255,255,0.35); font-style:italic; }
 
+/* Welcome card */
 .welcome-card { width:100%; max-width:380px; min-height:300px; border-radius:24px; background: white; border: 2px dashed rgba(217,135,122,0.25); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center; padding:2rem; box-shadow: 0 4px 20px rgba(184,92,74,0.06); }
 .welcome-card h3 { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:500; color:var(--ink); }
 .welcome-card p  { font-size:0.82rem; color:var(--muted); line-height:1.65; max-width:240px; }
 .welcome-card .wc-ar { font-family:'Cairo',sans-serif; font-size:0.8rem; color:var(--gold); direction:rtl; }
 
+/* Bottom bar */
 .bottom-bar { flex-shrink:0; padding: 10px 14px 16px; background: var(--warm-white); border-top: 1px solid rgba(217,135,122,0.1); }
 .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:10px; }
 .stat-cell { background:white; border-radius:10px; padding:8px 6px; text-align:center; border:1px solid rgba(184,92,74,0.08); }
 .stat-n { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:500; color:var(--rose-deep); }
 .stat-l { font-size:0.58rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; font-family:'DM Sans',sans-serif; margin-top:1px; }
+
 .draw-row { display:flex; gap:8px; }
-.btn-skip { width:50px; border:1.5px solid rgba(184,92,74,0.18); background:white; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.15rem; cursor:pointer; transition:all 0.2s; }
+/* Skip is visually secondary — ghost style */
+.btn-skip {
+  width: 54px; flex-shrink: 0;
+  border: 1.5px solid rgba(184,92,74,0.2);
+  background: white; border-radius:14px;
+  display:flex; flex-direction: column; align-items:center; justify-content:center;
+  gap: 2px;
+  font-size:1rem; cursor:pointer; transition:all 0.2s;
+}
+.btn-skip-label { font-size: 0.5rem; color: var(--muted); font-family: 'DM Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.06em; }
 .btn-skip:hover { background:var(--blush); border-color:var(--rose); }
 .btn-draw { flex:1; border:none; border-radius:14px; padding:14px 10px; background: linear-gradient(135deg, var(--rose-deep), var(--terracotta)); color:white; font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600; cursor:pointer; transition:all 0.22s; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow: 0 4px 16px rgba(184,92,74,0.3); letter-spacing:0.03em; }
 .btn-draw:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(184,92,74,0.4); }
 .btn-draw:active { transform:scale(0.97); }
 
+/* ══ CONFIRM HOME MODAL ══ */
+#confirm-home {
+  position: fixed; inset: 0; z-index: 400;
+  background: rgba(28,14,10,0.45);
+  display: none; align-items: flex-end; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+#confirm-home.open { display: flex; }
+
+.confirm-sheet {
+  width: 100%; max-width: 480px;
+  background: white; border-radius: 24px 24px 0 0;
+  padding: 2rem 1.5rem 2.5rem; text-align: center;
+  animation: slideUp 0.32s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+.confirm-icon  { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.confirm-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+.confirm-sub   { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; }
+.confirm-btns  { display: flex; gap: 10px; }
+.btn-confirm-cancel {
+  flex: 1; padding: 13px; cursor: pointer; transition: all 0.2s;
+  border: 1.5px solid rgba(184,92,74,0.2); border-radius: 14px; background: white;
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--muted);
+}
+.btn-confirm-cancel:hover { background: var(--blush); color: var(--rose-deep); }
+.btn-confirm-ok {
+  flex: 1; padding: 13px; cursor: pointer;
+  border: none; border-radius: 14px;
+  background: linear-gradient(135deg, var(--rose-deep), var(--terracotta));
+  color: white; font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; font-weight: 600;
+  box-shadow: 0 4px 14px rgba(184,92,74,0.3);
+}
+
+/* TOAST */
 .toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--nude); padding:8px 18px; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:0.78rem; opacity:0; transition:all 0.3s; z-index:999; white-space:nowrap; pointer-events:none; }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
+
+<!-- ══ PAGE VEIL ══ -->
+<div id="page-veil"></div>
 
 <!-- ══ AUTH SCREEN ══ -->
 <div id="auth-screen">
@@ -319,21 +466,16 @@ body::before {
       <label>الاسم · Name</label>
       <input type="text" id="input-name" placeholder="Your name…" autocomplete="name">
     </div>
-
     <div class="auth-field">
       <label>البريد الإلكتروني · Email</label>
       <input type="email" id="input-email" placeholder="you@example.com" autocomplete="email">
     </div>
-
     <div class="auth-field">
       <label>كلمة المرور · Password</label>
       <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password">
     </div>
 
-    <button class="btn-auth" id="btn-auth-submit" onclick="handleAuth()">
-      دخول — Sign In
-    </button>
-
+    <button class="btn-auth" id="btn-auth-submit" onclick="handleAuth()">دخول — Sign In</button>
     <div class="auth-footer">الصدق هو القاعدة الوحيدة 💕</div>
   </div>
 </div>
@@ -342,7 +484,9 @@ body::before {
 <div id="edition-select">
   <div class="es-user-bar">
     <span class="es-user-email" id="user-email"></span>
-    <button class="btn-logout-small" onclick="handleSignOut()">Sign Out ↩</button>
+    <button class="btn-logout-small" onclick="handleSignOut()">
+      <span>↩</span> Sign out
+    </button>
   </div>
 
   <div class="es-ornament">💕</div>
@@ -352,32 +496,32 @@ body::before {
 
   <div class="editions-grid">
     <div class="edition-card talking" onclick="selectEdition('talking')">
-      <div class="ec-icon">🥰</div>
+      <div class="ec-icon-wrap"><span class="ec-icon">🥰</span></div>
       <div class="ec-name">Talking Stage</div>
       <div class="ec-label">Getting to Know</div>
     </div>
     <div class="edition-card couples" onclick="selectEdition('couples')">
-      <div class="ec-icon">💑</div>
+      <div class="ec-icon-wrap"><span class="ec-icon">💑</span></div>
       <div class="ec-name">Couples</div>
       <div class="ec-label">Growing Together</div>
     </div>
     <div class="edition-card fiance" onclick="selectEdition('fiance')">
-      <div class="ec-icon">💍</div>
+      <div class="ec-icon-wrap"><span class="ec-icon">💍</span></div>
       <div class="ec-name">Fiancé</div>
       <div class="ec-label">Soon to Wed</div>
     </div>
     <div class="edition-card married" onclick="selectEdition('married')">
-      <div class="ec-icon">👑</div>
+      <div class="ec-icon-wrap"><span class="ec-icon">👑</span></div>
       <div class="ec-name">Married</div>
       <div class="ec-label">Forever & Always</div>
     </div>
     <div class="edition-card friends" onclick="selectEdition('friends')">
-      <div class="ec-icon">👯</div>
+      <div class="ec-icon-wrap"><span class="ec-icon">👯</span></div>
       <div class="ec-name">Friends</div>
       <div class="ec-label">Ride or Die</div>
     </div>
     <div class="edition-card spicy" onclick="selectEdition('spicy')">
-      <div class="ec-icon">🔥</div>
+      <div class="ec-icon-wrap"><span class="ec-icon">🔥</span></div>
       <div class="ec-name">18+ Unfiltered</div>
       <div class="ec-label">Adults Only</div>
     </div>
@@ -386,20 +530,18 @@ body::before {
 
 <!-- ══ LANDING ══ -->
 <div id="landing">
+  <button class="btn-land-back" onclick="backToEditions()">← Editions</button>
+
   <div class="land-ornament">💕</div>
   <div class="land-brand">Around the Seneya · حول الصينية</div>
   <h1 class="land-title"><span id="ed-title">Lovers</span> <em>Edition</em></h1>
   <div class="land-ar" id="ed-ar">إصدار العشاق</div>
   <p class="land-tagline">"The questions you were too afraid to ask — until now."</p>
-
   <div class="edition-badge" id="ed-badge">💕 &nbsp; Special Edition · إصدار خاص</div>
-
   <div class="land-divider"></div>
   <div class="land-cats" id="ed-cats"></div>
 
-  <button class="btn-enter" onclick="startGame()">
-    💕 &nbsp; ابدأ — Begin
-  </button>
+  <button class="btn-enter" onclick="startGame()">💕 &nbsp; ابدأ — Begin</button>
 </div>
 
 <!-- ══ GAME ══ -->
@@ -408,8 +550,8 @@ body::before {
     <div class="topbar-logo">🫖 Seneya</div>
     <div class="topbar-edition" id="game-edition">💕 Lovers</div>
     <div class="topbar-actions">
-      <button class="topbar-back"   onclick="goHome()">← Home</button>
-      <button class="topbar-logout" onclick="handleSignOut()" title="Sign out">↩</button>
+      <button class="topbar-back"   onclick="askGoHome()">← Home</button>
+      <button class="topbar-logout" onclick="handleSignOut()">↩ Sign out</button>
     </div>
   </div>
 
@@ -419,20 +561,45 @@ body::before {
     <div class="welcome-card">
       <span style="font-size:2.5rem">💕</span>
       <h3>Ready for the real talk?</h3>
-      <p>Choose a category above and draw your first card. Be honest — that's the whole point.</p>
-      <p class="wc-ar">اختار الفئة وابدأ — الصدق هو القاعدة الوحيدة</p>
+      <p>Pick a category above to draw your first card.</p>
+      <p class="wc-ar">اختار الفئة — الصدق هو القاعدة الوحيدة</p>
     </div>
   </div>
 
   <div class="bottom-bar">
     <div class="stats-row">
-      <div class="stat-cell"><div class="stat-n" id="s-drawn">0</div><div class="stat-l">Drawn</div></div>
-      <div class="stat-cell"><div class="stat-n" id="s-round">1</div><div class="stat-l">Round</div></div>
-      <div class="stat-cell"><div class="stat-n" id="s-cat">🌷</div><div class="stat-l">Category</div></div>
+      <div class="stat-cell">
+        <div class="stat-n" id="s-drawn">0</div>
+        <div class="stat-l">Drawn</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n" id="s-round">1</div>
+        <div class="stat-l">Round</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n" id="s-cat">🌷</div>
+        <div class="stat-l" id="s-cat-name">Category</div>
+      </div>
     </div>
     <div class="draw-row">
-      <button class="btn-skip" onclick="skipCard()" title="Shuffle / Skip">🔀</button>
+      <button class="btn-skip" onclick="skipCard()" title="Skip — doesn't count">
+        <span>🔀</span>
+        <span class="btn-skip-label">Skip</span>
+      </button>
       <button class="btn-draw" onclick="drawCard()">🃏 &nbsp; Draw · اسحب بطاقة</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONFIRM HOME MODAL ══ -->
+<div id="confirm-home">
+  <div class="confirm-sheet">
+    <div class="confirm-icon">🏠</div>
+    <div class="confirm-title">Go back to editions?</div>
+    <div class="confirm-sub">Your round progress will reset.<br>سيتم إعادة تشغيل الجولة</div>
+    <div class="confirm-btns">
+      <button class="btn-confirm-cancel" onclick="closeConfirmHome()">Stay · ابق</button>
+      <button class="btn-confirm-ok"     onclick="doGoHome()">Yes, go back</button>
     </div>
   </div>
 </div>
@@ -462,7 +629,6 @@ const app = initializeApp({
 getAnalytics(app);
 const auth = getAuth(app);
 
-/* ── Auth state ── */
 onAuthStateChanged(auth, (user) => {
   if (user) {
     document.getElementById('auth-screen').style.display = 'none';
@@ -476,15 +642,24 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-/* ── Auth mode ── */
+/* ── Screen transition helper ── */
+function transition(cb) {
+  const veil = document.getElementById('page-veil');
+  veil.classList.add('fading');
+  setTimeout(() => {
+    cb();
+    requestAnimationFrame(() => requestAnimationFrame(() => veil.classList.remove('fading')));
+  }, 220);
+}
+
+/* ── Auth ── */
 let authMode = 'login';
 
 window.switchTab = function(mode) {
   authMode = mode;
   document.getElementById('tab-login').classList.toggle('active',    mode === 'login');
   document.getElementById('tab-register').classList.toggle('active', mode === 'register');
-  document.getElementById('field-name').style.display =
-    mode === 'register' ? 'block' : 'none';
+  document.getElementById('field-name').style.display = mode === 'register' ? 'block' : 'none';
   document.getElementById('btn-auth-submit').textContent =
     mode === 'register' ? 'إنشاء حساب — Create Account' : 'دخول — Sign In';
   hideAuthError();
@@ -497,15 +672,8 @@ window.handleAuth = async function() {
   const btn      = document.getElementById('btn-auth-submit');
 
   hideAuthError();
-
-  if (!email || !password) {
-    showAuthError('Please enter your email and password.\nأدخل البريد وكلمة المرور');
-    return;
-  }
-  if (authMode === 'register' && password.length < 6) {
-    showAuthError('Password must be at least 6 characters.\nكلمة المرور يجب أن تكون 6 أحرف على الأقل');
-    return;
-  }
+  if (!email || !password) { showAuthError('Enter your email and password · أدخل البريد وكلمة المرور'); return; }
+  if (authMode === 'register' && password.length < 6) { showAuthError('Password must be 6+ characters · كلمة المرور 6 أحرف على الأقل'); return; }
 
   btn.disabled  = true;
   btn.innerHTML = '<span class="auth-loading"></span> جاري التحميل…';
@@ -517,12 +685,9 @@ window.handleAuth = async function() {
     } else {
       await signInWithEmailAndPassword(auth, email, password);
     }
-    // onAuthStateChanged handles transition
   } catch (err) {
     btn.disabled    = false;
-    btn.textContent = authMode === 'register'
-      ? 'إنشاء حساب — Create Account'
-      : 'دخول — Sign In';
+    btn.textContent = authMode === 'register' ? 'إنشاء حساب — Create Account' : 'دخول — Sign In';
     showAuthError(friendlyError(err.code));
   }
 };
@@ -535,28 +700,23 @@ window.handleSignOut = async function() {
 
 function showAuthError(msg) {
   const el = document.getElementById('auth-error');
-  el.textContent = msg;
-  el.classList.add('show');
+  el.textContent = msg; el.classList.add('show');
 }
-function hideAuthError() {
-  document.getElementById('auth-error').classList.remove('show');
-}
+function hideAuthError() { document.getElementById('auth-error').classList.remove('show'); }
 function friendlyError(code) {
   return ({
-    'auth/user-not-found':        'No account found with this email. · لم يتم العثور على حساب',
-    'auth/wrong-password':        'Incorrect password. · كلمة المرور غير صحيحة',
-    'auth/invalid-credential':    'Invalid email or password. · بريد أو كلمة مرور غير صحيحة',
-    'auth/email-already-in-use':  'Email already registered. · هذا البريد مسجل مسبقاً',
-    'auth/invalid-email':         'Invalid email address. · البريد الإلكتروني غير صالح',
-    'auth/weak-password':         'Password too weak (min 6 chars). · كلمة المرور ضعيفة',
-    'auth/too-many-requests':     'Too many attempts. Try again later. · محاولات كثيرة',
-    'auth/network-request-failed':'Network error. Check your connection. · خطأ في الشبكة',
+    'auth/user-not-found':         'No account with this email · لا يوجد حساب بهذا البريد',
+    'auth/wrong-password':         'Wrong password · كلمة المرور غير صحيحة',
+    'auth/invalid-credential':     'Invalid email or password · بريد أو كلمة مرور غير صحيحة',
+    'auth/email-already-in-use':   'Email already registered · هذا البريد مسجل مسبقاً',
+    'auth/invalid-email':          'Invalid email · البريد غير صالح',
+    'auth/weak-password':          'Password too weak · كلمة المرور ضعيفة',
+    'auth/too-many-requests':      'Too many attempts, try later · محاولات كثيرة',
+    'auth/network-request-failed': 'Network error · خطأ في الشبكة',
   })[code] || `Error: ${code}`;
 }
 
-/* ════════════════════════════════════════
-   GAME DATA
-   ════════════════════════════════════════ */
+/* ══════════ GAME DATA ══════════ */
 const EDITIONS = {
   talking: { name:'Talking Stage', ar:'مرحلة التعرف', badge:'🥰 Getting to Know · مرحلة التعرف', icon:'🥰' },
   couples: { name:'Couples',       ar:'العلاقة',      badge:'💑 Growing Together · النمو معاً',   icon:'💑' },
@@ -564,6 +724,16 @@ const EDITIONS = {
   married: { name:'Married',       ar:'المتزوجون',    badge:'👑 Forever & Always · الأبد معاً',   icon:'👑' },
   friends: { name:'Friends',       ar:'الأصدقاء',     badge:'👯 Ride or Die · أصدقاء الروح',      icon:'👯' },
   spicy:   { name:'18+ Unfiltered',ar:'بدون تصفية',   badge:'🔥 Adults Only · للبالغين فقط',      icon:'🔥' },
+};
+
+/* Short names for the stat cell */
+const CAT_SHORT = {
+  soft:'Soft', real:'Real', psych:'Mind', between:'Lines', power:'Test',
+  desires_talking:'Curious', desires_couples:'Intimacy', desires_fiance:'Altar',
+  desires_married:'Desires', spicy_part1:'18+ I', spicy_part2:'18+ II',
+  spicy_part3:'18+ III', spicy_part4:'18+ IV',
+  future_talking:'Future', future_couples:'Family', future_fiance:'Home',
+  future_married:'Legacy', friendship_deep:'Friends', challenges_friends:'Dare',
 };
 
 const CATEGORIES = {
@@ -832,16 +1002,10 @@ let drawn  = 0;
 let round  = 1;
 let used   = {};
 
-/* ── Game functions (exposed globally for onclick attributes) ── */
+/* ── Edition select ── */
 window.selectEdition = function(edition) {
   currentEdition = edition;
   const ed = EDITIONS[edition];
-  document.getElementById('edition-select').classList.remove('on');
-  document.getElementById('landing').classList.add('on');
-
-  document.getElementById('ed-title').textContent = ed.name;
-  document.getElementById('ed-ar').textContent    = ed.ar;
-  document.getElementById('ed-badge').innerHTML   = ed.badge;
 
   let cats;
   if (edition === 'friends') {
@@ -854,12 +1018,26 @@ window.selectEdition = function(edition) {
   }
   currentCat = cats[0];
 
-  document.getElementById('ed-cats').innerHTML = cats.map(c => {
-    const cat = CATEGORIES[c];
-    return `<div class="land-cat-pill">${cat.sym} ${cat.en}</div>`;
-  }).join('');
+  document.getElementById('ed-title').textContent = ed.name;
+  document.getElementById('ed-ar').textContent    = ed.ar;
+  document.getElementById('ed-badge').innerHTML   = ed.badge;
+  document.getElementById('ed-cats').innerHTML    = cats.map(c =>
+    `<div class="land-cat-pill">${CATEGORIES[c].sym} ${CATEGORIES[c].en}</div>`
+  ).join('');
 
   buildGameInterface(cats);
+
+  transition(() => {
+    document.getElementById('edition-select').classList.remove('on');
+    document.getElementById('landing').classList.add('on');
+  });
+};
+
+window.backToEditions = function() {
+  transition(() => {
+    document.getElementById('landing').classList.remove('on');
+    document.getElementById('edition-select').classList.add('on');
+  });
 };
 
 function buildGameInterface(cats) {
@@ -868,40 +1046,59 @@ function buildGameInterface(cats) {
     if (!cat) return '';
     return `<button class="cat-btn ${i===0?'active':''}" onclick="setCat('${c}',this)">${cat.sym} ${cat.en}</button>`;
   }).filter(Boolean).join('');
-
   const ed = EDITIONS[currentEdition];
   if (ed) document.getElementById('game-edition').textContent = ed.icon + ' ' + ed.name;
 }
 
+/* ── Landing → Game ── */
 window.startGame = function() {
-  document.getElementById('landing').classList.remove('on');
-  document.getElementById('game').classList.add('on');
-  drawCard();
+  transition(() => {
+    document.getElementById('landing').classList.remove('on');
+    document.getElementById('game').classList.add('on');
+    // Show welcome card — user taps a category to get first card
+    resetWelcomeCard();
+  });
 };
 
-window.goHome = function() {
-  document.getElementById('game').classList.remove('on');
-  document.getElementById('landing').classList.remove('on');
-  document.getElementById('edition-select').classList.add('on');
+function resetWelcomeCard() {
   document.getElementById('card-stage').innerHTML = `
     <div class="welcome-card">
       <span style="font-size:2.5rem">💕</span>
       <h3>Ready for the real talk?</h3>
-      <p>Choose a category above and draw your first card. Be honest — that's the whole point.</p>
-      <p class="wc-ar">اختار الفئة وابدأ — الصدق هو القاعدة الوحيدة</p>
+      <p>Pick a category above to draw your first card.</p>
+      <p class="wc-ar">اختار الفئة — الصدق هو القاعدة الوحيدة</p>
     </div>`;
+}
+
+/* ── Home (with confirmation) ── */
+window.askGoHome = function() {
+  if (drawn === 0) { doGoHome(); return; } // no progress to lose
+  document.getElementById('confirm-home').classList.add('open');
+};
+window.closeConfirmHome = function() {
+  document.getElementById('confirm-home').classList.remove('open');
+};
+window.doGoHome = function() {
+  document.getElementById('confirm-home').classList.remove('open');
   drawn = 0; round = 1; used = {}; currentEdition = null; currentCat = 'soft';
   updateStats();
+  transition(() => {
+    document.getElementById('game').classList.remove('on');
+    document.getElementById('edition-select').classList.add('on');
+  });
 };
 
+/* ── Category selection — auto-draws ── */
 window.setCat = function(cat, el) {
   currentCat = cat;
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   updateStats();
+  drawCard(); // always draw on category switch
 };
 
-window.drawCard = function() {
+/* ── Draw card (count = true increments drawn) ── */
+function drawCard(count = true) {
   const catData = CATEGORIES[currentCat];
   if (!catData) return;
 
@@ -912,14 +1109,13 @@ window.drawCard = function() {
   let avail = pool.map((_,i)=>i).filter(i => !used[key].includes(i));
   if (avail.length === 0) {
     used[key] = []; avail = pool.map((_,i)=>i);
-    round++;
-    toast("New round! جولة جديدة 🔁");
+    if (count) { round++; toast("New round! جولة جديدة 🔁"); }
   }
 
   const idx = avail[Math.floor(Math.random() * avail.length)];
   used[key].push(idx);
   const q = pool[idx];
-  drawn++;
+  if (count) drawn++;
   updateStats();
 
   document.getElementById('card-stage').innerHTML = `
@@ -940,26 +1136,66 @@ window.drawCard = function() {
         </div>
         <div class="card-footer">
           <span class="card-num">#${drawn}</span>
-          <span class="card-hint">tap to draw next · اسحب للتالية</span>
+          <span class="card-hint">swipe or tap Draw · اسحب للتالية</span>
         </div>
       </div>
     </div>`;
 
-  document.querySelector('.q-card')?.addEventListener('click', window.drawCard);
+  // Tap card = draw next (counts)
+  document.querySelector('.q-card')?.addEventListener('click', () => drawCard(true));
+}
+
+window.drawCard = () => drawCard(true);
+
+/* Skip: same pool logic, doesn't increment drawn */
+window.skipCard = function() {
+  const card = document.querySelector('.q-card');
+  if (card) {
+    card.classList.add('swipe-right');
+    setTimeout(() => drawCard(false), 290);
+  } else {
+    drawCard(false);
+  }
 };
 
-window.skipCard = function() { window.drawCard(); };
+/* ── Swipe gesture ── */
+let touchStartX = 0, touchStartY = 0;
 
+document.getElementById('card-stage').addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.getElementById('card-stage').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) < 55 || Math.abs(dy) > Math.abs(dx) * 0.8) return;
+
+  const card = document.querySelector('.q-card');
+  if (!card) return;
+
+  if (dx < 0) {
+    // Swipe left → draw (counts)
+    card.classList.add('swipe-left');
+    setTimeout(() => drawCard(true), 290);
+  } else {
+    // Swipe right → skip (doesn't count)
+    card.classList.add('swipe-right');
+    setTimeout(() => drawCard(false), 290);
+  }
+}, { passive: true });
+
+/* ── Stats ── */
 function updateStats() {
-  document.getElementById('s-drawn').textContent = drawn;
-  document.getElementById('s-round').textContent = round;
-  document.getElementById('s-cat').textContent   = CATEGORIES[currentCat]?.statIcon || '💕';
+  document.getElementById('s-drawn').textContent   = drawn;
+  document.getElementById('s-round').textContent   = round;
+  document.getElementById('s-cat').textContent     = CATEGORIES[currentCat]?.statIcon || '💕';
+  document.getElementById('s-cat-name').textContent = CAT_SHORT[currentCat] || 'Category';
 }
 
 function toast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2400);
 }
 </script>
