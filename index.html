@@ -51,7 +51,7 @@
   .auth-field input { background: #1C0E0A !important; color: var(--ink) !important; border-color: rgba(217,135,122,0.2) !important; }
   .auth-field input:focus { background: #231510 !important; }
   .edition-card { background: #231510 !important; }
-  .welcome-card { background: #231510 !important; border-color: rgba(217,135,122,0.12) !important; }
+  .welcome-card { background: linear-gradient(160deg,rgba(40,18,8,0.92),rgba(30,12,4,0.88)) !important; border-color: rgba(217,135,122,0.14) !important; }
   .welcome-card h3 { color: var(--ink) !important; }
   .stat-cell { background: #1C0E0A !important; }
   .btn-skip { background: #1C0E0A !important; }
@@ -158,6 +158,7 @@ body::before {
 .edition-card.married { --accent:#8B3A5C; }
 .edition-card.friends { --accent:#6B5F9C; }
 .edition-card.spicy   { --accent:#DC143C; }
+.edition-card.stillus { --accent:#A85A82; }
 .ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; }
 .ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
 .edition-card:hover .ec-icon-wrap::before { opacity:.22; }
@@ -242,6 +243,7 @@ body::before {
 .card-friendship { background:linear-gradient(155deg,#5B4F8F 0%,#7B6BAF 50%,#9B8BCF 100%); }
 .card-challenges { background:linear-gradient(155deg,#FF6B35 0%,#F7931E 50%,#FDB913 100%); }
 .card-spicy      { background:linear-gradient(155deg,#8B0000 0%,#DC143C 50%,#FF1493 100%); }
+.card-stillus    { background:linear-gradient(155deg,#3A1830 0%,#7B3A62 50%,#A85A82 100%); }
 
 .card-overlay { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'%3E%3Cpath d='M40 4L76 40L40 76L4 40Z'/%3E%3Cpath d='M40 18L62 40L40 62L18 40Z'/%3E%3Cpath d='M40 28L52 40L40 52L28 40Z'/%3E%3Ccircle cx='40' cy='40' r='32'/%3E%3Ccircle cx='40' cy='40' r='18'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
 .card-deco { position:absolute; font-size:4rem; opacity:.06; pointer-events:none; user-select:none; line-height:1; }
@@ -263,10 +265,12 @@ body::before {
 .btn-card-action.fav-active { background:rgba(220,20,60,.4); border-color:rgba(220,20,60,.6); color:white; }
 
 /* Welcome card */
-.welcome-card { width:100%; max-width:380px; min-height:300px; border-radius:24px; background:white; border:2px dashed rgba(217,135,122,.25); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center; padding:2rem; box-shadow:0 4px 20px rgba(184,92,74,.06); }
+.welcome-card { width:100%; max-width:380px; min-height:280px; border-radius:24px; background:linear-gradient(160deg,rgba(248,236,212,0.85),rgba(238,218,188,0.7)); border:1px solid rgba(184,92,74,.18); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; text-align:center; padding:1.5rem; box-shadow:0 4px 24px rgba(184,92,74,.1); }
 .welcome-card h3 { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:500; color:var(--ink); }
 .welcome-card p  { font-size:.82rem; color:var(--muted); line-height:1.65; max-width:240px; }
 .welcome-card .wc-ar { font-family:'Cairo',sans-serif; font-size:.8rem; color:var(--gold); direction:rtl; }
+.sineya-tray { width:185px; height:185px; flex-shrink:0; margin-bottom:.25rem; }
+.sineya-svg  { width:100%; height:100%; filter:drop-shadow(0 7px 22px rgba(184,92,74,.38)); }
 
 /* All-done card */
 .done-card { width:100%; max-width:380px; min-height:320px; border-radius:24px; background:linear-gradient(155deg,#1A2A1A 0%,#2E5E3A 50%,#3D8A4D 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; text-align:center; padding:2rem; box-shadow:0 20px 60px rgba(30,100,60,.3); animation:cardSlideIn .42s cubic-bezier(.34,1.56,.64,1); }
@@ -410,6 +414,12 @@ body::before {
       <div class="ec-label">Adults Only</div>
       <div class="ec-progress" id="ep-spicy"></div>
     </div>
+    <div class="edition-card stillus" onclick="selectEdition('stillus')">
+      <div class="ec-icon-wrap"><span class="ec-icon">❤️</span></div>
+      <div class="ec-name">Still Us</div>
+      <div class="ec-label">Found Our Way Back</div>
+      <div class="ec-progress" id="ep-stillus"></div>
+    </div>
   </div>
 </div>
 
@@ -448,7 +458,7 @@ body::before {
 
   <div class="card-stage" id="card-stage">
     <div class="welcome-card">
-      <span style="font-size:2.5rem">💕</span>
+      <div class="sineya-tray"><svg class="sineya-svg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="sgCu" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#F5D090"/><stop offset="22%" stop-color="#DFAA68"/><stop offset="58%" stop-color="#BF8048"/><stop offset="100%" stop-color="#8A5028"/></radialGradient><radialGradient id="sgSh" cx="37%" cy="30%" r="50%"><stop offset="0%" stop-color="rgba(255,248,210,0.5)"/><stop offset="100%" stop-color="rgba(255,210,120,0)"/></radialGradient></defs><ellipse cx="140" cy="156" rx="118" ry="11" fill="rgba(0,0,0,0.18)"/><circle cx="140" cy="138" r="126" fill="url(#sgCu)"/><circle cx="140" cy="138" r="126" fill="none" stroke="#EBC472" stroke-width="5" stroke-dasharray="5 3.2" opacity="0.7"/><circle cx="140" cy="138" r="121" fill="none" stroke="#7A4418" stroke-width="0.8" opacity="0.5"/><circle cx="140" cy="138" r="108" fill="none" stroke="#7A4418" stroke-width="1.1" opacity="0.6"/><g fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.85" opacity="0.8"><g transform="translate(140,138) rotate(0)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(45)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(90)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(135)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(180)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(225)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(270)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(315)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g></g><g fill="rgba(55,20,5,0.1)" stroke="#7A4418" stroke-width="0.7" opacity="0.7"><g transform="translate(140,138) rotate(22.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(67.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(112.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(157.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(202.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(247.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(292.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(337.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g></g><g fill="#7A4418" opacity="0.42"><circle cx="140" cy="47" r="2.5"/><circle cx="174.8" cy="54.1" r="2.5"/><circle cx="204.3" cy="73.7" r="2.5"/><circle cx="223.9" cy="103.2" r="2.5"/><circle cx="231" cy="138" r="2.5"/><circle cx="223.9" cy="172.8" r="2.5"/><circle cx="204.3" cy="202.3" r="2.5"/><circle cx="174.8" cy="221.9" r="2.5"/><circle cx="140" cy="229" r="2.5"/><circle cx="105.2" cy="221.9" r="2.5"/><circle cx="75.7" cy="202.3" r="2.5"/><circle cx="56.1" cy="172.8" r="2.5"/><circle cx="49" cy="138" r="2.5"/><circle cx="56.1" cy="103.2" r="2.5"/><circle cx="75.7" cy="73.7" r="2.5"/><circle cx="105.2" cy="54.1" r="2.5"/></g><circle cx="140" cy="138" r="74" fill="none" stroke="#7A4418" stroke-width="1.4" opacity="0.65"/><circle cx="140" cy="138" r="70" fill="none" stroke="#D8A050" stroke-width="0.6" opacity="0.45"/><g opacity="0.85"><g transform="translate(140,138) rotate(0)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(45)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(90)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(135)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(180)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(225)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(270)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(315)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g></g><circle cx="140" cy="138" r="43" fill="none" stroke="#7A4418" stroke-width="1.4" opacity="0.7"/><circle cx="140" cy="138" r="39" fill="none" stroke="#D8A050" stroke-width="0.6" opacity="0.45"/><g transform="translate(140,138)" stroke="#7A4418" stroke-width="0.7" opacity="0.5"><line x1="0" y1="-15" x2="0" y2="-39"/><line x1="7.5" y1="-13" x2="19.5" y2="-33.8"/><line x1="13" y1="-7.5" x2="33.8" y2="-19.5"/><line x1="15" y1="0" x2="39" y2="0"/><line x1="13" y1="7.5" x2="33.8" y2="19.5"/><line x1="7.5" y1="13" x2="19.5" y2="33.8"/><line x1="0" y1="15" x2="0" y2="39"/><line x1="-7.5" y1="13" x2="-19.5" y2="33.8"/><line x1="-13" y1="7.5" x2="-33.8" y2="19.5"/><line x1="-15" y1="0" x2="-39" y2="0"/><line x1="-13" y1="-7.5" x2="-33.8" y2="-19.5"/><line x1="-7.5" y1="-13" x2="-19.5" y2="-33.8"/></g><g transform="translate(140,138)" fill="rgba(55,20,5,0.13)" stroke="#7A4418" stroke-width="0.85"><polygon points="0,-28 4.59,-11.09 19.8,-19.8 11.09,-4.59 28,0 11.09,4.59 19.8,19.8 4.59,11.09 0,28 -4.59,11.09 -19.8,19.8 -11.09,4.59 -28,0 -11.09,-4.59 -19.8,-19.8 -4.59,-11.09"/></g><circle cx="140" cy="138" r="13" fill="none" stroke="#7A4418" stroke-width="1.1" opacity="0.7"/><circle cx="140" cy="138" r="7" fill="none" stroke="#7A4418" stroke-width="0.8" opacity="0.6"/><circle cx="140" cy="138" r="2.5" fill="#7A4418" opacity="0.6"/><circle cx="140" cy="138" r="126" fill="url(#sgSh)"/></svg></div>
       <h3>Ready for the real talk?</h3>
       <p>Pick a category above to draw your first card.</p>
       <p class="wc-ar">اختار الفئة — الصدق هو القاعدة الوحيدة</p>
@@ -886,6 +896,8 @@ function friendlyError(code) {
 }
 
 /* ══════════ GAME DATA ══════════ */
+const SINEYA_SVG = `<svg class="sineya-svg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="sgCu" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#F5D090"/><stop offset="22%" stop-color="#DFAA68"/><stop offset="58%" stop-color="#BF8048"/><stop offset="100%" stop-color="#8A5028"/></radialGradient><radialGradient id="sgSh" cx="37%" cy="30%" r="50%"><stop offset="0%" stop-color="rgba(255,248,210,0.5)"/><stop offset="100%" stop-color="rgba(255,210,120,0)"/></radialGradient></defs><ellipse cx="140" cy="156" rx="118" ry="11" fill="rgba(0,0,0,0.18)"/><circle cx="140" cy="138" r="126" fill="url(#sgCu)"/><circle cx="140" cy="138" r="126" fill="none" stroke="#EBC472" stroke-width="5" stroke-dasharray="5 3.2" opacity="0.7"/><circle cx="140" cy="138" r="121" fill="none" stroke="#7A4418" stroke-width="0.8" opacity="0.5"/><circle cx="140" cy="138" r="108" fill="none" stroke="#7A4418" stroke-width="1.1" opacity="0.6"/><g fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.85" opacity="0.8"><g transform="translate(140,138) rotate(0)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(45)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(90)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(135)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(180)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(225)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(270)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(315)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g></g><g fill="rgba(55,20,5,0.1)" stroke="#7A4418" stroke-width="0.7" opacity="0.7"><g transform="translate(140,138) rotate(22.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(67.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(112.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(157.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(202.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(247.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(292.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(337.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g></g><g fill="#7A4418" opacity="0.42"><circle cx="140" cy="47" r="2.5"/><circle cx="174.8" cy="54.1" r="2.5"/><circle cx="204.3" cy="73.7" r="2.5"/><circle cx="223.9" cy="103.2" r="2.5"/><circle cx="231" cy="138" r="2.5"/><circle cx="223.9" cy="172.8" r="2.5"/><circle cx="204.3" cy="202.3" r="2.5"/><circle cx="174.8" cy="221.9" r="2.5"/><circle cx="140" cy="229" r="2.5"/><circle cx="105.2" cy="221.9" r="2.5"/><circle cx="75.7" cy="202.3" r="2.5"/><circle cx="56.1" cy="172.8" r="2.5"/><circle cx="49" cy="138" r="2.5"/><circle cx="56.1" cy="103.2" r="2.5"/><circle cx="75.7" cy="73.7" r="2.5"/><circle cx="105.2" cy="54.1" r="2.5"/></g><circle cx="140" cy="138" r="74" fill="none" stroke="#7A4418" stroke-width="1.4" opacity="0.65"/><circle cx="140" cy="138" r="70" fill="none" stroke="#D8A050" stroke-width="0.6" opacity="0.45"/><g opacity="0.85"><g transform="translate(140,138) rotate(0)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(45)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(90)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(135)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(180)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(225)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(270)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(315)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g></g><circle cx="140" cy="138" r="43" fill="none" stroke="#7A4418" stroke-width="1.4" opacity="0.7"/><circle cx="140" cy="138" r="39" fill="none" stroke="#D8A050" stroke-width="0.6" opacity="0.45"/><g transform="translate(140,138)" stroke="#7A4418" stroke-width="0.7" opacity="0.5"><line x1="0" y1="-15" x2="0" y2="-39"/><line x1="7.5" y1="-13" x2="19.5" y2="-33.8"/><line x1="13" y1="-7.5" x2="33.8" y2="-19.5"/><line x1="15" y1="0" x2="39" y2="0"/><line x1="13" y1="7.5" x2="33.8" y2="19.5"/><line x1="7.5" y1="13" x2="19.5" y2="33.8"/><line x1="0" y1="15" x2="0" y2="39"/><line x1="-7.5" y1="13" x2="-19.5" y2="33.8"/><line x1="-13" y1="7.5" x2="-33.8" y2="19.5"/><line x1="-15" y1="0" x2="-39" y2="0"/><line x1="-13" y1="-7.5" x2="-33.8" y2="-19.5"/><line x1="-7.5" y1="-13" x2="-19.5" y2="-33.8"/></g><g transform="translate(140,138)" fill="rgba(55,20,5,0.13)" stroke="#7A4418" stroke-width="0.85"><polygon points="0,-28 4.59,-11.09 19.8,-19.8 11.09,-4.59 28,0 11.09,4.59 19.8,19.8 4.59,11.09 0,28 -4.59,11.09 -19.8,19.8 -11.09,4.59 -28,0 -11.09,-4.59 -19.8,-19.8 -4.59,-11.09"/></g><circle cx="140" cy="138" r="13" fill="none" stroke="#7A4418" stroke-width="1.1" opacity="0.7"/><circle cx="140" cy="138" r="7" fill="none" stroke="#7A4418" stroke-width="0.8" opacity="0.6"/><circle cx="140" cy="138" r="2.5" fill="#7A4418" opacity="0.6"/><circle cx="140" cy="138" r="126" fill="url(#sgSh)"/></svg>`;
+
 const EDITIONS = {
   talking: { name:'Talking Stage', ar:'مرحلة التعرف', badge:'🥰 Getting to Know · مرحلة التعرف', icon:'🥰' },
   couples: { name:'Couples',       ar:'العلاقة',      badge:'💑 Growing Together · النمو معاً',   icon:'💑' },
@@ -893,12 +905,14 @@ const EDITIONS = {
   married: { name:'Married',       ar:'المتزوجون',    badge:'👑 Forever & Always · الأبد معاً',   icon:'👑' },
   friends: { name:'Friends',       ar:'الأصدقاء',     badge:'👯 Ride or Die · أصدقاء الروح',      icon:'👯' },
   spicy:   { name:'18+ Unfiltered',ar:'بدون تصفية',   badge:'🔥 Adults Only · للبالغين فقط',      icon:'🔥' },
+  stillus: { name:'Still Us',      ar:'مازلنا نحن',  badge:'❤️ Found Our Way Back · رجعنا لبعضياتنا', icon:'❤️' },
 };
 
 const CAT_SHORT = {
   soft:'Soft', real:'Real', psych:'Mind', between:'Lines', power:'Test',
   soft_talking:'Soft', real_talking:'Real', psych_talking:'Mind', between_talking:'Lines', power_talking:'Test',
   soft_couples:'Soft', real_couples:'Real', psych_couples:'Mind', between_couples:'Lines', power_couples:'Test',
+  distance_su:'Distance', stayed_su:'Stayed', unsaid_su:'Unsaid', patterns_su:'Patterns', choosing_su:'Choosing', final_su:'This Time',
   desires_talking:'Curious', desires_couples:'Intimacy', desires_fiance:'Altar',
   desires_married:'Desires', spicy_part1:'18+ I', spicy_part2:'18+ II',
   spicy_part3:'18+ III', spicy_part4:'18+ IV',
@@ -1267,6 +1281,86 @@ const CATEGORIES = {
       {en:"What's something you still need to heal before loving fully?",ar:"شنو الحاجة اللي خاصك تعالجها قبل ما تحب بالكامل؟"},
       {en:"If we met at another stage of life, would we still work?",ar:"إلا تلاقينا فمرحلة أخرى من الحياة، واش كنا غادي ننجحو؟"},
     ]},
+
+  /* ── STILL US EDITION ── */
+  distance_su:{ sym:'🌫', en:'THE DISTANCE', ar:'المسافة', bgClass:'card-stillus', statIcon:'🌫',
+    qs:[
+      {en:"What hurt you the most when we stopped talking?",ar:"شنو أكثر حاجة جرحتك ملي وقفنا الهضرة؟"},
+      {en:"What did you miss first after losing me?",ar:"شنو أول حاجة توحشاتك فيا من بعد الفراق؟"},
+      {en:"Did you ever think about texting me and stop yourself?",ar:"واش سبق وبغيتي تبعث ليا مساج وحبستي راسك؟"},
+      {en:"What part of our breakup stayed in your mind the longest?",ar:"شنو الجزء من الفراق ديالنا اللي بقى فعقلك أكثر وقت؟"},
+      {en:"What changed in your life after we separated?",ar:"شنو تبدل فحياتك من بعد ما تفرقنا؟"},
+      {en:"Did distance make your feelings clearer or more confusing?",ar:"واش البعد وضّح ليك مشاعرك ولا زاد خلطهم؟"},
+      {en:"What moment made you realize I still mattered to you?",ar:"شنو اللحظة اللي فهمتي فيها أنني مازلت مهم ليك؟"},
+      {en:"What emotion did you hide the most after we ended?",ar:"شنو الشعور اللي خبيتي أكثر من بعد النهاية؟"},
+      {en:"What did silence between us teach you?",ar:"شنو علمك الصمت اللي كان بيناتنا؟"},
+      {en:"What part of me was hardest to let go of?",ar:"شنو أصعب حاجة فيا كان صعيب عليك تنساها؟"},
+    ]},
+  stayed_su:{ sym:'🕯', en:'WHAT STAYED', ar:'ما بقي', bgClass:'card-stillus', statIcon:'🕯',
+    qs:[
+      {en:"What feeling for me never completely disappeared?",ar:"شنو الإحساس اللي عمرو اختفى كامل ناحيتي؟"},
+      {en:"What memory of us still feels alive to you?",ar:"شنو الذكرى ديالنا اللي باقية حية عندك؟"},
+      {en:"What habit still reminds you of me?",ar:"شنو العادة اللي باقي كتفكرك بيا؟"},
+      {en:"Did you ever compare someone else to me?",ar:"واش سبق وقارنتي شي حد بيا؟"},
+      {en:"What part of our connection was impossible to replace?",ar:"شنو الجزء من علاقتنا اللي ما تعوضش؟"},
+      {en:"What version of yourself existed only with me?",ar:"شنو النسخة منك اللي كانت غير معايا؟"},
+      {en:"What kind of comfort did we have together?",ar:"شنو نوع الراحة اللي كانت بيناتنا؟"},
+      {en:"What did you secretly hope for while we were apart?",ar:"شنو كنتي كتتمنا فالسّر وإحنا بعاد؟"},
+      {en:"What feeling comes back instantly when you see me now?",ar:"شنو الإحساس اللي كيرجع فوراً ملي كتشوفني دابا؟"},
+      {en:"What made this connection hard to forget?",ar:"شنو خلا هاد العلاقة صعيبة تتنسى؟"},
+    ]},
+  unsaid_su:{ sym:'🔥', en:'THE UNSAID', ar:'ما لم يُقَل', bgClass:'card-stillus', statIcon:'🔥',
+    qs:[
+      {en:"What truth did you avoid telling me before?",ar:"شنو الحقيقة اللي تهربتي من قولها ليا؟"},
+      {en:"What apology do you think we both needed?",ar:"شنو الاعتذار اللي كان خاصنا بجوج؟"},
+      {en:"What misunderstanding damaged us the most?",ar:"شنو سوء الفهم اللي ضرّنا أكثر؟"},
+      {en:"What were you too proud to admit back then?",ar:"شنو الحاجة اللي كان الكبرياء مانعك تعترف بيها؟"},
+      {en:"What did you wish I understood without explaining?",ar:"شنو كنتي باغي نفهم بلا ما تشرح؟"},
+      {en:"What emotional wound from us still hurts a little?",ar:"شنو الجرح العاطفي اللي باقي كيوجعك شوية؟"},
+      {en:"Did we stop fighting for each other too early?",ar:"واش حبّسنا نحاربو على بعضياتنا بكري؟"},
+      {en:"What sentence from me stayed in your head for a long time?",ar:"شنو الجملة اللي قلتها وبقات فبالك بزاف؟"},
+      {en:"What emotion were you hiding during our last days together?",ar:"شنو الشعور اللي كنتي مخبيه فآخر أيامنا؟"},
+      {en:"What should we have talked about sooner?",ar:"شنو الحاجة اللي كان خاصنا نهضرو عليها بكري؟"},
+    ]},
+  patterns_su:{ sym:'🧠', en:'PATTERNS & CHANGES', ar:'الأنماط والتغييرات', bgClass:'card-stillus', statIcon:'🧠',
+    qs:[
+      {en:"What toxic pattern do you never want us to repeat?",ar:"شنو النمط السام اللي مستحيل تبغي نعاودوه؟"},
+      {en:"How did this breakup change the way you love?",ar:"كيفاش بدلك هاد الفراق فطريقة الحب ديالك؟"},
+      {en:"What did losing me teach you about yourself?",ar:"شنو تعلمتي على راسك ملي خسرتيني؟"},
+      {en:"What emotional habit are you trying to improve now?",ar:"شنو العادة العاطفية اللي كتحاول تصلحها دابا؟"},
+      {en:"What do you handle differently compared to before?",ar:"شنو الحاجة اللي كتعامل معاها بطريقة مختلفة دابا؟"},
+      {en:"Do you think we understand each other better now?",ar:"واش كتشوف أننا وْلّينا نفهمو بعضياتنا أكثر؟"},
+      {en:"What part of you matured after the breakup?",ar:"شنو الجانب فيك اللي نضج من بعد الفراق؟"},
+      {en:"What fear do you still carry into this relationship?",ar:"شنو الخوف اللي باقي شايلو معاك فهاد العلاقة؟"},
+      {en:"What emotional trigger do you now recognize in yourself?",ar:"شنو الحاجة اللي وْلّيتي فاهم أنها كتأثر عليك عاطفياً؟"},
+      {en:"What makes this reunion different from the first time?",ar:"شنو اللي مختلف فهاد الرجوع مقارنة مع المرة الأولى؟"},
+    ]},
+  choosing_su:{ sym:'❤️', en:'CHOOSING AGAIN', ar:'الاختيار من جديد', bgClass:'card-stillus', statIcon:'❤️',
+    qs:[
+      {en:"Why do you think we found our way back to each other?",ar:"علاش كتشوف أننا رجعنا لبعضياتنا؟"},
+      {en:"What made you believe this deserved another chance?",ar:"شنو خلاك تآمن أن هاد العلاقة تستحق فرصة أخرى؟"},
+      {en:"What feeling came back first when we reconnected?",ar:"شنو أول إحساس رجع ملي رجعنا نهضرو؟"},
+      {en:"What part of us still feels natural?",ar:"شنو الجزء بيناتنا اللي باقي طبيعي؟"},
+      {en:"What scares you about trying again?",ar:"شنو كيخوفك فإعادة المحاولة؟"},
+      {en:"What would hurt more this time around?",ar:"شنو الحاجة اللي غادي توجع أكثر هاد المرة؟"},
+      {en:"What do you need from me now that you didn't before?",ar:"شنو اللي محتاجو مني دابا وما كنتيش محتاجو قبل؟"},
+      {en:"What made you emotionally reconnect with me again?",ar:"شنو خلاك ترجع ترتابط بيا عاطفياً؟"},
+      {en:"What do you think destiny was trying to teach us?",ar:"شنو كتشوف القدر كان باغي يعلمنا؟"},
+      {en:"What part of our love survived everything?",ar:"شنو الجزء من حبنا اللي نجا من كلشي؟"},
+    ]},
+  final_su:{ sym:'♟', en:'THIS TIME FOR REAL', ar:'هاد المرة بجد', bgClass:'card-stillus', statIcon:'♟',
+    qs:[
+      {en:"What must change for this relationship to truly work?",ar:"شنو خاص يتبدل باش تنجح هاد العلاقة بصح؟"},
+      {en:"What promise should we both keep this time?",ar:"شنو الوعد اللي خاصنا نحافظو عليه هاد المرة؟"},
+      {en:"What kind of communication do we need more of?",ar:"شنو نوع التواصل اللي خاصنا أكثر؟"},
+      {en:"What would make you fully trust us again?",ar:"شنو اللي يقدر يخليك تثق فينا كاملين من جديد؟"},
+      {en:"What emotional boundary should never be crossed again?",ar:"شنو الحد العاطفي اللي مستحيل يتعاود يتجاوز؟"},
+      {en:"What future do you secretly imagine for us now?",ar:"شنو المستقبل اللي كتتخيلو لينا فالسّر؟"},
+      {en:"What are we protecting better this time?",ar:"شنو الحاجة اللي كنحاولو نحافظو عليها أكثر دابا؟"},
+      {en:"What would prove that we truly learned from the past?",ar:"شنو يثبت أننا تعلمنا فعلاً من الماضي؟"},
+      {en:"What kind of love are we trying to build now?",ar:"شنو نوع الحب اللي كنحاولو نبنيو دابا؟"},
+      {en:"Do you think we came back to each other for a reason?",ar:"واش كتشوف أننا رجعنا لبعضياتنا لسبب معيّن؟"},
+    ]},
 };
 
 /* ── Game state ── */
@@ -1286,6 +1380,7 @@ window.selectEdition = function(edition) {
   else if (edition === 'spicy')   cats = ['spicy_part1','spicy_part2','spicy_part3','spicy_part4'];
   else if (edition === 'talking') cats = ['soft_talking','real_talking','psych_talking','between_talking','power_talking','desires_talking'];
   else if (edition === 'couples') cats = ['soft_couples','real_couples','psych_couples','between_couples','power_couples','desires_couples','future_couples'];
+  else if (edition === 'stillus') cats = ['distance_su','stayed_su','unsaid_su','patterns_su','choosing_su','final_su'];
   else {
     cats = ['soft','real','psych','between','power',`desires_${edition}`];
     if (['fiance','married'].includes(edition)) cats.push(`future_${edition}`);
@@ -1392,7 +1487,7 @@ window.startGame = function(shouldContinue = false) {
 function resetWelcomeCard(isContinue = false) {
   document.getElementById('card-stage').innerHTML = `
     <div class="welcome-card">
-      <span style="font-size:2.5rem">${isContinue ? '🔄' : '💕'}</span>
+      <div class="sineya-tray">${SINEYA_SVG}</div>
       <h3>${isContinue ? 'Welcome back!' : 'Ready for the real talk?'}</h3>
       <p>${isContinue ? 'Pick a category to continue where you left off.' : 'Pick a category above to draw your first card.'}</p>
       <p class="wc-ar">اختار الفئة — الصدق هو القاعدة الوحيدة</p>
