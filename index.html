@@ -154,8 +154,17 @@ body::before {
 .btn-fav-open { display:none; align-items:center; gap:6px; background:var(--blush); border:1px solid rgba(184,92,74,.2); border-radius:50px; padding:6px 14px; font-family:'DM Sans',sans-serif; font-size:.72rem; font-weight:600; color:var(--rose-deep); cursor:pointer; transition:all .2s; margin-bottom:1.8rem; }
 .btn-fav-open:hover { background:var(--blush-deep); }
 
+/* Edition groups */
+.edition-group { width:100%; max-width:380px; margin-bottom:1.6rem; }
+.eg-header { display:flex; align-items:center; gap:8px; margin-bottom:10px; padding:0 2px; }
+.eg-icon { font-size:1rem; }
+.eg-label { font-family:'DM Sans',sans-serif; font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--muted); }
+.eg-divider { flex:1; height:1px; background:linear-gradient(to right,rgba(184,92,74,.18),transparent); margin-left:4px; }
+
 /* Edition grid */
-.editions-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; max-width:360px; margin-bottom:1rem; }
+.editions-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; }
+.editions-grid.solo { grid-template-columns:1fr; max-width:180px; margin:0 auto; }
+.editions-grid.trio .edition-card:last-child { grid-column:1/-1; max-width:180px; justify-self:center; width:100%; }
 .edition-card { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px 12px 14px; border-radius:16px; border:2px solid rgba(184,92,74,.12); border-top:3px solid var(--accent); background:white; cursor:pointer; transition:all .28s; box-shadow:0 2px 8px rgba(184,92,74,.06); }
 .edition-card:hover { border-color:var(--accent); transform:translateY(-5px); box-shadow:0 10px 24px rgba(0,0,0,.1); }
 .edition-card:active { transform:scale(.97); }
@@ -398,72 +407,97 @@ body::before {
   <p class="es-subtitle">Where are you in your journey?</p>
   <div class="es-lifetime" id="es-lifetime"></div>
   <button class="btn-fav-open" id="btn-fav-open" onclick="openFavSheet()">💝 <span id="fav-count">0</span> Saved</button>
-  <div class="editions-grid">
-    <div class="edition-card talking" onclick="selectEdition('talking')">
-      <div class="ec-icon-wrap"><span class="ec-icon">🥰</span></div>
-      <div class="ec-name">Talking Stage</div>
-      <div class="ec-label">Getting to Know</div>
-      <div class="ec-progress" id="ep-talking"></div>
+  <!-- ── Love Journey ── -->
+  <div class="edition-group">
+    <div class="eg-header"><span class="eg-icon">💕</span><span class="eg-label">Love Journey · مسار الحب</span><span class="eg-divider"></span></div>
+    <div class="editions-grid">
+      <div class="edition-card talking" onclick="selectEdition('talking')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🥰</span></div>
+        <div class="ec-name">Talking Stage</div>
+        <div class="ec-label">Getting to Know</div>
+        <div class="ec-progress" id="ep-talking"></div>
+      </div>
+      <div class="edition-card couples" onclick="selectEdition('couples')">
+        <div class="ec-icon-wrap"><span class="ec-icon">💑</span></div>
+        <div class="ec-name">Couples</div>
+        <div class="ec-label">Growing Together</div>
+        <div class="ec-progress" id="ep-couples"></div>
+      </div>
+      <div class="edition-card fiance" onclick="selectEdition('fiance')">
+        <div class="ec-icon-wrap"><span class="ec-icon">💍</span></div>
+        <div class="ec-name">Fiancé</div>
+        <div class="ec-label">Before the Wedding</div>
+        <div class="ec-progress" id="ep-fiance"></div>
+      </div>
+      <div class="edition-card engaged" onclick="selectEdition('engaged')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🫧</span></div>
+        <div class="ec-name">Engaged</div>
+        <div class="ec-label">The Promise</div>
+        <div class="ec-progress" id="ep-engaged"></div>
+      </div>
+      <div class="edition-card married" onclick="selectEdition('married')">
+        <div class="ec-icon-wrap"><span class="ec-icon">👑</span></div>
+        <div class="ec-name">Married</div>
+        <div class="ec-label">Forever & Always</div>
+        <div class="ec-progress" id="ep-married"></div>
+      </div>
+      <div class="edition-card stillus" onclick="selectEdition('stillus')">
+        <div class="ec-icon-wrap"><span class="ec-icon">❤️</span></div>
+        <div class="ec-name">Still Us</div>
+        <div class="ec-label">Found Our Way Back</div>
+        <div class="ec-progress" id="ep-stillus"></div>
+      </div>
     </div>
-    <div class="edition-card couples" onclick="selectEdition('couples')">
-      <div class="ec-icon-wrap"><span class="ec-icon">💑</span></div>
-      <div class="ec-name">Couples</div>
-      <div class="ec-label">Growing Together</div>
-      <div class="ec-progress" id="ep-couples"></div>
+  </div>
+
+  <!-- ── Social Circle ── -->
+  <div class="edition-group">
+    <div class="eg-header"><span class="eg-icon">👥</span><span class="eg-label">Social Circle · الدائرة الاجتماعية</span><span class="eg-divider"></span></div>
+    <div class="editions-grid trio">
+      <div class="edition-card friends" onclick="selectEdition('friends')">
+        <div class="ec-icon-wrap"><span class="ec-icon">👯</span></div>
+        <div class="ec-name">Friends</div>
+        <div class="ec-label">Ride or Die</div>
+        <div class="ec-progress" id="ep-friends"></div>
+      </div>
+      <div class="edition-card secretfiles" onclick="selectEdition('secretfiles')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🕵️</span></div>
+        <div class="ec-name">Secret Files</div>
+        <div class="ec-label">Spill It All</div>
+        <div class="ec-progress" id="ep-secretfiles"></div>
+      </div>
+      <div class="edition-card family" onclick="selectEdition('family')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🏡</span></div>
+        <div class="ec-name">Family</div>
+        <div class="ec-label">Closer Together</div>
+        <div class="ec-progress" id="ep-family"></div>
+      </div>
     </div>
-    <div class="edition-card fiance" onclick="selectEdition('fiance')">
-      <div class="ec-icon-wrap"><span class="ec-icon">💍</span></div>
-      <div class="ec-name">Fiancé</div>
-      <div class="ec-label">Soon to Wed</div>
-      <div class="ec-progress" id="ep-fiance"></div>
+  </div>
+
+  <!-- ── Deep Dive ── -->
+  <div class="edition-group">
+    <div class="eg-header"><span class="eg-icon">🌙</span><span class="eg-label">Deep Dive · في العمق</span><span class="eg-divider"></span></div>
+    <div class="editions-grid solo">
+      <div class="edition-card betweenus" onclick="selectEdition('betweenus')">
+        <div class="ec-icon-wrap"><span class="ec-icon">✨</span></div>
+        <div class="ec-name">Between Us</div>
+        <div class="ec-label">The Real Talks</div>
+        <div class="ec-progress" id="ep-betweenus"></div>
+      </div>
     </div>
-    <div class="edition-card married" onclick="selectEdition('married')">
-      <div class="ec-icon-wrap"><span class="ec-icon">👑</span></div>
-      <div class="ec-name">Married</div>
-      <div class="ec-label">Forever & Always</div>
-      <div class="ec-progress" id="ep-married"></div>
-    </div>
-    <div class="edition-card friends" onclick="selectEdition('friends')">
-      <div class="ec-icon-wrap"><span class="ec-icon">👯</span></div>
-      <div class="ec-name">Friends</div>
-      <div class="ec-label">Ride or Die</div>
-      <div class="ec-progress" id="ep-friends"></div>
-    </div>
-    <div class="edition-card spicy" onclick="selectEdition('spicy')">
-      <div class="ec-icon-wrap"><span class="ec-icon">🔥</span></div>
-      <div class="ec-name">18+ Unfiltered</div>
-      <div class="ec-label">Adults Only</div>
-      <div class="ec-progress" id="ep-spicy"></div>
-    </div>
-    <div class="edition-card stillus" onclick="selectEdition('stillus')">
-      <div class="ec-icon-wrap"><span class="ec-icon">❤️</span></div>
-      <div class="ec-name">Still Us</div>
-      <div class="ec-label">Found Our Way Back</div>
-      <div class="ec-progress" id="ep-stillus"></div>
-    </div>
-    <div class="edition-card engaged" onclick="selectEdition('engaged')">
-      <div class="ec-icon-wrap"><span class="ec-icon">💍</span></div>
-      <div class="ec-name">Engaged</div>
-      <div class="ec-label">Our Forever Begins</div>
-      <div class="ec-progress" id="ep-engaged"></div>
-    </div>
-    <div class="edition-card secretfiles" onclick="selectEdition('secretfiles')">
-      <div class="ec-icon-wrap"><span class="ec-icon">🕵️</span></div>
-      <div class="ec-name">Secret Files</div>
-      <div class="ec-label">Spill It All</div>
-      <div class="ec-progress" id="ep-secretfiles"></div>
-    </div>
-    <div class="edition-card family" onclick="selectEdition('family')">
-      <div class="ec-icon-wrap"><span class="ec-icon">🏡</span></div>
-      <div class="ec-name">Family</div>
-      <div class="ec-label">Closer Together</div>
-      <div class="ec-progress" id="ep-family"></div>
-    </div>
-    <div class="edition-card betweenus" onclick="selectEdition('betweenus')">
-      <div class="ec-icon-wrap"><span class="ec-icon">🌙</span></div>
-      <div class="ec-name">Between Us</div>
-      <div class="ec-label">The Real Talks</div>
-      <div class="ec-progress" id="ep-betweenus"></div>
+  </div>
+
+  <!-- ── Adults Only ── -->
+  <div class="edition-group">
+    <div class="eg-header"><span class="eg-icon">🔞</span><span class="eg-label">Adults Only · للبالغين</span><span class="eg-divider"></span></div>
+    <div class="editions-grid solo">
+      <div class="edition-card spicy" onclick="selectEdition('spicy')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🔥</span></div>
+        <div class="ec-name">18+ Unfiltered</div>
+        <div class="ec-label">Adults Only</div>
+        <div class="ec-progress" id="ep-spicy"></div>
+      </div>
     </div>
   </div>
 </div>
