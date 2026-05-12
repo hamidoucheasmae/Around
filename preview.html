@@ -162,6 +162,7 @@ body::before {
 .edition-card.engaged     { --accent:#C9A84C; }
 .edition-card.secretfiles { --accent:#5B8DB8; }
 .edition-card.family      { --accent:#D4845A; }
+.edition-card.betweenus   { --accent:#7B8DC8; }
 .ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; }
 .ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
 .edition-card:hover .ec-icon-wrap::before { opacity:.22; }
@@ -450,6 +451,12 @@ body::before {
       <div class="ec-name">Family</div>
       <div class="ec-label">Closer Together</div>
       <div class="ec-progress" id="ep-family"></div>
+    </div>
+    <div class="edition-card betweenus" onclick="selectEdition('betweenus')">
+      <div class="ec-icon-wrap"><span class="ec-icon">🌙</span></div>
+      <div class="ec-name">Between Us</div>
+      <div class="ec-label">The Real Talks</div>
+      <div class="ec-progress" id="ep-betweenus"></div>
     </div>
   </div>
 </div>
@@ -940,6 +947,7 @@ const EDITIONS = {
   engaged:     { name:'Engaged',      ar:'المخطوبون',        badge:'💍 Our Forever Begins · بدايتنا الأبدية',  icon:'💍' },
   secretfiles: { name:'Secret Files', ar:'الملفات السرية',  badge:'🕵️ Spill It All · قول كلشي',              icon:'🕵️' },
   family:      { name:'Family',       ar:'العائلة',          badge:'🏡 Closer Together · معاً أقوى',            icon:'🏡' },
+  betweenus:   { name:'Between Us',   ar:'بيناتنا',          badge:'🌙 The Real Talks · الكلام الحقيقي',         icon:'🌙' },
 };
 
 const CAT_SHORT = {
@@ -956,6 +964,7 @@ const CAT_SHORT = {
   promise_engaged:'Promise', home_engaged:'Home',
   secrets_sf:'Secrets', laughs_sf:'Laughs', likely_sf:'Likely', cringe_sf:'Cringe', chaos_sf:'Chaos',
   energy_fam:'Energy', chaos_fam:'Chaos', feels_fam:'Feels', night_fam:'Night', forever_fam:'Forever',
+  between_bt:'Between', debates_bt:'Debates', midnight_bt:'Midnight', real_bt:'Identity',
 };
 
 const CATEGORIES = {
@@ -1626,6 +1635,60 @@ const CATEGORIES = {
       {en:"What does unconditional love mean to you?",ar:"شنو كيعني ليك الحب بلا شروط؟"},
       {en:"What's the biggest blessing about having a family?",ar:"شنو أكبر نعمة فكون عندك عائلة؟"},
     ]},
+
+  /* ── BETWEEN US EDITION ── */
+  between_bt:{ sym:'🌙', en:'BETWEEN US', ar:'بيناتنا', bgClass:'card-between', statIcon:'🌙',
+    qs:[
+      {en:"What thought do you hide from people the most?",ar:"شنو الفكرة اللي كتخبيها على الناس أكثر؟"},
+      {en:"What's something you wish people understood about you?",ar:"شنو بغيتي الناس يفهموه عليك؟"},
+      {en:"What emotion do you struggle expressing?",ar:"شنو الإحساس اللي صعيب عليك تعبر عليه؟"},
+      {en:"What's something that hurts you more than people realize?",ar:"شنو الحاجة اللي كتوجعك أكثر مما الناس متخيلين؟"},
+      {en:"When do you feel emotionally lonely?",ar:"إمتى كتحس بالوحدة النفسية؟"},
+      {en:"What do you pretend not to care about?",ar:"شنو كدير راسك ما كيهملكش؟"},
+      {en:"What's a fear you rarely admit?",ar:"شنو خوف نادراً كتعترف به؟"},
+      {en:"What changed your personality over the years?",ar:"شنو اللي بدل شخصيتك مع الوقت؟"},
+      {en:"What version of yourself do you miss?",ar:"شنو النسخة ديالك اللي كتوحشاك؟"},
+      {en:"What do you think people feel when they meet you?",ar:"شنو كتحس الناس كيحسو ملي كيلقاوك؟"},
+    ]},
+  debates_bt:{ sym:'🔥', en:'OPINIONS THAT START DEBATES', ar:'الآراء اللي كتشعل النقاش', bgClass:'card-real', statIcon:'🔥',
+    qs:[
+      {en:"What opinion do you have that most people disagree with?",ar:"شنو الرأي اللي عندك والناس غالباً ما كيتافقوش معاه؟"},
+      {en:"Do you think love changes people or reveals them?",ar:"واش الحب كيبدل الناس ولا كيبيّن حقيقتهم؟"},
+      {en:"Is social media making people more fake or more honest?",ar:"واش السوشيال ميديا خلات الناس أكثر تصنع ولا أكثر صراحة؟"},
+      {en:"Do you believe people can truly change?",ar:"واش كتآمن أن الإنسان يقدر يتبدل بصدق؟"},
+      {en:"What's something society normalized but shouldn't?",ar:"شنو الحاجة اللي المجتمع طبّع معاها وما خاصوش؟"},
+      {en:"Is loyalty more important than honesty?",ar:"واش الوفاء أهم من الصراحة؟"},
+      {en:"Do you think people fear being alone or being misunderstood more?",ar:"واش الناس كيخافو من الوحدة ولا من أنهم ما يتفهموش؟"},
+      {en:"What's a harsh truth about adulthood?",ar:"شنو الحقيقة القاسية ديال الكبر؟"},
+      {en:"What's something people fake too much nowadays?",ar:"شنو الحاجة اللي الناس كيتصنعو فيها بزاف دابا؟"},
+      {en:"Do you think overthinking protects people or destroys them?",ar:"واش كثرة التفكير كتحمي الإنسان ولا كتهلكو؟"},
+    ]},
+  midnight_bt:{ sym:'💭', en:'MIDNIGHT THOUGHTS', ar:'أفكار منتصف الليل', bgClass:'card-power', statIcon:'💭',
+    qs:[
+      {en:"What keeps your mind awake at night?",ar:"شنو كيخلي دماغك ما ينعسش فالليل؟"},
+      {en:"What do you overthink the most?",ar:"شنو أكثر حاجة كتكتر التفكير فيها؟"},
+      {en:"What memory still affects you emotionally?",ar:"شنو الذكرى اللي باقي مأثرة عليك؟"},
+      {en:"What's your biggest internal battle?",ar:"شنو أكبر صراع داخلي عندك؟"},
+      {en:"What kind of peace are you searching for?",ar:"شنو نوع الراحة اللي كتقلب عليها؟"},
+      {en:"What drains your energy emotionally?",ar:"شنو كيستنزف طاقتك النفسية؟"},
+      {en:"What motivates you to keep going?",ar:"شنو اللي كيخليك تكمل؟"},
+      {en:"What do you think your younger self needed?",ar:"شنو كان محتاج النسخة الصغيرة منك؟"},
+      {en:"What's something you're still healing from?",ar:"شنو الحاجة اللي مازال كتبرا منها؟"},
+      {en:"What kind of future are you hoping for?",ar:"شنو المستقبل اللي كتتمناه؟"},
+    ]},
+  real_bt:{ sym:'✨', en:'WHO ARE YOU REALLY?', ar:'شكون أنت بصدق؟', bgClass:'card-psych', statIcon:'✨',
+    qs:[
+      {en:"Who are you when nobody is around?",ar:"شكون نتا ملي ما كيكون حتى واحد؟"},
+      {en:"What side of yourself do you hide the most?",ar:"شنو الجانب اللي كتخبيه أكثر فشخصيتك؟"},
+      {en:"What makes you feel truly alive?",ar:"شنو كيخليك تحس بالحياة بصدق؟"},
+      {en:"What's your biggest emotional weakness?",ar:"شنو أكبر نقطة ضعف عاطفية عندك؟"},
+      {en:"What do you want people to remember about you?",ar:"شنو بغيتي الناس يتفكروه عليك؟"},
+      {en:"What are you trying to become in life?",ar:"شنو كتحاول تولي فالحياة؟"},
+      {en:"What's something you're afraid people will discover about you?",ar:"شنو الحاجة اللي خايف الناس يكتاشفوها عليك؟"},
+      {en:"What gives your life meaning right now?",ar:"شنو اللي معطي معنى لحياتك دابا؟"},
+      {en:"What do you think your soul needs?",ar:"شنو كتحس روحك محتاجة؟"},
+      {en:"Are you becoming the person you imagined?",ar:"واش كاتولي الشخص اللي كنتي متخيل؟"},
+    ]},
 };
 
 /* ── Game state ── */
@@ -1649,6 +1712,7 @@ window.selectEdition = function(edition) {
   else if (edition === 'engaged')     cats = ['soft_engaged','real_engaged','psych_engaged','between_engaged','power_engaged','promise_engaged','home_engaged'];
   else if (edition === 'secretfiles') cats = ['secrets_sf','laughs_sf','likely_sf','cringe_sf','chaos_sf'];
   else if (edition === 'family')      cats = ['energy_fam','chaos_fam','feels_fam','night_fam','forever_fam'];
+  else if (edition === 'betweenus')   cats = ['between_bt','debates_bt','midnight_bt','real_bt'];
   else {
     cats = ['soft','real','psych','between','power',`desires_${edition}`];
     if (['fiance','married'].includes(edition)) cats.push(`future_${edition}`);
