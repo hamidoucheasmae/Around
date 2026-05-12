@@ -524,39 +524,37 @@ body::before {
 
 <div class="toast" id="toast"></div>
 
-<script>
-/* ── Preview mode: localStorage mocks replace Firebase ── */
-const DEMO_USER = { uid:'demo_user', email:'demo@seneya.app', displayName:'Demo' };
-let _authCb = null;
-const initializeApp = () => ({});
-const getAnalytics  = () => ({});
-const getAuth       = () => ({});
-const getFirestore  = () => ({});
-const doc = (db, ...p) => p.join('/');
-const getDoc = async (ref) => {
-  const raw = localStorage.getItem('fs_'+ref);
-  return { exists:() => !!raw, data:() => raw ? JSON.parse(raw) : null };
-};
-const setDoc = async (ref, data, opts={}) => {
-  const base = opts.merge ? (JSON.parse(localStorage.getItem('fs_'+ref)||'{}')) : {};
-  localStorage.setItem('fs_'+ref, JSON.stringify({...base,...data}));
-};
-const onAuthStateChanged = (_auth, cb) => { _authCb = cb; };
-const signInWithEmailAndPassword = async (_auth, email, pw) => {
-  const u = { uid:'demo_'+btoa(email).replace(/[=+/]/g,''), email, displayName:email.split('@')[0] };
-  localStorage.setItem('demo_user', JSON.stringify(u));
-  if (_authCb) _authCb(u);
-  return { user:u };
-};
-const createUserWithEmailAndPassword = async (_auth, email, pw) => {
-  const u = { uid:'demo_'+btoa(email).replace(/[=+/]/g,''), email, displayName:email.split('@')[0] };
-  localStorage.setItem('demo_user', JSON.stringify(u));
-  if (_authCb) _authCb(u);
-  return { user:u };
-};
-const updateProfile = async (user, profile) => { Object.assign(user, profile); };
-const signOut = async () => { localStorage.removeItem('demo_user'); if (_authCb) _authCb(null); };
-const auth = {}; const db = {};
+<script type="module">
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAnalytics }
+  from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+import {
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  onAuthStateChanged, signOut, updateProfile
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* ── Firebase init ── */
+const app = initializeApp({
+  apiKey:            "AIzaSyCeSLeVlfivD9XS128dUT-0MJ9W184f8kg",
+  authDomain:        "aroundtheseneya.firebaseapp.com",
+  projectId:         "aroundtheseneya",
+  storageBucket:     "aroundtheseneya.firebasestorage.app",
+  messagingSenderId: "1060210818222",
+  appId:             "1:1060210818222:web:0a67cb5465b45fc4f6413f",
+  measurementId:     "G-H0NRR5X4JM"
+});
+getAnalytics(app);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+/* ── PWA service worker ── */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
 
 /* ══════════ SOUND ══════════ */
 let audioCtx    = null;
@@ -666,10 +664,6 @@ function stopSessionTimer() {
 
 /* ══════════ AUTH STATE ══════════ */
 let currentUser = null;
-
-
-/* auto-login for preview */
-setTimeout(() => { if (_authCb) _authCb(DEMO_USER); }, 0);
 
 onAuthStateChanged(auth, (user) => {
   currentUser = user;
