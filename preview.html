@@ -158,8 +158,9 @@ body::before {
 .edition-card.married { --accent:#8B3A5C; }
 .edition-card.friends { --accent:#6B5F9C; }
 .edition-card.spicy   { --accent:#DC143C; }
-.edition-card.stillus { --accent:#A85A82; }
-.edition-card.engaged { --accent:#C9A84C; }
+.edition-card.stillus     { --accent:#A85A82; }
+.edition-card.engaged     { --accent:#C9A84C; }
+.edition-card.secretfiles { --accent:#5B8DB8; }
 .ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; }
 .ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
 .edition-card:hover .ec-icon-wrap::before { opacity:.22; }
@@ -246,6 +247,8 @@ body::before {
 .card-spicy      { background:linear-gradient(155deg,#8B0000 0%,#DC143C 50%,#FF1493 100%); }
 .card-stillus    { background:linear-gradient(155deg,#3A1830 0%,#7B3A62 50%,#A85A82 100%); }
 .card-promise    { background:linear-gradient(155deg,#1C1408 0%,#5C3A0A 50%,#B8861C 100%); }
+.card-secrets    { background:linear-gradient(155deg,#0A1218 0%,#1A2A38 50%,#2A4858 100%); }
+.card-chaos      { background:linear-gradient(155deg,#1A0828 0%,#3A1848 50%,#6A3878 100%); }
 
 .card-overlay { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'%3E%3Cpath d='M40 4L76 40L40 76L4 40Z'/%3E%3Cpath d='M40 18L62 40L40 62L18 40Z'/%3E%3Cpath d='M40 28L52 40L40 52L28 40Z'/%3E%3Ccircle cx='40' cy='40' r='32'/%3E%3Ccircle cx='40' cy='40' r='18'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
 .card-deco { position:absolute; font-size:4rem; opacity:.06; pointer-events:none; user-select:none; line-height:1; }
@@ -433,6 +436,12 @@ body::before {
       <div class="ec-name">Engaged</div>
       <div class="ec-label">Our Forever Begins</div>
       <div class="ec-progress" id="ep-engaged"></div>
+    </div>
+    <div class="edition-card secretfiles" onclick="selectEdition('secretfiles')">
+      <div class="ec-icon-wrap"><span class="ec-icon">🕵️</span></div>
+      <div class="ec-name">Secret Files</div>
+      <div class="ec-label">Spill It All</div>
+      <div class="ec-progress" id="ep-secretfiles"></div>
     </div>
   </div>
 </div>
@@ -920,7 +929,8 @@ const EDITIONS = {
   friends: { name:'Friends',       ar:'الأصدقاء',     badge:'👯 Ride or Die · أصدقاء الروح',      icon:'👯' },
   spicy:   { name:'18+ Unfiltered',ar:'بدون تصفية',   badge:'🔥 Adults Only · للبالغين فقط',      icon:'🔥' },
   stillus: { name:'Still Us',      ar:'مازلنا نحن',  badge:'❤️ Found Our Way Back · رجعنا لبعضياتنا', icon:'❤️' },
-  engaged: { name:'Engaged',       ar:'المخطوبون',   badge:'💍 Our Forever Begins · بدايتنا الأبدية',   icon:'💍' },
+  engaged:     { name:'Engaged',      ar:'المخطوبون',        badge:'💍 Our Forever Begins · بدايتنا الأبدية',  icon:'💍' },
+  secretfiles: { name:'Secret Files', ar:'الملفات السرية',  badge:'🕵️ Spill It All · قول كلشي',              icon:'🕵️' },
 };
 
 const CAT_SHORT = {
@@ -935,6 +945,7 @@ const CAT_SHORT = {
   future_married:'Legacy', friendship_deep:'Friends', challenges_friends:'Dare',
   soft_engaged:'Soft', real_engaged:'Real', psych_engaged:'Mind', between_engaged:'Lines', power_engaged:'Test',
   promise_engaged:'Promise', home_engaged:'Home',
+  secrets_sf:'Secrets', laughs_sf:'Laughs', likely_sf:'Likely', cringe_sf:'Cringe', chaos_sf:'Chaos',
 };
 
 const CATEGORIES = {
@@ -1471,6 +1482,73 @@ const CATEGORIES = {
       {en:"What should our home feel like after a hard day in the outside world?",ar:"كيفاش خاص دارنا تحسسنا من بعد نهار صعيب برا؟"},
       {en:"If our future children described our love one day, what would you hope they say?",ar:"إلا وصفو ولادنا حبنا نهار، شنو بغيتي يقولو؟"},
     ]},
+
+  /* ── SECRET FILES EDITION ── */
+  secrets_sf:{ sym:'🕵️', en:'SECRET FILES', ar:'الملفات السرية', bgClass:'card-secrets', statIcon:'🕵️',
+    qs:[
+      {en:"What's a secret opinion you never told the group?",ar:"شنو رأي سري ما عمرك قلتيه للجروب؟"},
+      {en:"Who was your first crush in school?",ar:"شكون كان أول كراش عندك فالمدرسة؟"},
+      {en:"What's the dumbest lie you ever told?",ar:"شنو أغبى كذبة قلتيها؟"},
+      {en:"What's something embarrassing you still think about at night?",ar:"شنو موقف محرج باقي كتفكر فيه فالليل؟"},
+      {en:"What's your toxic trait in friendships?",ar:"شنو العادة الخايبة ديالك فالصحاب؟"},
+      {en:"Have you ever stalked someone for no reason?",ar:"واش عمرك ستالكايتي شي واحد بلا سبب؟"},
+      {en:"What's the weirdest thing in your camera roll?",ar:"شنو أغرب حاجة فالغاليري ديالك؟"},
+      {en:"What secret talent do you hide?",ar:"شنو الموهبة اللي مخبيها؟"},
+      {en:"What's something you pretended to like just to fit in?",ar:"شنو حاجة درتي راسك كتعجبك غير باش تندمج؟"},
+      {en:"Who in the group would survive a zombie apocalypse?",ar:"شكون فالجروب يقدر ينجا فزومبي أبوكاليبس؟"},
+    ]},
+  laughs_sf:{ sym:'😂', en:'TOO MUCH LAUGHTER', ar:'بزاف على الضحك', bgClass:'card-challenges', statIcon:'😂',
+    qs:[
+      {en:"What's the funniest thing you ever did in public?",ar:"شنو أضحك حاجة درتيها قدام الناس؟"},
+      {en:"What's your most chaotic friendship memory?",ar:"شنو أكثر ذكرى فوضوية مع صحابك؟"},
+      {en:"Who would laugh during a serious situation?",ar:"شكون يضحك فوقت ما خاصش الضحك؟"},
+      {en:"What's the worst excuse you used to cancel plans?",ar:"شنو أسوأ عذر استعملتي باش تلغي بلان؟"},
+      {en:"What's the funniest text you accidentally sent?",ar:"شنو أضحك مساج صيفطتي بالغلط؟"},
+      {en:"What's your funniest 'I regret this' moment?",ar:"شنو أكثر موقف قلتي فيه 'علاش درت هكا'؟"},
+      {en:"What would your friends roast you for?",ar:"على شنو صحابك يبقاو يطيحو عليك؟"},
+      {en:"What's the weirdest phase you went through?",ar:"شنو أغرب فترة دوزتيها؟"},
+      {en:"What's your funniest fail ever?",ar:"شنو أضحك فشل وقع ليك؟"},
+      {en:"If your life was a comedy movie, what would be the title?",ar:"إلا كانت حياتك فيلم كوميدي شنو يكون السمية؟"},
+    ]},
+  likely_sf:{ sym:'👀', en:"WHO'S MOST LIKELY TO…", ar:'من أكثر واحد ممكن…', bgClass:'card-friendship', statIcon:'👀',
+    qs:[
+      {en:"Who's most likely to get lost while using Google Maps?",ar:"شكون أكثر واحد يضيع حتى مع Google Maps؟"},
+      {en:"Who's most likely to cry during a movie?",ar:"شكون أكثر واحد يبكي ففيلم؟"},
+      {en:"Who's most likely to become famous?",ar:"شكون أكثر واحد يولي مشهور؟"},
+      {en:"Who's most likely to answer a text after 3 business days?",ar:"شكون أكثر واحد يجاوبك من بعد 3 أيام؟"},
+      {en:"Who's most likely to start drama accidentally?",ar:"شكون أكثر واحد يخلق الدراما بالغلط؟"},
+      {en:"Who's most likely to survive alone on an island?",ar:"شكون يقدر يعيش بوحدو فجزيرة؟"},
+      {en:"Who's most likely to spend all their money in one day?",ar:"شكون يصرف فلوسو كاملين فنهار؟"},
+      {en:"Who's most likely to forget their own birthday?",ar:"شكون ينسى حتى عيد ميلادو؟"},
+      {en:"Who's most likely to text their ex at 2AM?",ar:"شكون ممكن يصيفط ل الإكس ديالو مع جوج دالليل؟"},
+      {en:"Who's most likely to sleep during important moments?",ar:"شكون ينعس فوقت مهم؟"},
+    ]},
+  cringe_sf:{ sym:'😭', en:'CRINGE & EMBARRASSING MOMENTS', ar:'المواقف المحرجة', bgClass:'card-between', statIcon:'😭',
+    qs:[
+      {en:"What's your most embarrassing school memory?",ar:"شنو أكثر موقف محرج فالمدرسة؟"},
+      {en:"Have you ever waved back at someone who wasn't waving at you?",ar:"واش عمرك رديتي السلام لشي واحد ما كانش كيسلم عليك؟"},
+      {en:"What's the most awkward thing you said by accident?",ar:"شنو أكثر حاجة محرجة قلتيها بالغلط؟"},
+      {en:"What's your biggest fashion regret?",ar:"شنو أكبر غلطة فالأوتفيت ديالك؟"},
+      {en:"Have you ever fallen in public?",ar:"واش عمرك طحتي قدام الناس؟"},
+      {en:"What's your worst social anxiety moment?",ar:"شنو أسوأ موقف توتر اجتماعي دوزتيه؟"},
+      {en:"What's the weirdest thing you searched online?",ar:"شنو أغرب حاجة قلبتي عليها فالإنترنت؟"},
+      {en:"Have you ever sent a voice note accidentally?",ar:"واش عمرك صيفطتي فويس بالغلط؟"},
+      {en:"What's the most embarrassing autocorrect fail?",ar:"شنو أحرج autocorrect وقع ليك؟"},
+      {en:"What moment made you want to disappear instantly?",ar:"شنو الموقف اللي بغيتي تختفي فيه فوراً؟"},
+    ]},
+  chaos_sf:{ sym:'🎭', en:'CHAOS & RANDOM ENERGY', ar:'الفوضى والطاقة العشوائية', bgClass:'card-chaos', statIcon:'🎭',
+    qs:[
+      {en:"If the group had superpowers, what would each person have?",ar:"إلا كان عند الجروب قوى خارقة شنو تكون عند كل واحد؟"},
+      {en:"Who would survive a horror movie first?",ar:"شكون ينجا أول واحد ففيلم رعب؟"},
+      {en:"If your friendship had a warning label, what would it say?",ar:"إلا كانت الصداقة ديالكم عندها warning label شنو يكتب فيها؟"},
+      {en:"What's something only your friends understand about you?",ar:"شنو حاجة غير صحابك يفهموها عليك؟"},
+      {en:"What's the weirdest inside joke you have?",ar:"شنو أغرب inside joke عندكم؟"},
+      {en:"Which friend would accidentally become a criminal?",ar:"شكون يقدر يولي مجرم بالغلط؟"},
+      {en:"If your group lived together, what would be the biggest problem?",ar:"إلا عشتو كاملين مع بعضياتكم شنو أكبر مشكل يوقع؟"},
+      {en:"What energy do you bring to the group?",ar:"شنو الطاقة اللي كتجيب للجروب؟"},
+      {en:"Who would survive without social media the longest?",ar:"شكون يقدر يبقى بلا سوشيال ميديا أكثر مدة؟"},
+      {en:"What would your group chat be called in 10 years?",ar:"شنو يكون سميت الجروب ديالكم من بعد 10 سنين؟"},
+    ]},
 };
 
 /* ── Game state ── */
@@ -1491,7 +1569,8 @@ window.selectEdition = function(edition) {
   else if (edition === 'talking') cats = ['soft_talking','real_talking','psych_talking','between_talking','power_talking','desires_talking'];
   else if (edition === 'couples') cats = ['soft_couples','real_couples','psych_couples','between_couples','power_couples','desires_couples','future_couples'];
   else if (edition === 'stillus') cats = ['distance_su','stayed_su','unsaid_su','patterns_su','choosing_su','final_su'];
-  else if (edition === 'engaged') cats = ['soft_engaged','real_engaged','psych_engaged','between_engaged','power_engaged','promise_engaged','home_engaged'];
+  else if (edition === 'engaged')     cats = ['soft_engaged','real_engaged','psych_engaged','between_engaged','power_engaged','promise_engaged','home_engaged'];
+  else if (edition === 'secretfiles') cats = ['secrets_sf','laughs_sf','likely_sf','cringe_sf','chaos_sf'];
   else {
     cats = ['soft','real','psych','between','power',`desires_${edition}`];
     if (['fiance','married'].includes(edition)) cats.push(`future_${edition}`);
