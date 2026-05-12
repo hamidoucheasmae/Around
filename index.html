@@ -1001,6 +1001,7 @@ const CAT_SHORT = {
   spicy_part3:'18+ III', spicy_part4:'18+ IV',
   future_talking:'Future', future_couples:'Family', future_fiance:'Home',
   future_married:'Legacy', friendship_deep:'Friends', challenges_friends:'Dare',
+  soft_friends:'Soft', real_friends:'Real', psych_friends:'Mind', between_friends:'Between', power_friends:'Test',
   soft_engaged:'Soft', real_engaged:'Real', psych_engaged:'Mind', between_engaged:'Lines', power_engaged:'Test',
   promise_engaged:'Promise', home_engaged:'Home',
   secrets_sf:'Secrets', laughs_sf:'Laughs', likely_sf:'Likely', cringe_sf:'Cringe', chaos_sf:'Chaos',
@@ -1019,6 +1020,8 @@ const CATEGORIES = {
       {en:"What's something you wish we do more together?",ar:"شنو حاجة باغي نزيدو نديروها بجوج؟"},
       {en:"When do I make you smile without even trying?",ar:"فاش كنخليك تبتاسم بلا ما نحاول؟"},
       {en:"What energy do I bring into your life?",ar:"شنو الطاقة اللي كنجيبها لحياتك؟"},
+      {en:"What gesture of mine makes you feel the most cared for?",ar:"شنو الإيماءة ديالي اللي كتخليك تحس بأكثر اهتمام؟"},
+      {en:"If you could bottle a feeling from us, what would it be?",ar:"إلا كان تقدر تحكر إحساس منا، شنو غادي يكون؟"},
     ]},
   real:{ sym:'🔥', en:'REAL TALK', ar:'الحقيقة بلا فلتر', bgClass:'card-real', statIcon:'🔥',
     qs:[
@@ -1061,6 +1064,8 @@ const CATEGORIES = {
       {en:"When do you feel truly seen by me?",ar:"فاش كتحس بلي كنشوفك بصح؟"},
       {en:"What emotion do you hide the most?",ar:"شنو المشاعر اللي كتخبيها أكثر شي؟"},
       {en:"What do you notice about me that I might not see in myself?",ar:"شنو اللي كتلاحظو فيا وأنا ما كنشوفوش؟"},
+      {en:"What version of me do you see when no one is watching?",ar:"شنو النسخة ديالي اللي كتشوف ملي حد ماشي كيشوفنا؟"},
+      {en:"What's something I did that changed how you see life?",ar:"شنو الحاجة اللي دريت بها وبدلت ليك نظرتك للحياة؟"},
     ]},
   power:{ sym:'♟', en:'THE REAL TEST', ar:'الاختبار الحقيقي', bgClass:'card-power', statIcon:'♟',
     qs:[
@@ -1068,6 +1073,12 @@ const CATEGORIES = {
       {en:"If we don't work out, what do you think will be the reason?",ar:"إلا ما نجحاتش العلاقة، شنو السبب برأيك؟"},
       {en:"What would make you walk away from me?",ar:"شنو يخليك تبعد عليا؟"},
       {en:"Do you think you're truly ready for something serious?",ar:"واش نتا مستعد فعلاً لعلاقة جدية؟"},
+      {en:"Can you fully trust someone who's been dishonest once?",ar:"واش تقدر تثق بصح فشخص كذب مرة وحدة؟"},
+      {en:"What's the line you won't let anyone cross with you?",ar:"شنو الخط الأحمر اللي ماتسمحش لحد يعداه؟"},
+      {en:"How do you handle it when you're wrong in an argument?",ar:"كيفاش كتصرف ملي تكون غالط فخلاف؟"},
+      {en:"What would it take for you to forgive someone completely?",ar:"شنو اللازم يوقع باش تسامح شي واحد بالكامل؟"},
+      {en:"Do you believe someone can change who they are at their core?",ar:"واش كتامن أن الشخص يقدر يبدل فطرته الأصلية؟"},
+      {en:"If you had to choose between being loved or being respected, what would you pick?",ar:"إلا خيروك بين تكون محبوب أو محترم، شنو تختار؟"},
     ]},
   desires_talking:{ sym:'💝', en:'CURIOUS MINDS', ar:'الفضول المشروع', bgClass:'card-desires', statIcon:'💝',
     qs:[
@@ -1105,6 +1116,8 @@ const CATEGORIES = {
       {en:"What's something you want to explore together after marriage?",ar:"شنو حاجة باغيتي نكتشفوها معاً بعد الزفاف؟"},
       {en:"How important is passion in our intimate life?",ar:"شنو أهمية الشهوة فحياتنا الحميمة؟"},
       {en:"What's your fantasy for our honeymoon?",ar:"شنو خيالك لشهر العسل ديالنا؟"},
+      {en:"What boundaries feel important to discuss before marriage?",ar:"شنو الحدود اللي تبانلك مهم نتكلمو عليها قبل الزواج؟"},
+      {en:"How do you want us to keep desire alive in a long marriage?",ar:"كيفاش باغي نخليو الرغبة حية فزواج طويل؟"},
     ]},
   spicy_part1:{ sym:'🔥', en:'18+ UNFILTERED - PART 1', ar:'بدون تصفية - الجزء 1', bgClass:'card-spicy', statIcon:'🔥',
     qs:[
@@ -1161,6 +1174,7 @@ const CATEGORIES = {
       {en:"How do you want to keep surprising me?",ar:"كيفاش باغي تفاجئني بزاف؟"},
       {en:"What's something we haven't tried that you'd like to?",ar:"شنو حاجة ما جربناش بعد وباغيتي نجربوها؟"},
       {en:"How do you see our intimate life in another 10 years?",ar:"كيفاش كتشوف حياتنا الحميمة بعد 10 سنين؟"},
+      {en:"What's something that keeps intimacy feeling new to you?",ar:"شنو الحاجة اللي كتخليك تحس أن الحميمية دايما جديدة؟"},
     ]},
   future_talking:{ sym:'🌱', en:'IMAGINED FUTURES', ar:'المستقبل الممكن', bgClass:'card-future', statIcon:'🌱',
     qs:[
@@ -1170,6 +1184,10 @@ const CATEGORIES = {
       {en:"What are your biggest life goals?",ar:"شنو أكبر أحلامك فالحياة؟"},
       {en:"What kind of life do you want to build?",ar:"شنو نوع الحياة اللي باغي نبنيها؟"},
       {en:"What values matter most to you in a partner?",ar:"شنو القيم اللي أكثر شي مهمة فالشريك؟"},
+      {en:"What qualities would make someone feel like home to you?",ar:"شنو الصفات اللي كتخليك تحس بالشخص كدار؟"},
+      {en:"How important is it that your partner shares your values?",ar:"شنو أهمية أن يشارك شريكك قيمك؟"},
+      {en:"What kind of memories do you want to build together?",ar:"شنو الذكريات اللي باغي تبنيها مع شخص؟"},
+      {en:"Is there a version of your future you're afraid to want?",ar:"واش كاين نسخة مستقبل خايف تتمناها؟"},
     ]},
   future_couples:{ sym:'👶', en:'FUTURE & FAMILY', ar:'المستقبل والعائلة', bgClass:'card-future', statIcon:'👶',
     qs:[
@@ -1219,6 +1237,7 @@ const CATEGORIES = {
       {en:"Do you see us as friends for life?",ar:"واش كتشوفنا أصدقاء للأبد؟"},
       {en:"What could strengthen our friendship even more?",ar:"شنو اللي كيقدر يقوي صداقتنا أكثر؟"},
       {en:"How do you want to support each other in the future?",ar:"كيفاش باغي نتعاونو فالمستقبل؟"},
+      {en:"What's something I didn't know about you that you wish I did?",ar:"شنو حاجة ما كنتش عارفها عليك وتتمنى لو كنت عارف؟"},
     ]},
   challenges_friends:{ sym:'🎯', en:'DARE YOU', ar:'تحديات الصداقة', bgClass:'card-challenges', statIcon:'🎯',
     qs:[
@@ -1232,8 +1251,73 @@ const CATEGORIES = {
       {en:"Text someone you've been meaning to reach out to.",ar:"هضر مع شي واحد كنتي بغيتي توصل ليه."},
       {en:"Tell me what you really think about my life choices.",ar:"قول ليا شنو بصح رأيك فاختياراتي فالحياة."},
       {en:"Sing a duet with me (even if we're terrible!)",ar:"غنيو معايا (حتى إلا كنا مرعبين!)."},
-      {en:"Create a silly dance and film it for us.",ar:"عملو رقصة مضحكة وصور فيديو."},
-      {en:"Roast me lovingly for 2 minutes straight.",ar:"قول ليا نكات حنونة ديالي لمدة دقيقتين."},
+    ]},
+
+  /* ── FRIENDS — edition-specific categories ── */
+  soft_friends:{ sym:'🌷', en:'FRIENDSHIP OPENING', ar:'بداية الصداقة', bgClass:'card-soft', statIcon:'🌷',
+    qs:[
+      {en:"What made you feel like we could actually be real friends?",ar:"شنو خلاك تحس أننا نقدرو نكونو أصدقاء حقيقيين؟"},
+      {en:"When did you realize this friendship was different from others?",ar:"فاش فهمت أن هاد الصداقة مختلفة على الأخرين؟"},
+      {en:"What's a moment where you felt totally comfortable around me?",ar:"شنو لحظة حسيتي فيها براحة كاملة معايا؟"},
+      {en:"What small thing I do makes your day a little better?",ar:"شنو الحاجة الصغيرة اللي كندير وكتزيد يومك أحسن؟"},
+      {en:"What energy do you feel when we're hanging out?",ar:"شنو الطاقة اللي كتحس بيها ملي كنكونو مع بعض؟"},
+      {en:"What made you trust me with something personal?",ar:"شنو خلاك تثق فيا بحاجة شخصية؟"},
+      {en:"When do you laugh the most in my company?",ar:"فاش كتضحك أكثر شي معايا؟"},
+      {en:"What do you genuinely admire about me?",ar:"شنو اللي بصح كتعجبك فيا؟"},
+      {en:"What memory of us makes you smile without warning?",ar:"شنو ذكرى منا تخليك تبتاسم بلا ما تحسب؟"},
+      {en:"What part of our friendship feels rare to you?",ar:"شنو الجزء من صداقتنا اللي كيبان ليك نادر؟"},
+    ]},
+  real_friends:{ sym:'🔥', en:'REAL TALK', ar:'الحقيقة بلا فلتر', bgClass:'card-real', statIcon:'🔥',
+    qs:[
+      {en:"What's something real you've never said to my face?",ar:"شنو حقيقة ما عمرك قلتيها ليا وجهاً لوجه؟"},
+      {en:"Have I ever let you down? How?",ar:"واش خذلتك مرة؟ كيفاش؟"},
+      {en:"What do I do sometimes that frustrates you?",ar:"شنو كندير فالأحيان وكيزعجك؟"},
+      {en:"What part of your life do you hide even from close friends?",ar:"شنو الجزء من حياتك اللي كتخبيه حتى عن أصدقاء المقربين؟"},
+      {en:"When have you needed me and didn't say it?",ar:"فاش كنتي محتاجني ولم تقل؟"},
+      {en:"What's a belief of yours that might surprise me?",ar:"شنو قناعة عندك ممكن تفاجئني بيها؟"},
+      {en:"Have you ever judged me for something you later understood?",ar:"واش عمرك حكمت عليا بشي فهمتو بعدين؟"},
+      {en:"What do you genuinely need from a friendship?",ar:"شنو اللي بصح محتاجو من الصداقة؟"},
+      {en:"What's the hardest thing you've been through recently?",ar:"شنو أصعب حاجة مريتي بيها مؤخراً؟"},
+      {en:"What would change between us if I knew everything about you?",ar:"شنو اللي يتبدل بيناتنا إلا عرفت كل شي عليك؟"},
+    ]},
+  psych_friends:{ sym:'🧠', en:'FRIEND PATTERNS', ar:'أنماطك مع الأصدقاء', bgClass:'card-psych', statIcon:'🧠',
+    qs:[
+      {en:"Do you prefer one close friend or a wide social circle?",ar:"واش تفضل صديق وحد قريب أو دائرة اجتماعية واسعة؟"},
+      {en:"What kind of friendship hurt you most — distance or betrayal?",ar:"شنو نوع الصداقة اللي جرحتك أكثر — البعد ولا الخيانة؟"},
+      {en:"Do you tend to overshare or undershare with people you care about?",ar:"واش كتشارك بزاف أو قليل مع الناس اللي كتهتم بيهم؟"},
+      {en:"When you're struggling, do you reach out or go quiet?",ar:"ملي كتكون فمشكلة، واش كتتواصل ولا كتسكت؟"},
+      {en:"Do you feel secure in friendships or wonder where you stand?",ar:"واش كتحس بالأمان فالصداقات ولا كتتساءل وين راسك؟"},
+      {en:"What does friendship loneliness feel like to you?",ar:"شنو إحساس الوحدة فالصداقة بالنسبة ليك؟"},
+      {en:"Do you overthink replies or go with your gut?",ar:"واش كتفكر بزاف فالردود ولا كتروح بالطبيعي؟"},
+      {en:"What does a truly loyal friend look like to you?",ar:"شنو شكل الصديق الوفي الحقيقي؟"},
+      {en:"How do you respond when a friend hurts you without realizing it?",ar:"كيفاش كتصرف ملي يجرحك صديق بلا ما يعرف؟"},
+      {en:"Have you ever grown apart from someone — how did it feel?",ar:"واش عمرك ابتعدت على شي واحد بالتدريج — كيفاش كان الإحساس؟"},
+    ]},
+  between_friends:{ sym:'✨', en:'BETWEEN US', ar:'بيناتنا', bgClass:'card-between', statIcon:'✨',
+    qs:[
+      {en:"What do you feel in our friendship but haven't said out loud?",ar:"شنو اللي كتحس بيه فصداقتنا ولكن ما قلتوش؟"},
+      {en:"What do you notice about me that I probably don't see in myself?",ar:"شنو كتلاحظو فيا اللي أنا ما كنشوفوش؟"},
+      {en:"What's something you always want to say but hold back?",ar:"شنو الحاجة اللي ديما باغي تقولها وبقيتي صامت؟"},
+      {en:"When do you feel most understood by me?",ar:"فاش كتحس أنك مفهوم بيا أكثر شي؟"},
+      {en:"What part of you comes out only when we're together?",ar:"شنو الجزء منك اللي كيظهر غير معايا؟"},
+      {en:"Is there something I did that meant more than I realized?",ar:"واش كاين حاجة دريتها ومعناها ليك أكثر مما حسبت؟"},
+      {en:"What kind of silence between us feels comfortable?",ar:"شنو نوع الصمت بيناتنا اللي كتحس فيه براحة؟"},
+      {en:"What do you wish we talked about more?",ar:"شنو اللي تتمنى نهضرو عليه أكثر؟"},
+      {en:"When do you feel proud to call me your friend?",ar:"فاش كتحس بالفخر أنك تقول عليا صديقك؟"},
+      {en:"What does our friendship look like from the outside?",ar:"كيفاش كتبان صداقتنا للناس من برا؟"},
+    ]},
+  power_friends:{ sym:'♟', en:'FRIENDSHIP TEST', ar:'اختبار الصداقة', bgClass:'card-power', statIcon:'♟',
+    qs:[
+      {en:"If our friendship was tested, what do you think would break it?",ar:"إلا تمحنت صداقتنا، شنو برأيك يكسرها؟"},
+      {en:"Would you tell me a hard truth if I needed to hear it?",ar:"واش تقدر تقول ليا حقيقة صعيبة إلا كنت محتاجها؟"},
+      {en:"What would you do if you disagreed with a big decision I made?",ar:"شنو كتدير إلا اختلفت معايا فقرار كبير؟"},
+      {en:"Have you ever felt jealous of me? Can you say why?",ar:"واش عمرك حسيتي بالغيرة مني؟ تقدر تقول علاش؟"},
+      {en:"If we had a fight, who do you think would apologize first?",ar:"إلا تخاصمنا، شكون برأيك يعتذر أول؟"},
+      {en:"What's something you'd never forgive in a friendship?",ar:"شنو الحاجة اللي مستحيل تسامح فيها فالصداقة؟"},
+      {en:"Do you believe friendships survive when love gets in the way?",ar:"واش كتامن أن الصداقة تصمد ملي يدخل فيها الحب؟"},
+      {en:"What would you want me to do if I knew you were making a mistake?",ar:"شنو باغي نديره إلا علمت أنك غادي تغلط؟"},
+      {en:"If I needed you at 3am, would you actually answer?",ar:"إلا احتجتك ف3 دالليل، واش كتجاوب بصح؟"},
+      {en:"What does losing this friendship mean to you?",ar:"شنو كيعني ليك خسارة هاد الصداقة؟"},
     ]},
 
   /* ── TALKING STAGE — edition-specific categories ── */
@@ -1745,7 +1829,7 @@ window.selectEdition = function(edition) {
   currentEdition = edition;
   const ed = EDITIONS[edition];
   let cats;
-  if (edition === 'friends')      cats = ['soft','real','psych','between','power','friendship_deep','challenges_friends'];
+  if (edition === 'friends')      cats = ['soft_friends','real_friends','psych_friends','between_friends','power_friends','friendship_deep','challenges_friends'];
   else if (edition === 'spicy')   cats = ['spicy_part1','spicy_part2','spicy_part3','spicy_part4'];
   else if (edition === 'talking') cats = ['soft_talking','real_talking','psych_talking','between_talking','power_talking','desires_talking'];
   else if (edition === 'couples') cats = ['soft_couples','real_couples','psych_couples','between_couples','power_couples','desires_couples','future_couples'];
