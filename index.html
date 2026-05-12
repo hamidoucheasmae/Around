@@ -159,6 +159,7 @@ body::before {
 .edition-card.friends { --accent:#6B5F9C; }
 .edition-card.spicy   { --accent:#DC143C; }
 .edition-card.stillus { --accent:#A85A82; }
+.edition-card.engaged { --accent:#C9A84C; }
 .ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; }
 .ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
 .edition-card:hover .ec-icon-wrap::before { opacity:.22; }
@@ -244,6 +245,7 @@ body::before {
 .card-challenges { background:linear-gradient(155deg,#FF6B35 0%,#F7931E 50%,#FDB913 100%); }
 .card-spicy      { background:linear-gradient(155deg,#8B0000 0%,#DC143C 50%,#FF1493 100%); }
 .card-stillus    { background:linear-gradient(155deg,#3A1830 0%,#7B3A62 50%,#A85A82 100%); }
+.card-promise    { background:linear-gradient(155deg,#1C1408 0%,#5C3A0A 50%,#B8861C 100%); }
 
 .card-overlay { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'%3E%3Cpath d='M40 4L76 40L40 76L4 40Z'/%3E%3Cpath d='M40 18L62 40L40 62L18 40Z'/%3E%3Cpath d='M40 28L52 40L40 52L28 40Z'/%3E%3Ccircle cx='40' cy='40' r='32'/%3E%3Ccircle cx='40' cy='40' r='18'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
 .card-deco { position:absolute; font-size:4rem; opacity:.06; pointer-events:none; user-select:none; line-height:1; }
@@ -263,6 +265,12 @@ body::before {
 .btn-card-action { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.2); border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:.85rem; cursor:pointer; color:rgba(255,255,255,.8); transition:all .2s; backdrop-filter:blur(4px); line-height:1; }
 .btn-card-action:hover { background:rgba(255,255,255,.25); }
 .btn-card-action.fav-active { background:rgba(220,20,60,.4); border-color:rgba(220,20,60,.6); color:white; }
+
+/* Challenge block inside card */
+.card-challenge { margin-top:10px; padding:8px 12px; background:rgba(255,255,255,.12); border-radius:12px; border:1px solid rgba(255,255,255,.18); text-align:center; }
+.card-challenge-icon { font-size:.85rem; display:block; margin-bottom:3px; }
+.card-challenge-en { font-family:'DM Sans',sans-serif; font-size:.72rem; color:rgba(255,255,255,.9); font-weight:600; line-height:1.5; margin-bottom:2px; }
+.card-challenge-ar { font-family:'Cairo',sans-serif; font-size:.7rem; color:rgba(255,255,255,.7); direction:rtl; line-height:1.6; }
 
 /* Welcome card */
 .welcome-card { width:100%; max-width:380px; min-height:280px; border-radius:24px; background:linear-gradient(160deg,rgba(248,236,212,0.85),rgba(238,218,188,0.7)); border:1px solid rgba(184,92,74,.18); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; text-align:center; padding:1.5rem; box-shadow:0 4px 24px rgba(184,92,74,.1); }
@@ -419,6 +427,12 @@ body::before {
       <div class="ec-name">Still Us</div>
       <div class="ec-label">Found Our Way Back</div>
       <div class="ec-progress" id="ep-stillus"></div>
+    </div>
+    <div class="edition-card engaged" onclick="selectEdition('engaged')">
+      <div class="ec-icon-wrap"><span class="ec-icon">💍</span></div>
+      <div class="ec-name">Engaged</div>
+      <div class="ec-label">Our Forever Begins</div>
+      <div class="ec-progress" id="ep-engaged"></div>
     </div>
   </div>
 </div>
@@ -906,6 +920,7 @@ const EDITIONS = {
   friends: { name:'Friends',       ar:'الأصدقاء',     badge:'👯 Ride or Die · أصدقاء الروح',      icon:'👯' },
   spicy:   { name:'18+ Unfiltered',ar:'بدون تصفية',   badge:'🔥 Adults Only · للبالغين فقط',      icon:'🔥' },
   stillus: { name:'Still Us',      ar:'مازلنا نحن',  badge:'❤️ Found Our Way Back · رجعنا لبعضياتنا', icon:'❤️' },
+  engaged: { name:'Engaged',       ar:'المخطوبون',   badge:'💍 Our Forever Begins · بدايتنا الأبدية',   icon:'💍' },
 };
 
 const CAT_SHORT = {
@@ -918,6 +933,8 @@ const CAT_SHORT = {
   spicy_part3:'18+ III', spicy_part4:'18+ IV',
   future_talking:'Future', future_couples:'Family', future_fiance:'Home',
   future_married:'Legacy', friendship_deep:'Friends', challenges_friends:'Dare',
+  soft_engaged:'Soft', real_engaged:'Real', psych_engaged:'Mind', between_engaged:'Lines', power_engaged:'Test',
+  promise_engaged:'Promise', home_engaged:'Home',
 };
 
 const CATEGORIES = {
@@ -1361,6 +1378,99 @@ const CATEGORIES = {
       {en:"What kind of love are we trying to build now?",ar:"شنو نوع الحب اللي كنحاولو نبنيو دابا؟"},
       {en:"Do you think we came back to each other for a reason?",ar:"واش كتشوف أننا رجعنا لبعضياتنا لسبب معيّن؟"},
     ]},
+
+  /* ── ENGAGED EDITION ── */
+  soft_engaged:{ sym:'🌷', en:'SOFT OPENING', ar:'البداية الناعمة', bgClass:'card-soft', statIcon:'🌷',
+    qs:[
+      {en:"What moment made you realize 'this is the person I want beside me forever'?",ar:"شنو هو الموقف لي خلاك تحس: 'هاد الشخص بغيتو يبقى معايا طول حياتي'؟"},
+      {en:"What part of our relationship feels the softest and safest to you?",ar:"شنو أكثر حاجة فالعلاقة ديالنا كتحسسك بالراحة والأمان؟",chal:{en:"Whisper one thing you never said out loud before.",ar:"همس بحاجة عمرك ما قلتيها بصوت عالي."}},
+      {en:"When do you feel most loved by me without me even trying?",ar:"فوقاش كتحس بالحب مني بلا ما نحاول حتى؟",chal:{en:"Give your partner a forehead kiss and describe what you feel.",ar:"بوس شريكك فجبينو وشرح شنو حسيتي."}},
+      {en:"What kind of future do you secretly imagine for us?",ar:"كيفاش كتشوف المستقبل ديالنا فخيالك؟",chal:{en:"Describe your dream morning together in detail.",ar:"وصف صباح مثالي بيناتكم بالتفاصيل."}},
+      {en:"What small thing about me melts your heart every time?",ar:"شنو الحاجة الصغيرة فيا لي كاتدوب ليك قلبك كل مرة؟"},
+      {en:"What do you think our love feels like from the outside?",ar:"كيفاش كتحس الناس كيشوفو الحب ديالنا؟",chal:{en:"Say 3 words that describe your relationship.",ar:"قول 3 كلمات كيوصفو علاقتكم."}},
+      {en:"What was your first silent thought when you fell for me?",ar:"شنو أول فكرة دازت فبالك ملي بديتي كتبغيني؟"},
+      {en:"What energy do we create together that you never had before?",ar:"شنو الطاقة لي كتحس بيها معايا وما عمرك حسيتها مع شي حد؟"},
+      {en:"If our relationship had a season, what would it be and why?",ar:"إلا كانت علاقتنا فصل من الفصول شنو غادي تكون وعلاش؟",chal:{en:"Describe your partner using weather metaphors only.",ar:"وصف شريكك باستعارات ديال الطقس فقط."}},
+      {en:"What part of me feels like home to you?",ar:"شنو الحاجة فيا لي كتحسسك بالدار؟",chal:{en:"Rest your head on your partner and stay silent for one minute.",ar:"حط راسك على شريكك وبقاو ساكتين دقيقة."}},
+    ]},
+  real_engaged:{ sym:'🔥', en:'REAL TALK', ar:'الحقيقة بلا فلتر', bgClass:'card-real', statIcon:'🔥',
+    qs:[
+      {en:"What fear about marriage do you rarely admit?",ar:"شنو أكثر خوف عندك من الزواج وما كتقولوش غالباً؟"},
+      {en:"What could slowly destroy a relationship, even with love present?",ar:"شنو الحاجة لي ممكن تقتل العلاقة حتى إلا كان الحب موجود؟",chal:{en:"Promise one habit you'll work on.",ar:"وعد بعادة غادي تخدم عليها."}},
+      {en:"What kind of pain are you scared to cause me one day?",ar:"شنو الألم لي خايف نهار تسبب ليا فيه؟"},
+      {en:"What does emotional loyalty mean to you?",ar:"شنو كتعني ليك الوفاء العاطفي؟",chal:{en:"Share one boundary you need respected forever.",ar:"قول واحد الحدود لي مهمة ليك بزاف."}},
+      {en:"When do you shut down emotionally?",ar:"فوقاش كتسد على راسك عاطفياً؟"},
+      {en:"What's harder for you: being vulnerable or being patient?",ar:"شنو الأصعب عليك: تكون ضعيف عاطفياً ولا صبور؟"},
+      {en:"What do you never want us to become as a couple?",ar:"شنو الحاجة لي ما بغيتيش نوصلو ليها كأزواج؟",chal:{en:"Talk about one couple you admire and why.",ar:"هضر على ثنائي كيعجبك وعلاش."}},
+      {en:"What's something I do that heals you emotionally?",ar:"شنو الحاجة لي كندير وكتداويك نفسياً؟"},
+      {en:"What truth do you think couples avoid before marriage?",ar:"شنو الحقيقة لي بزاف ديال الأزواج كيهربو منها قبل الزواج؟",chal:{en:"Talk about one difficult conversation you still want to have.",ar:"هضر على موضوع صعيب باقي بغيتي تناقشوه."}},
+      {en:"If we lost everything except each other, what would keep us strong?",ar:"إلا خسرنا كلشي وبقينا غير حنا بجوج، شنو غادي يبقينا واقفين؟"},
+    ]},
+  psych_engaged:{ sym:'🧠', en:'MIND PATTERNS', ar:'أنماطك العاطفية', bgClass:'card-psych', statIcon:'🧠',
+    qs:[
+      {en:"How do you react when you feel misunderstood?",ar:"كيفاش كتتصرف ملي كتحس براسك مفهومش؟"},
+      {en:"What childhood experience shaped the way you love today?",ar:"شنو تجربة من الطفولة أثرت على الطريقة لي كتحب بها دابا؟"},
+      {en:"Do you need reassurance often or space first?",ar:"واش كتحتاج طمأنة بزاف ولا كتفضل المساحة أولاً؟"},
+      {en:"What thought pattern hurts you the most in relationships?",ar:"شنو أكثر طريقة تفكير كتأذيك فالعلاقات؟"},
+      {en:"What makes you emotionally distant without noticing?",ar:"شنو كيخليك تبعد عاطفياً بلا ما تحس؟"},
+      {en:"How do you usually deal with disappointment?",ar:"كيفاش كتعامل مع خيبة الأمل غالباً؟"},
+      {en:"What type of words stay in your mind forever?",ar:"شنو نوع الكلام لي كيبقى عالق فبالك ديما؟"},
+      {en:"What's something you overthink about us?",ar:"شنو الحاجة لي كتفكر فيها بزاف علينا؟"},
+      {en:"What emotional habit do you want to improve before marriage?",ar:"شنو العادة العاطفية لي بغيتي تصلح قبل الزواج؟"},
+      {en:"What helps you feel emotionally secure in a relationship?",ar:"شنو كيخليك تحس بالأمان العاطفي فالعلاقة؟"},
+    ]},
+  between_engaged:{ sym:'🌙', en:'BETWEEN THE LINES', ar:'ما بين السطور', bgClass:'card-between', statIcon:'🌙',
+    qs:[
+      {en:"What's something your heart understood about me before your mind did?",ar:"شنو الحاجة لي قلبك فهمها فيا قبل حتى عقلك؟"},
+      {en:"In what moment did you silently think: 'I never want to lose this person'?",ar:"فاش جاك داك الإحساس بصمت: 'ما بغيتش نخسر هاد الشخص'؟",chal:{en:"Hold each other tightly for 20 seconds without speaking.",ar:"تعانقو بقوة 20 ثانية بلا كلام."}},
+      {en:"What part of my love heals something old inside you?",ar:"شنو الحاجة فحبي لي كتعالج جرح قديم داخلك؟"},
+      {en:"If my soul had a scent, what would it smell like to you?",ar:"إلا كانت لروحي ريحة، كيفاش غادي تكون بالنسبة ليك؟"},
+      {en:"What do my eyes tell you when I'm not speaking?",ar:"شنو كيقولو ليك عينيّا ملي ما كنكونش كنهضر؟",chal:{en:"Look deeply into each other's eyes until one of you smiles.",ar:"شوفو لبعضياتكم فالعينين حتى يبتاسم واحد فيكم."}},
+      {en:"What version of yourself only exists when you're with me?",ar:"شنو النسخة منك لي ما كتبانش إلا معايا؟"},
+      {en:"What unspoken fear do you think I carry in love?",ar:"شنو الخوف لي كتحسني مخبيه فالحب؟",chal:{en:"Kiss your partner's hand and reassure them softly.",ar:"بوس يد شريكك وطمّنو بكلام هادئ."}},
+      {en:"When do you feel our souls are the closest?",ar:"فوقاش كتحس أرواحنا قراب بزاف لبعضياتها؟"},
+      {en:"What kind of silence between us feels intimate instead of empty?",ar:"شنو نوع السكوت بيناتنا لي كتحسو حميمي وماشي فارغ؟"},
+      {en:"If one day life becomes hard, what feeling between us do you hope never disappears?",ar:"إلا ولات الحياة صعيبة نهار من الأيام، شنو الإحساس بيناتنا لي بغيتي ما يختفيش؟"},
+    ]},
+  power_engaged:{ sym:'♟', en:'THE REAL TEST', ar:'الاختبار الحقيقي', bgClass:'card-power', statIcon:'♟',
+    qs:[
+      {en:"How should we love each other on days we don't even love ourselves?",ar:"كيفاش خاصنا نحبّو بعضياتنا فالنهارات لي ما كنحبوش حتى راسنا؟"},
+      {en:"If one of us breaks emotionally one day, how should the other react?",ar:"إلا تكسّر واحد فينا نفسياً نهار، كيفاش خاص الآخر يتعامل معاه؟"},
+      {en:"What kind of fights should never happen between husband and wife?",ar:"شنو نوع المشاكل لي عمرها ما خاصها توقع بين الزوج والزوجة؟",chal:{en:"Create a 'safe word' for difficult emotional moments.",ar:"خلقو كلمة خاصة تستعملوها ملي كتكون لحظة حساسة."}},
+      {en:"What would hurt you more than betrayal itself?",ar:"شنو الحاجة لي ممكن توجعك أكثر من الخيانة نفسها؟",chal:{en:"Promise one thing you will never do to each other.",ar:"وعدو بعضياتكم بحاجة عمركم ما تديروها."}},
+      {en:"How do you want us to reconnect after emotional distance?",ar:"كيفاش بغيتي نرجعو لبعضياتنا ملي يكون بعد عاطفي؟"},
+      {en:"What scares you the most about sharing a whole life with someone?",ar:"شنو أكثر حاجة كاتخوفك ففكرة تشارك حياتك كاملة مع شي حد؟",chal:{en:"Say one fear while your partner holds your hand.",ar:"قول خوف واحد وشريكك شاد يدك."}},
+      {en:"If we ever become emotionally tired, what should remind us to stay?",ar:"إلا تعبنا عاطفياً نهار، شنو خاصو يذكرنا علاش نبقاو؟",chal:{en:"Remind your partner of one beautiful memory together.",ar:"ذكر شريكك بذكرى جميلة بيناتكم."}},
+      {en:"What does emotional safety inside marriage look like to you?",ar:"كيفاش كتشوف الأمان العاطفي داخل الزواج؟"},
+      {en:"What should we never allow the outside world to destroy between us?",ar:"شنو الحاجة لي ما خاص حتى العالم الخارجي يخربها بيناتنا؟",chal:{en:"Hold pinkies together and make one secret promise.",ar:"شبكو صبيعاتكم الصغار ووعدو بعضياتكم بوعد سري."}},
+      {en:"When we're old and tired, what do you hope still exists between us?",ar:"ملي نوليو كبار وعيانين، شنو بغيتي يبقى بيناتنا؟",chal:{en:"Imagine yourselves at 70 and speak to each other like that version.",ar:"تخيلو راسكم فعمر 70 وهضرو مع بعضياتكم بهاد الطريقة."}},
+    ]},
+  promise_engaged:{ sym:'💍', en:'THE PROMISE OF US', ar:'الوعد ديالنا', bgClass:'card-promise', statIcon:'💍',
+    qs:[
+      {en:"Before becoming husband and wife, what do you think our hearts still need to learn?",ar:"قبل ما نوليو زوج وزوجة، شنو كتحس قلوبنا باقي خاصها تتعلم؟"},
+      {en:"What promise feels sacred to you in marriage?",ar:"شنو الوعد لي كتحسو مقدس فالزواج؟",chal:{en:"Hold hands and say one promise looking into each other's eyes.",ar:"شدو يدين بعضياتكم وقولو وعد وانتوما كتشوفو فالعينين."}},
+      {en:"What kind of husband/wife would make your younger self feel safe?",ar:"شنو نوع الزوج/الزوجة لي كان غادي يخلي النسخة الصغيرة منك تحس بالأمان؟"},
+      {en:"What kind of love do you want our children to witness between us?",ar:"شنو نوع الحب لي بغيتي ولادنا يشوفوه بيناتنا؟",chal:{en:"Imagine your future child describing your love story.",ar:"تخيلو ولدكم فالمستقبل كيفاش غادي يحكي قصة حبكم."}},
+      {en:"How should we protect each other mentally and emotionally after marriage?",ar:"كيفاش خاصنا نحافظو على بعضياتنا نفسياً وعاطفياً من بعد الزواج؟"},
+      {en:"What kind of home would make you excited to come back every day?",ar:"شنو نوع الدار لي يخليك متحمس ترجع ليها كل نهار؟",chal:{en:"Describe your dream evening together after marriage.",ar:"وصف أمسية مثالية بيناتكم من بعد الزواج."}},
+      {en:"What do you hope never changes in the way we love each other after marriage?",ar:"شنو الحاجة لي بغيتي عمرها ما تتبدل فطريقة حبنا لبعضياتنا بعد الزواج؟"},
+      {en:"What would make our marriage emotionally stronger year after year?",ar:"شنو لي غادي يقوي زواجنا عاطفياً عام بعد عام؟",chal:{en:"Say one thing you want to keep improving together forever.",ar:"قول حاجة وحدة بغيتي تبقاو تطوروها بجوج ديما."}},
+      {en:"How do you imagine us handling parenthood as a team?",ar:"كيفاش كتشوفنا فالتربية كفريق واحد؟",chal:{en:"Choose one value you both want your future kids to learn first.",ar:"اختارو قيمة وحدة بغيتي ولادكم يتعلموها أولاً."}},
+      {en:"When you imagine the day we officially become each other's person… what emotion hits you first?",ar:"ملي كتتخيل النهار لي غادي نوليو رسمياً ديال بعضياتنا… شنو أول إحساس كيجيك؟"},
+    ]},
+  home_engaged:{ sym:'🏡', en:'BUILDING OUR HOME', ar:'بناء بيتنا', bgClass:'card-future', statIcon:'🏡',
+    qs:[
+      {en:"What kind of emotional atmosphere should exist in our home every single day?",ar:"شنو الجو العاطفي لي خاص يكون فالدار ديالنا كل نهار؟",chal:{en:"Describe your dream family morning together.",ar:"وصف صباح عائلي مثالي فداركم."}},
+      {en:"What type of parents do you dream we become together?",ar:"شنو نوع الآباء لي كتحلم نكونوه بجوج؟"},
+      {en:"How should love look in front of our future children?",ar:"كيفاش خاص الحب يبان قدام ولادنا فالمستقبل؟",chal:{en:"Hold each other and imagine your future child watching you lovingly.",ar:"تعانقو وتخيلو ولدكم كيشوفكم بحب."}},
+      {en:"What emotional wounds do you never want to pass to your children?",ar:"شنو الجروح النفسية لي ما بغيتيش توصل لولادك؟"},
+      {en:"How should we support each other during sickness or difficult health moments?",ar:"كيفاش خاصنا نساندو بعضياتنا فالمرض أو اللحظات الصحية الصعيبة؟",chal:{en:"Tell your partner how you would care for them on their worst day.",ar:"قول لشريكك كيفاش غادي تهتم بيه فأسوأ نهار عندو."}},
+      {en:"What values should our children feel before they even understand words?",ar:"شنو القيم لي خاص ولادنا يحسو بيها قبل حتى يفهمو الكلام؟"},
+      {en:"What does building a home together mean beyond the physical space?",ar:"شنو كتعني 'بناء دار مع بعض' تعدا الفضاء المادي؟"},
+      {en:"What kind of memories do you want our children to carry forever about us?",ar:"شنو الذكريات لي بغيتي ولادكم يحتافظو بيها عليكم طول العمر؟",chal:{en:"Describe one future family tradition you dream about.",ar:"وصف تقليد عائلي مستقبلي كتحلم بيه."}},
+      {en:"What should our home feel like after a hard day in the outside world?",ar:"كيفاش خاص دارنا تحسسنا من بعد نهار صعيب برا؟"},
+      {en:"If our future children described our love one day, what would you hope they say?",ar:"إلا وصفو ولادنا حبنا نهار، شنو بغيتي يقولو؟"},
+    ]},
 };
 
 /* ── Game state ── */
@@ -1381,6 +1491,7 @@ window.selectEdition = function(edition) {
   else if (edition === 'talking') cats = ['soft_talking','real_talking','psych_talking','between_talking','power_talking','desires_talking'];
   else if (edition === 'couples') cats = ['soft_couples','real_couples','psych_couples','between_couples','power_couples','desires_couples','future_couples'];
   else if (edition === 'stillus') cats = ['distance_su','stayed_su','unsaid_su','patterns_su','choosing_su','final_su'];
+  else if (edition === 'engaged') cats = ['soft_engaged','real_engaged','psych_engaged','between_engaged','power_engaged','promise_engaged','home_engaged'];
   else {
     cats = ['soft','real','psych','between','power',`desires_${edition}`];
     if (['fiance','married'].includes(edition)) cats.push(`future_${edition}`);
@@ -1567,6 +1678,7 @@ function drawCard(count = true) {
           <div class="card-q-en">${q.en}</div>
           <div class="card-divider"></div>
           <div class="card-q-ar">${q.ar}</div>
+          ${q.chal ? `<div class="card-challenge"><span class="card-challenge-icon">🎯</span><div class="card-challenge-en">${q.chal.en}</div><div class="card-challenge-ar">${q.chal.ar}</div></div>` : ''}
         </div>
         <div class="card-footer">
           <span class="card-num">${seenInCat}/${pool.length}</span>
