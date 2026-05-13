@@ -170,7 +170,6 @@ body::before {
 .edition-card:active { transform:scale(.97); }
 .edition-card.talking { --accent:#D4A574; }
 .edition-card.couples { --accent:#D9877A; }
-.edition-card.fiance  { --accent:#B85C4A; }
 .edition-card.married { --accent:#8B3A5C; }
 .edition-card.friends { --accent:#6B5F9C; }
 .edition-card.spicy   { --accent:#DC143C; }
@@ -506,12 +505,6 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
         <div class="ec-name">Couples</div>
         <div class="ec-label">Growing Together</div>
         <div class="ec-progress" id="ep-couples"></div>
-      </div>
-      <div class="edition-card fiance" onclick="selectEdition('fiance')">
-        <div class="ec-icon-wrap"><span class="ec-icon">💍</span></div>
-        <div class="ec-name">Fiancé</div>
-        <div class="ec-label">Before the Wedding</div>
-        <div class="ec-progress" id="ep-fiance"></div>
       </div>
       <div class="edition-card engaged" onclick="selectEdition('engaged')">
         <div class="ec-icon-wrap"><span class="ec-icon">🫧</span></div>
@@ -967,7 +960,7 @@ function getEditionCats(edition) {
   if (edition === 'family')       return ['energy_fam','chaos_fam','feels_fam','night_fam','forever_fam'];
   if (edition === 'betweenus')    return ['between_bt','debates_bt','midnight_bt','real_bt'];
   const cats = ['soft','real','psych','between','power',`desires_${edition}`];
-  if (['fiance','married'].includes(edition)) cats.push(`future_${edition}`);
+  if (edition === 'married') cats.push('future_married');
   return cats;
 }
 
