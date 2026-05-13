@@ -1349,10 +1349,10 @@ function showSummary(drawnCount, favCount, seconds) {
   const timeStr = `${m}:${s.toString().padStart(2,'0')}`;
   const msgs = [
     ['🌷', 'Beautiful session!', 'The best conversations start with honest questions.'],
-    ['✨', 'That was real.', 'You showed up — that's what matters most.'],
+    ['✨', 'That was real.', "You showed up — that's what matters most."],
     ['💕', 'Keep going!', 'Every card you draw brings you a little closer.'],
     ['🌙', 'Deep talk done.', 'The questions you ask say a lot about who you are.'],
-    ['💎', 'Quality time!', 'Presence is the rarest gift — you gave it.'],
+    ['💎', 'Quality time!', "Presence is the rarest gift — you gave it."],
   ];
   const [icon, title, msg] = msgs[Math.floor(Math.random() * msgs.length)];
   document.getElementById('sum-icon').textContent  = icon;
