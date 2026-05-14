@@ -187,6 +187,7 @@ body::before {
 .edition-card.redflags      { --accent:#CC3A3A; }
 .edition-card.girlsnight    { --accent:#D4679A; }
 .edition-card.whoknows      { --accent:#D4A044; }
+.edition-card.firstimpact   { --accent:#7BAABB; }
 .ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; }
 .ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
 .edition-card:hover .ec-icon-wrap::before { opacity:.22; }
@@ -320,6 +321,8 @@ body::before {
 .card-wkmemory   { background:linear-gradient(155deg,#1A1008 0%,#3A2810 50%,#7A5820 100%); }
 .card-wkmind     { background:linear-gradient(155deg,#0A1420 0%,#142838 50%,#224870 100%); }
 .card-wklove     { background:linear-gradient(155deg,#200818 0%,#401030 50%,#7A2060 100%); }
+.card-firstlook  { background:linear-gradient(155deg,#081020 0%,#142038 50%,#204468 100%); }
+.card-perception { background:linear-gradient(155deg,#100A20 0%,#201840 50%,#3A2870 100%); }
 
 .card-overlay { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'%3E%3Cpath d='M40 4L76 40L40 76L4 40Z'/%3E%3Cpath d='M40 18L62 40L40 62L18 40Z'/%3E%3Cpath d='M40 28L52 40L40 52L28 40Z'/%3E%3Ccircle cx='40' cy='40' r='32'/%3E%3Ccircle cx='40' cy='40' r='18'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
 .card-deco { position:absolute; font-size:4rem; opacity:.06; pointer-events:none; user-select:none; line-height:1; }
@@ -648,6 +651,12 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
         <div class="ec-name">Who Knows Me Best?</div>
         <div class="ec-label">Test Your People</div>
         <div class="ec-progress" id="ep-whoknows"></div>
+      </div>
+      <div class="edition-card firstimpact" onclick="selectEdition('firstimpact')">
+        <div class="ec-icon-wrap"><span class="ec-icon">👀</span></div>
+        <div class="ec-name">First Impression</div>
+        <div class="ec-label">Seen vs Real</div>
+        <div class="ec-progress" id="ep-firstimpact"></div>
       </div>
     </div>
   </div>
@@ -1055,6 +1064,7 @@ function getEditionCats(edition) {
   if (edition === 'redflags')     return ['turnoffs_rf','greenflags_rf','toxic_rf','standards_rf','opinions_rf'];
   if (edition === 'girlsnight')   return ['girlhood_gn','feminine_gn','love_gn','neversay_gn','forever_gn'];
   if (edition === 'whoknows')     return ['littlethings_wk','mindread_wk','loveread_wk','realme_wk','memories_wk'];
+  if (edition === 'firstimpact')  return ['howseeme_fi','perception_fi','relimpress_fi','truthvibe_fi'];
   const cats = ['soft','real','psych','between','power',`desires_${edition}`];
   if (edition === 'married') cats.push('future_married');
   return cats;

@@ -20,6 +20,7 @@ var EDITIONS = {
   redflags:     { name:'Red & Green Flags', ar:'العلامات',   badge:'🚩 Love Opinions · آراء في الحب',           icon:'🚩' },
   girlsnight:   { name:'Girls Night',       ar:'ليلة البنات', badge:'💋 Girlhood Energy · طاقة البنات',           icon:'💋' },
   whoknows:     { name:'Who Knows Me Best?', ar:'شكون كيعرفني؟', badge:'🍟 Test Your People · اختبر ناسك',          icon:'🍟' },
+  firstimpact:  { name:'First Impression',   ar:'الانطباع الأول', badge:'👀 Seen vs Real · الظاهر والحقيقة',         icon:'👀' },
 };
 
 var CAT_SHORT = {
@@ -47,4 +48,5 @@ var CAT_SHORT = {
   turnoffs_rf:'Turn Offs', greenflags_rf:'Green Flags', toxic_rf:'Toxic Truths', standards_rf:'Standards', opinions_rf:'Midnight Opinions',
   girlhood_gn:'Girlhood', feminine_gn:'Feminine', love_gn:'Love & Crushes', neversay_gn:'Unspoken', forever_gn:'Forever Girls',
   littlethings_wk:'Little Things', mindread_wk:'Inside My Mind', loveread_wk:'Love & Me', realme_wk:'The Real Me', memories_wk:'Our Memories',
+  howseeme_fi:'How They See Me', perception_fi:'Perception Game', relimpress_fi:'Relationship Impressions', truthvibe_fi:'Truth vs Perception',
 };
