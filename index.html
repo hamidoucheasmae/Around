@@ -184,6 +184,7 @@ body::before {
 .edition-card.masks         { --accent:#B8864A; }
 .edition-card.loveyourself  { --accent:#C87AAA; }
 .edition-card.future        { --accent:#6A9FBB; }
+.edition-card.redflags      { --accent:#CC3A3A; }
 .ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; }
 .ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
 .edition-card:hover .ec-icon-wrap::before { opacity:.22; }
@@ -308,6 +309,9 @@ body::before {
 .card-dreamlife  { background:linear-gradient(155deg,#0A1428 0%,#182A50 50%,#2A4A88 100%); }
 .card-futurefear { background:linear-gradient(155deg,#180A28 0%,#2A1448 50%,#4A2870 100%); }
 .card-success    { background:linear-gradient(155deg,#101808 0%,#243018 50%,#3A5828 100%); }
+.card-redflag    { background:linear-gradient(155deg,#280808 0%,#501010 50%,#8B1A1A 100%); }
+.card-greenflag  { background:linear-gradient(155deg,#081A08 0%,#103A10 50%,#1A6A1A 100%); }
+.card-opinions   { background:linear-gradient(155deg,#0A0A20 0%,#181838 50%,#2A2A60 100%); }
 
 .card-overlay { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'%3E%3Cpath d='M40 4L76 40L40 76L4 40Z'/%3E%3Cpath d='M40 18L62 40L40 62L18 40Z'/%3E%3Cpath d='M40 28L52 40L40 52L28 40Z'/%3E%3Ccircle cx='40' cy='40' r='32'/%3E%3Ccircle cx='40' cy='40' r='18'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
 .card-deco { position:absolute; font-size:4rem; opacity:.06; pointer-events:none; user-select:none; line-height:1; }
@@ -618,6 +622,12 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
         <div class="ec-name">Future</div>
         <div class="ec-label">The Life You Dream</div>
         <div class="ec-progress" id="ep-future"></div>
+      </div>
+      <div class="edition-card redflags" onclick="selectEdition('redflags')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🚩</span></div>
+        <div class="ec-name">Red & Green Flags</div>
+        <div class="ec-label">Love Opinions</div>
+        <div class="ec-progress" id="ep-redflags"></div>
       </div>
     </div>
   </div>
@@ -1022,6 +1032,7 @@ function getEditionCats(edition) {
   if (edition === 'masks')        return ['showpeople_m','hiddenself_m','maskexists_m','exhaustion_m','unmasking_m'];
   if (edition === 'loveyourself') return ['seeing_ly','softenergy_ly','healself_ly','innerworld_ly','becoming_ly'];
   if (edition === 'future')       return ['dreamlife_f','lovenext_f','fears_f','success_f','letters_f'];
+  if (edition === 'redflags')     return ['turnoffs_rf','greenflags_rf','toxic_rf','standards_rf','opinions_rf'];
   const cats = ['soft','real','psych','between','power',`desires_${edition}`];
   if (edition === 'married') cats.push('future_married');
   return cats;
