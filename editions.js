@@ -15,6 +15,8 @@ var EDITIONS = {
   healing:      { name:'Healing',      ar:'الشفاء',      badge:'🌧 After the Pain · بعد الألم',             icon:'🌧' },
   solo:         { name:'Solo Edition', ar:'بوحدك',        badge:'🌙 Self Talks · كلام الروح',                icon:'🌙' },
   masks:        { name:'Masks',        ar:'الأقنعة',      badge:'🎭 Who Are You Really? · شكون نتا حقيقة؟',  icon:'🎭' },
+  loveyourself: { name:'Love Yourself', ar:'حب نفسك',     badge:'🌷 Soft & Worthy · ناعم ويستحق',             icon:'🌷' },
+  future:       { name:'Future',        ar:'المستقبل',    badge:'✨ The Life You Dream · الحياة اللي كتحلم', icon:'✨' },
 };
 
 var CAT_SHORT = {
@@ -37,4 +39,6 @@ var CAT_SHORT = {
   whathurt_h:'What Hurt You', healingprocess_h:'Healing', neversay_h:'Never Say', newversion_h:'New You', softness_h:'Softness',
   whoami_s:'Who Are You', thoughts_s:'Thoughts', healing_s:'Letting Go', future_s:'Future You', selflove_s:'Self Love',
   showpeople_m:'The Mask', hiddenself_m:'Hidden Self', maskexists_m:'Why Masks', exhaustion_m:'Exhaustion', unmasking_m:'Unmasking',
+  seeing_ly:'Seeing You', softenergy_ly:'Soft Energy', healself_ly:'Heal Yourself', innerworld_ly:'Inner World', becoming_ly:'Becoming',
+  dreamlife_f:'Dream Life', lovenext_f:'Future Love', fears_f:'Fears', success_f:'Success', letters_f:'Dear Future Me',
 };
