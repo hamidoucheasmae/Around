@@ -1,4 +1,4 @@
-const CACHE = 'seneya-v3';
+const CACHE = 'seneya-v4';
 
 self.addEventListener('install', e =>
   e.waitUntil(
