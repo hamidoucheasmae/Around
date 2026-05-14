@@ -179,6 +179,9 @@ body::before {
 .edition-card.family      { --accent:#D4845A; }
 .edition-card.betweenus      { --accent:#7B8DC8; }
 .edition-card.overthinkers  { --accent:#6B7FBB; }
+.edition-card.healing       { --accent:#5B9B7A; }
+.edition-card.solo          { --accent:#9B7BBB; }
+.edition-card.masks         { --accent:#B8864A; }
 .ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; }
 .ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
 .edition-card:hover .ec-icon-wrap::before { opacity:.22; }
@@ -292,6 +295,12 @@ body::before {
 .card-insecure   { background:linear-gradient(155deg,#1A0A20 0%,#3A1848 50%,#6B3A7A 100%); }
 .card-mindvheart { background:linear-gradient(155deg,#0A1820 0%,#1A3040 50%,#2A5068 100%); }
 .card-healing    { background:linear-gradient(155deg,#0A1A14 0%,#1A3828 50%,#2A6050 100%); }
+.card-whathurt   { background:linear-gradient(155deg,#1A0818 0%,#3A1030 50%,#6A2A58 100%); }
+.card-softness   { background:linear-gradient(155deg,#0A1818 0%,#183830 50%,#2E6A5A 100%); }
+.card-whoami     { background:linear-gradient(155deg,#120A28 0%,#261848 50%,#4A307A 100%); }
+.card-selflove   { background:linear-gradient(155deg,#1A0A18 0%,#3A1838 50%,#6A3468 100%); }
+.card-masks      { background:linear-gradient(155deg,#1A100A 0%,#3A2010 50%,#7A4820 100%); }
+.card-unmask     { background:linear-gradient(155deg,#100A1A 0%,#201838 50%,#4A3870 100%); }
 
 .card-overlay { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'%3E%3Cpath d='M40 4L76 40L40 76L4 40Z'/%3E%3Cpath d='M40 18L62 40L40 62L18 40Z'/%3E%3Cpath d='M40 28L52 40L40 52L28 40Z'/%3E%3Ccircle cx='40' cy='40' r='32'/%3E%3Ccircle cx='40' cy='40' r='18'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
 .card-deco { position:absolute; font-size:4rem; opacity:.06; pointer-events:none; user-select:none; line-height:1; }
@@ -572,6 +581,24 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
         <div class="ec-name">Overthinkers</div>
         <div class="ec-label">The 3AM Edition</div>
         <div class="ec-progress" id="ep-overthinkers"></div>
+      </div>
+      <div class="edition-card healing" onclick="selectEdition('healing')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🌧</span></div>
+        <div class="ec-name">Healing</div>
+        <div class="ec-label">After the Pain</div>
+        <div class="ec-progress" id="ep-healing"></div>
+      </div>
+      <div class="edition-card solo" onclick="selectEdition('solo')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🌙</span></div>
+        <div class="ec-name">Solo Edition</div>
+        <div class="ec-label">Self Talks</div>
+        <div class="ec-progress" id="ep-solo"></div>
+      </div>
+      <div class="edition-card masks" onclick="selectEdition('masks')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🎭</span></div>
+        <div class="ec-name">Masks</div>
+        <div class="ec-label">Who Are You Really?</div>
+        <div class="ec-progress" id="ep-masks"></div>
       </div>
     </div>
   </div>
@@ -971,6 +998,9 @@ function getEditionCats(edition) {
   if (edition === 'family')       return ['energy_fam','chaos_fam','feels_fam','night_fam','forever_fam'];
   if (edition === 'betweenus')    return ['between_bt','debates_bt','midnight_bt','real_bt'];
   if (edition === 'overthinkers') return ['mind_3am','insecurities_ot','mindvsheart_ot','healing_ot'];
+  if (edition === 'healing')      return ['whathurt_h','healingprocess_h','neversay_h','newversion_h','softness_h'];
+  if (edition === 'solo')         return ['whoami_s','thoughts_s','healing_s','future_s','selflove_s'];
+  if (edition === 'masks')        return ['showpeople_m','hiddenself_m','maskexists_m','exhaustion_m','unmasking_m'];
   const cats = ['soft','real','psych','between','power',`desires_${edition}`];
   if (edition === 'married') cats.push('future_married');
   return cats;

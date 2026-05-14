@@ -12,6 +12,9 @@ var EDITIONS = {
   family:      { name:'Family',       ar:'العائلة',          badge:'🏡 Closer Together · معاً أقوى',            icon:'🏡' },
   betweenus:    { name:'Between Us',   ar:'بيناتنا',     badge:'🌙 The Real Talks · الكلام الحقيقي',      icon:'🌙' },
   overthinkers: { name:'Overthinkers', ar:'المكترين',    badge:'🧠 The 3AM Edition · نسخة الـ3 صباح',     icon:'🧠' },
+  healing:      { name:'Healing',      ar:'الشفاء',      badge:'🌧 After the Pain · بعد الألم',             icon:'🌧' },
+  solo:         { name:'Solo Edition', ar:'بوحدك',        badge:'🌙 Self Talks · كلام الروح',                icon:'🌙' },
+  masks:        { name:'Masks',        ar:'الأقنعة',      badge:'🎭 Who Are You Really? · شكون نتا حقيقة؟',  icon:'🎭' },
 };
 
 var CAT_SHORT = {
@@ -31,4 +34,7 @@ var CAT_SHORT = {
   energy_fam:'Energy', chaos_fam:'Chaos', feels_fam:'Feels', night_fam:'Night', forever_fam:'Forever',
   between_bt:'Between', debates_bt:'Debates', midnight_bt:'Midnight', real_bt:'Identity',
   mind_3am:'3AM Mind', insecurities_ot:'Fears', mindvsheart_ot:'Mind vs Heart', healing_ot:'Healing',
+  whathurt_h:'What Hurt You', healingprocess_h:'Healing', neversay_h:'Never Say', newversion_h:'New You', softness_h:'Softness',
+  whoami_s:'Who Are You', thoughts_s:'Thoughts', healing_s:'Letting Go', future_s:'Future You', selflove_s:'Self Love',
+  showpeople_m:'The Mask', hiddenself_m:'Hidden Self', maskexists_m:'Why Masks', exhaustion_m:'Exhaustion', unmasking_m:'Unmasking',
 };
