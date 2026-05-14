@@ -17,7 +17,8 @@ var EDITIONS = {
   masks:        { name:'Masks',        ar:'الأقنعة',      badge:'🎭 Who Are You Really? · شكون نتا حقيقة؟',  icon:'🎭' },
   loveyourself: { name:'Love Yourself', ar:'حب نفسك',     badge:'🌷 Soft & Worthy · ناعم ويستحق',             icon:'🌷' },
   future:       { name:'Future',        ar:'المستقبل',    badge:'✨ The Life You Dream · الحياة اللي كتحلم',  icon:'✨' },
-  redflags:     { name:'Red & Green Flags', ar:'العلامات',  badge:'🚩 Love Opinions · آراء في الحب',           icon:'🚩' },
+  redflags:     { name:'Red & Green Flags', ar:'العلامات',   badge:'🚩 Love Opinions · آراء في الحب',           icon:'🚩' },
+  girlsnight:   { name:'Girls Night',       ar:'ليلة البنات', badge:'💋 Girlhood Energy · طاقة البنات',           icon:'💋' },
 };
 
 var CAT_SHORT = {
@@ -43,4 +44,5 @@ var CAT_SHORT = {
   seeing_ly:'Seeing You', softenergy_ly:'Soft Energy', healself_ly:'Heal Yourself', innerworld_ly:'Inner World', becoming_ly:'Becoming',
   dreamlife_f:'Dream Life', lovenext_f:'Future Love', fears_f:'Fears', success_f:'Success', letters_f:'Dear Future Me',
   turnoffs_rf:'Turn Offs', greenflags_rf:'Green Flags', toxic_rf:'Toxic Truths', standards_rf:'Standards', opinions_rf:'Midnight Opinions',
+  girlhood_gn:'Girlhood', feminine_gn:'Feminine', love_gn:'Love & Crushes', neversay_gn:'Unspoken', forever_gn:'Forever Girls',
 };
