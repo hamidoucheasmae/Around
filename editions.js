@@ -10,7 +10,8 @@ var EDITIONS = {
   engaged:     { name:'Engaged',      ar:'المخطوبون',        badge:'💍 Our Forever Begins · بدايتنا الأبدية',  icon:'💍' },
   secretfiles: { name:'Secret Files', ar:'الملفات السرية',  badge:'🕵️ Spill It All · قول كلشي',              icon:'🕵️' },
   family:      { name:'Family',       ar:'العائلة',          badge:'🏡 Closer Together · معاً أقوى',            icon:'🏡' },
-  betweenus:   { name:'Between Us',   ar:'بيناتنا',          badge:'🌙 The Real Talks · الكلام الحقيقي',         icon:'🌙' },
+  betweenus:    { name:'Between Us',   ar:'بيناتنا',     badge:'🌙 The Real Talks · الكلام الحقيقي',      icon:'🌙' },
+  overthinkers: { name:'Overthinkers', ar:'المكترين',    badge:'🧠 The 3AM Edition · نسخة الـ3 صباح',     icon:'🧠' },
 };
 
 var CAT_SHORT = {
@@ -29,4 +30,5 @@ var CAT_SHORT = {
   secrets_sf:'Secrets', laughs_sf:'Laughs', likely_sf:'Likely', cringe_sf:'Cringe', chaos_sf:'Chaos',
   energy_fam:'Energy', chaos_fam:'Chaos', feels_fam:'Feels', night_fam:'Night', forever_fam:'Forever',
   between_bt:'Between', debates_bt:'Debates', midnight_bt:'Midnight', real_bt:'Identity',
+  mind_3am:'3AM Mind', insecurities_ot:'Fears', mindvsheart_ot:'Mind vs Heart', healing_ot:'Healing',
 };

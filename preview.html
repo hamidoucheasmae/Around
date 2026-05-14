@@ -177,7 +177,8 @@ body::before {
 .edition-card.engaged     { --accent:#C9A84C; }
 .edition-card.secretfiles { --accent:#5B8DB8; }
 .edition-card.family      { --accent:#D4845A; }
-.edition-card.betweenus   { --accent:#7B8DC8; }
+.edition-card.betweenus      { --accent:#7B8DC8; }
+.edition-card.overthinkers  { --accent:#6B7FBB; }
 .ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; }
 .ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
 .edition-card:hover .ec-icon-wrap::before { opacity:.22; }
@@ -287,6 +288,10 @@ body::before {
 .card-secrets    { background:linear-gradient(155deg,#0A1218 0%,#1A2A38 50%,#2A4858 100%); }
 .card-family     { background:linear-gradient(155deg,#3A1808 0%,#8A4018 50%,#D4784A 100%); }
 .card-chaos      { background:linear-gradient(155deg,#1A0828 0%,#3A1848 50%,#6A3878 100%); }
+.card-overthink  { background:linear-gradient(155deg,#0D1428 0%,#1E2A4A 50%,#3A4878 100%); }
+.card-insecure   { background:linear-gradient(155deg,#1A0A20 0%,#3A1848 50%,#6B3A7A 100%); }
+.card-mindvheart { background:linear-gradient(155deg,#0A1820 0%,#1A3040 50%,#2A5068 100%); }
+.card-healing    { background:linear-gradient(155deg,#0A1A14 0%,#1A3828 50%,#2A6050 100%); }
 
 .card-overlay { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'%3E%3Cpath d='M40 4L76 40L40 76L4 40Z'/%3E%3Cpath d='M40 18L62 40L40 62L18 40Z'/%3E%3Cpath d='M40 28L52 40L40 52L28 40Z'/%3E%3Ccircle cx='40' cy='40' r='32'/%3E%3Ccircle cx='40' cy='40' r='18'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
 .card-deco { position:absolute; font-size:4rem; opacity:.06; pointer-events:none; user-select:none; line-height:1; }
@@ -555,12 +560,18 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
   <!-- ── Deep Dive ── -->
   <div class="edition-group">
     <div class="eg-header"><span class="eg-icon">🌙</span><span class="eg-label">Deep Dive · في العمق</span><span class="eg-divider"></span></div>
-    <div class="editions-grid solo">
+    <div class="editions-grid">
       <div class="edition-card betweenus" onclick="selectEdition('betweenus')">
         <div class="ec-icon-wrap"><span class="ec-icon">✨</span></div>
         <div class="ec-name">Between Us</div>
         <div class="ec-label">The Real Talks</div>
         <div class="ec-progress" id="ep-betweenus"></div>
+      </div>
+      <div class="edition-card overthinkers" onclick="selectEdition('overthinkers')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🧠</span></div>
+        <div class="ec-name">Overthinkers</div>
+        <div class="ec-label">The 3AM Edition</div>
+        <div class="ec-progress" id="ep-overthinkers"></div>
       </div>
     </div>
   </div>
@@ -959,6 +970,7 @@ function getEditionCats(edition) {
   if (edition === 'secretfiles')  return ['secrets_sf','laughs_sf','likely_sf','cringe_sf','chaos_sf'];
   if (edition === 'family')       return ['energy_fam','chaos_fam','feels_fam','night_fam','forever_fam'];
   if (edition === 'betweenus')    return ['between_bt','debates_bt','midnight_bt','real_bt'];
+  if (edition === 'overthinkers') return ['mind_3am','insecurities_ot','mindvsheart_ot','healing_ot'];
   const cats = ['soft','real','psych','between','power',`desires_${edition}`];
   if (edition === 'married') cats.push('future_married');
   return cats;
