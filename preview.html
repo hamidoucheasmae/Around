@@ -448,6 +448,15 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
   padding:.5rem; text-decoration:underline; text-underline-offset:3px; }
 .pair-chip { display:none; align-items:center; gap:4px; font-size:.72rem; color:var(--muted);
   background:var(--blush); border-radius:50px; padding:3px 10px; }
+.btn-pair-manage { display:inline-flex; align-items:center; gap:4px; font-size:.72rem;
+  font-weight:600; color:var(--muted); background:var(--blush); border:1px solid rgba(184,92,74,.2);
+  border-radius:50px; padding:4px 11px; cursor:pointer; transition:all .2s; white-space:nowrap; }
+.btn-pair-manage:hover { background:var(--blush-deep); color:var(--ink); }
+.btn-pair-manage.is-paired { color:var(--ink-soft); background:var(--nude); border-color:rgba(184,92,74,.35); }
+.btn-unpair { background:none; border:1.5px solid rgba(180,60,60,.3); border-radius:50px;
+  color:#CC5555; font-size:.82rem; padding:.45rem 1.2rem; cursor:pointer; margin-top:.3rem;
+  transition:all .2s; }
+.btn-unpair:hover { background:rgba(180,60,60,.08); }
 
 /* ══ UNLOCK MODAL ══ */
 /* ── Locked category tabs ── */
@@ -631,6 +640,7 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
     <div id="pair-error" class="pair-error"></div>
     <button class="btn-pair-join" onclick="joinWithCode()">Connect · وصّل</button>
     <button class="btn-pair-later" onclick="skipPairing()">Pair later · لاحقاً</button>
+    <button class="btn-unpair" id="btn-unpair" onclick="unpairAccount()" style="display:none">🔗 Remove current partner</button>
   </div>
 </div>
 
@@ -638,7 +648,7 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
 <div id="edition-select">
   <div class="es-user-bar">
     <span class="es-user-email" id="user-email"></span>
-    <span class="pair-chip" id="pair-chip">💑 Paired</span>
+    <button class="btn-pair-manage" id="btn-pair-manage" onclick="openPairScreen()" title="Manage pairing">💑 <span id="pair-manage-label">Pair</span></button>
     <button class="btn-theme" id="btn-theme" onclick="toggleTheme()" title="Toggle theme">🌓</button>
     <button class="btn-logout-small" onclick="handleSignOut()"><span>↩</span> Sign out</button>
   </div>
@@ -1517,10 +1527,50 @@ window.skipPairing = function() {
 };
 
 function goToEditionSelect() {
-  const chip = document.getElementById('pair-chip');
-  if (chip) chip.style.display = partnerUid ? 'inline-flex' : 'none';
+  updatePairButton();
   showScreen('edition-select');
 }
+
+function updatePairButton() {
+  const btn   = document.getElementById('btn-pair-manage');
+  const label = document.getElementById('pair-manage-label');
+  if (!btn || !label) return;
+  if (partnerUid) {
+    label.textContent = 'Paired';
+    btn.classList.add('is-paired');
+    btn.title = 'Change or remove partner';
+  } else {
+    label.textContent = 'Pair';
+    btn.classList.remove('is-paired');
+    btn.title = 'Connect with your partner';
+  }
+}
+
+window.openPairScreen = function() {
+  localStorage.removeItem('seneya_pair_skipped');
+  if (myPairCode) document.getElementById('pair-code-display').textContent = myPairCode;
+  const unpairBtn = document.getElementById('btn-unpair');
+  if (unpairBtn) unpairBtn.style.display = partnerUid ? 'block' : 'none';
+  const title = document.querySelector('.pair-title');
+  if (title) title.childNodes[0].textContent = partnerUid
+    ? "Change your partner.\n"
+    : "Let's connect with your partner.\n";
+  showScreen('pair-screen');
+};
+
+window.unpairAccount = async function() {
+  if (!currentUser) return;
+  try {
+    await setDoc(doc(db, 'users', currentUser.uid, 'meta', 'pair'),
+      { partnerUid: null }, { merge: true });
+    partnerUid = null;
+    updatePairButton();
+    toast('Partner removed. You can pair with someone new.');
+    document.getElementById('pair-input').value = '';
+    document.getElementById('pair-error').textContent = '';
+    document.getElementById('pair-code-display').textContent = myPairCode || '——————';
+  } catch(e) { toast('Something went wrong.'); }
+};
 
 /* ══════════ PREMIUM / MEMBERSHIP ══════════ */
 let isPremium = !!localStorage.getItem('seneya_premium');
