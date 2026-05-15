@@ -1487,14 +1487,18 @@ window.activatePromo = async function() {
     if (snap.data().uses >= snap.data().maxUses) { errEl.textContent = 'Code already used up.'; return; }
     const uid = auth.currentUser.uid;
     await setDoc(doc(db, 'users', uid, 'meta', 'account'),
-      { premium: true, unlockedAt: serverTimestamp() }, { merge: true });
-    await updateDoc(doc(db, 'promoCodes', code), { uses: increment(1) });
+      { premium: true, unlockedAt: serverTimestamp(), promoCode: code }, { merge: true });
     isPremium = true;
     localStorage.setItem('seneya_premium', '1');
+    // best-effort increment — won't block unlock if rules deny it
+    try { await updateDoc(doc(db, 'promoCodes', code), { uses: increment(1) }); } catch(_){}
     closeUnlockModal();
     toast('🎉 Premium unlocked! All categories are now open.');
     if (currentEdition) buildGameInterface(currentCats);
-  } catch(e) { errEl.textContent = 'Something went wrong. Try again.'; }
+  } catch(e) {
+    console.error('activatePromo error:', e);
+    errEl.textContent = 'Something went wrong. Try again.';
+  }
 };
 
 /* ══════════ GAME DATA ══════════ */
