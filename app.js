@@ -286,7 +286,7 @@ async function clearEditionProgress(edition) {
 function getEditionCats(edition) {
   if (edition === 'friends')      return ['soft_friends','real_friends','psych_friends','between_friends','power_friends','friendship_deep','challenges_friends'];
   if (edition === 'spicy')        return ['spicy_part1','spicy_part2','spicy_part3','spicy_part4'];
-  if (edition === 'talking')      return ['soft_talking','real_talking','psych_talking','between_talking','power_talking','desires_talking'];
+  if (edition === 'talking')      return ['soft_talking','real_talking','psych_talking','between_talking','power_talking','desires_talking','future_talking'];
   if (edition === 'couples')      return ['soft_couples','real_couples','psych_couples','between_couples','power_couples','desires_couples','future_couples'];
   if (edition === 'stillus')      return ['distance_su','stayed_su','unsaid_su','patterns_su','choosing_su','final_su'];
   if (edition === 'engaged')      return ['soft_engaged','real_engaged','psych_engaged','between_engaged','power_engaged','promise_engaged','home_engaged'];
@@ -425,6 +425,8 @@ window.openProfile = function() {
   if (!user) return;
   document.getElementById('profile-name').textContent = user.displayName || 'Anonymous';
   document.getElementById('profile-email').textContent = user.email;
+  document.getElementById('profile-avatar').textContent =
+    (user.displayName || user.email || '?')[0].toUpperCase();
   document.getElementById('profile-name-input').value = user.displayName || '';
   const totalDrawn    = Object.values(allProgress).reduce((s, p) => s + (p?.drawn || 0), 0);
   const editionsPlayed = Object.values(allProgress).filter(p => p?.drawn > 0).length;
@@ -568,6 +570,7 @@ async function checkPairing(uid) {
     const snap = await getDoc(doc(db, 'users', uid, 'meta', 'pair'));
     if (snap.exists()) {
       myPairCode = snap.data().code;
+      if (!myPairCode) myPairCode = await ensurePairCode(uid);
       if (snap.data().partnerUid) {
         partnerUid = snap.data().partnerUid;
         goToEditionSelect(); return;
@@ -577,8 +580,7 @@ async function checkPairing(uid) {
     }
   } catch(e) { goToEditionSelect(); return; }
   if (localStorage.getItem('seneya_pair_skipped')) { goToEditionSelect(); return; }
-  document.getElementById('pair-code-display').textContent = myPairCode || '——————';
-  showScreen('pair-screen');
+  openPairScreen();
 }
 
 async function ensurePairCode(uid) {
@@ -673,10 +675,17 @@ window.showTogetherEditionPicker = function() {
 window.unpairAccount = async function() {
   if (!currentUser) return;
   try {
+    const prevPartner = partnerUid;
     await setDoc(doc(db, 'users', currentUser.uid, 'meta', 'pair'),
       { partnerUid: null }, { merge: true });
+    if (prevPartner) {
+      await setDoc(doc(db, 'users', prevPartner, 'meta', 'pair'),
+        { partnerUid: null }, { merge: true });
+    }
     partnerUid = null;
     updatePairButton();
+    document.getElementById('together-section').style.display = 'none';
+    document.getElementById('btn-unpair').style.display = 'none';
     toast('Partner removed. You can pair with someone new.');
     document.getElementById('pair-input').value = '';
     document.getElementById('pair-error').textContent = '';
@@ -707,6 +716,7 @@ window.startTogetherSession = async function(edition) {
     });
   } catch(e) { toast('Could not start session. Check connection.'); return; }
   subscribeToSession(liveSessionId);
+  document.getElementById('pair-screen').classList.remove('on');
   selectEdition(edition);
 };
 
@@ -737,6 +747,7 @@ window.joinPartnerSession = async function() {
   currentCat  = data.cat || currentCats[0];
   buildGameInterface(currentCats);
   transition(() => {
+    document.getElementById('pair-screen').classList.remove('on');
     document.getElementById('edition-select').classList.remove('on');
     document.getElementById('game').classList.add('on');
     resetWelcomeCard(false);

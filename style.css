@@ -490,8 +490,10 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
 }
 
 /* ── Unlock modal ── */
-#unlock-modal { position:fixed; inset:0; z-index:500; background:rgba(28,14,10,.6);
+#unlock-modal { position:fixed; inset:0; z-index:510; background:rgba(28,14,10,.6);
   display:none; align-items:flex-end; justify-content:center; backdrop-filter:blur(6px); }
+.btn-card-share { opacity:.75; }
+.btn-card-share:hover { opacity:1; }
 #unlock-modal.open { display:flex; animation:screenIn .25s ease; }
 .unlock-sheet {
   width:100%; max-width:480px;
