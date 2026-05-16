@@ -31,7 +31,6 @@
   .auth-card { background: #231510 !important; border-color: rgba(217,135,122,0.1) !important; }
   .auth-field input { background: #1C0E0A !important; color: var(--ink) !important; border-color: rgba(217,135,122,0.2) !important; }
   .auth-field input:focus { background: #231510 !important; }
-  .edition-card { background: #231510 !important; }
   .welcome-card { background: linear-gradient(160deg,rgba(40,18,8,0.92),rgba(30,12,4,0.88)) !important; border-color: rgba(217,135,122,0.14) !important; }
   .welcome-card h3 { color: var(--ink) !important; }
   .stat-cell { background: #1C0E0A !important; }
@@ -139,36 +138,71 @@ body::before {
 .editions-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; }
 .editions-grid.solo { grid-template-columns:1fr; max-width:180px; margin:0 auto; }
 .editions-grid.trio .edition-card:last-child { grid-column:1/-1; max-width:180px; justify-self:center; width:100%; }
-.edition-card { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px 12px 14px; border-radius:16px; border:2px solid rgba(184,92,74,.12); border-top:3px solid var(--accent); background:white; cursor:pointer; transition:all .28s; box-shadow:0 2px 8px rgba(184,92,74,.06); }
-.edition-card:hover { border-color:var(--accent); transform:translateY(-5px); box-shadow:0 10px 24px rgba(0,0,0,.1); }
+.edition-card { position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px 12px 14px; border-radius:16px; border:2px solid rgba(184,92,74,.12); border-top:3px solid var(--accent); background:white; cursor:pointer; transition:all .28s; box-shadow:0 2px 8px rgba(184,92,74,.06); }
+.edition-card:hover { border-color:var(--accent); transform:translateY(-5px); box-shadow:0 10px 24px rgba(0,0,0,.18); }
 .edition-card:active { transform:scale(.97); }
-.edition-card.talking { --accent:#D4A574; }
-.edition-card.couples { --accent:#D9877A; }
-.edition-card.married { --accent:#8B3A5C; }
-.edition-card.friends { --accent:#6B5F9C; }
-.edition-card.spicy   { --accent:#DC143C; }
-.edition-card.stillus     { --accent:#A85A82; }
-.edition-card.engaged     { --accent:#C9A84C; }
-.edition-card.secretfiles { --accent:#5B8DB8; }
-.edition-card.family      { --accent:#D4845A; }
-.edition-card.betweenus      { --accent:#7B8DC8; }
-.edition-card.overthinkers  { --accent:#6B7FBB; }
-.edition-card.healing       { --accent:#5B9B7A; }
-.edition-card.solo          { --accent:#9B7BBB; }
-.edition-card.masks         { --accent:#B8864A; }
-.edition-card.loveyourself  { --accent:#C87AAA; }
-.edition-card.future        { --accent:#6A9FBB; }
-.edition-card.redflags      { --accent:#CC3A3A; }
-.edition-card.girlsnight    { --accent:#D4679A; }
-.edition-card.whoknows      { --accent:#D4A044; }
-.edition-card.firstimpact   { --accent:#7BAABB; }
-.edition-card.artist        { --accent:#B87AB8; }
-.ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; }
+/* Gloss shine overlay */
+.edition-card::after { content:''; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%); pointer-events:none; z-index:1; }
+/* Edition gradient color identities — light backgrounds (dark text) */
+.edition-card.talking     { --accent:#D4A574; background:linear-gradient(135deg,#F5C5BB 0%,#E8A090 100%); border-color:rgba(232,160,144,.35); }
+.edition-card.engaged     { --accent:#C9A84C; background:linear-gradient(135deg,#F0C87A 0%,#D4956A 100%); border-color:rgba(212,149,106,.35); }
+.edition-card.stillus     { --accent:#A85A82; background:linear-gradient(135deg,#E8B87A 0%,#C47850 100%); border-color:rgba(196,120,80,.35); }
+.edition-card.friends     { --accent:#DFB840; background:linear-gradient(135deg,#F5D878 0%,#DFB840 100%); border-color:rgba(223,184,64,.35); }
+.edition-card.loveyourself { --accent:#C87AAA; background:linear-gradient(135deg,#F0C0C8 0%,#D09098 100%); border-color:rgba(208,144,152,.35); }
+.edition-card.whoknows    { --accent:#D4A044; background:linear-gradient(135deg,#F0C878 0%,#D09840 100%); border-color:rgba(208,152,64,.35); }
+/* Edition gradient color identities — dark backgrounds (white text) */
+.edition-card.couples     { --accent:#D9877A; background:linear-gradient(135deg,#E8A090 0%,#C96B58 100%); border-color:rgba(201,107,88,.35); color:white; }
+.edition-card.married     { --accent:#8B3A5C; background:linear-gradient(135deg,#C49AAA 0%,#8E5F72 100%); border-color:rgba(142,95,114,.35); color:white; }
+.edition-card.secretfiles { --accent:#5B8DB8; background:linear-gradient(135deg,#5A8A9A 0%,#2E5F6E 100%); border-color:rgba(46,95,110,.35); color:white; }
+.edition-card.family      { --accent:#D4845A; background:linear-gradient(135deg,#8AAA7A 0%,#5A7A4A 100%); border-color:rgba(90,122,74,.35); color:white; }
+.edition-card.betweenus   { --accent:#7B8DC8; background:linear-gradient(135deg,#4A6A8A 0%,#2A3E5A 100%); border-color:rgba(42,62,90,.35); color:white; }
+.edition-card.overthinkers { --accent:#6B7FBB; background:linear-gradient(135deg,#5A5A8A 0%,#3A3A6A 100%); border-color:rgba(58,58,106,.35); color:white; }
+.edition-card.healing     { --accent:#5B9B7A; background:linear-gradient(135deg,#C0A8D0 0%,#9078A8 100%); border-color:rgba(144,120,168,.35); color:white; }
+.edition-card.solo        { --accent:#9B7BBB; background:linear-gradient(135deg,#78A8A8 0%,#4A7878 100%); border-color:rgba(74,120,120,.35); color:white; }
+.edition-card.masks       { --accent:#B8864A; background:linear-gradient(135deg,#707080 0%,#404050 100%); border-color:rgba(64,64,80,.35); color:white; }
+.edition-card.future      { --accent:#6A9FBB; background:linear-gradient(135deg,#78A8D0 0%,#4878A8 100%); border-color:rgba(72,120,168,.35); color:white; }
+.edition-card.redflags    { --accent:#CC3A3A; background:linear-gradient(135deg,#D07070 0%,#A83838 100%); border-color:rgba(168,56,56,.35); color:white; }
+.edition-card.girlsnight  { --accent:#D4679A; background:linear-gradient(135deg,#E890A8 0%,#C05878 100%); border-color:rgba(192,88,120,.35); color:white; }
+.edition-card.firstimpact { --accent:#7BAABB; background:linear-gradient(135deg,#90A8C0 0%,#607888 100%); border-color:rgba(96,120,136,.35); color:white; }
+.edition-card.artist      { --accent:#B87AB8; background:linear-gradient(135deg,#8878C0 0%,#504888 100%); border-color:rgba(80,72,136,.35); color:white; }
+.edition-card.spicy       { --accent:#DC143C; background:linear-gradient(135deg,#C84848 0%,#881818 100%); border-color:rgba(136,24,24,.35); color:white; }
+/* White text for name/label/progress on dark-background cards */
+.edition-card.couples .ec-name, .edition-card.married .ec-name, .edition-card.secretfiles .ec-name,
+.edition-card.family .ec-name, .edition-card.betweenus .ec-name, .edition-card.overthinkers .ec-name,
+.edition-card.healing .ec-name, .edition-card.solo .ec-name, .edition-card.masks .ec-name,
+.edition-card.future .ec-name, .edition-card.redflags .ec-name, .edition-card.girlsnight .ec-name,
+.edition-card.firstimpact .ec-name, .edition-card.artist .ec-name, .edition-card.spicy .ec-name { color:#fff; }
+.edition-card.couples .ec-label, .edition-card.married .ec-label, .edition-card.secretfiles .ec-label,
+.edition-card.family .ec-label, .edition-card.betweenus .ec-label, .edition-card.overthinkers .ec-label,
+.edition-card.healing .ec-label, .edition-card.solo .ec-label, .edition-card.masks .ec-label,
+.edition-card.future .ec-label, .edition-card.redflags .ec-label, .edition-card.girlsnight .ec-label,
+.edition-card.firstimpact .ec-label, .edition-card.artist .ec-label, .edition-card.spicy .ec-label { color:rgba(255,255,255,.78); }
+.edition-card.couples .ec-progress, .edition-card.married .ec-progress, .edition-card.secretfiles .ec-progress,
+.edition-card.family .ec-progress, .edition-card.betweenus .ec-progress, .edition-card.overthinkers .ec-progress,
+.edition-card.healing .ec-progress, .edition-card.solo .ec-progress, .edition-card.masks .ec-progress,
+.edition-card.future .ec-progress, .edition-card.redflags .ec-progress, .edition-card.girlsnight .ec-progress,
+.edition-card.firstimpact .ec-progress, .edition-card.artist .ec-progress, .edition-card.spicy .ec-progress { color:rgba(255,255,255,.65); }
+.edition-card.couples .ec-progress.has-data, .edition-card.married .ec-progress.has-data, .edition-card.secretfiles .ec-progress.has-data,
+.edition-card.family .ec-progress.has-data, .edition-card.betweenus .ec-progress.has-data, .edition-card.overthinkers .ec-progress.has-data,
+.edition-card.healing .ec-progress.has-data, .edition-card.solo .ec-progress.has-data, .edition-card.masks .ec-progress.has-data,
+.edition-card.future .ec-progress.has-data, .edition-card.redflags .ec-progress.has-data, .edition-card.girlsnight .ec-progress.has-data,
+.edition-card.firstimpact .ec-progress.has-data, .edition-card.artist .ec-progress.has-data, .edition-card.spicy .ec-progress.has-data { color:#fff; }
+/* Icon circle: lighter tint on dark cards */
+.edition-card.couples .ec-icon-wrap::before, .edition-card.married .ec-icon-wrap::before,
+.edition-card.secretfiles .ec-icon-wrap::before, .edition-card.family .ec-icon-wrap::before,
+.edition-card.betweenus .ec-icon-wrap::before, .edition-card.overthinkers .ec-icon-wrap::before,
+.edition-card.healing .ec-icon-wrap::before, .edition-card.solo .ec-icon-wrap::before,
+.edition-card.masks .ec-icon-wrap::before, .edition-card.future .ec-icon-wrap::before,
+.edition-card.redflags .ec-icon-wrap::before, .edition-card.girlsnight .ec-icon-wrap::before,
+.edition-card.firstimpact .ec-icon-wrap::before, .edition-card.artist .ec-icon-wrap::before,
+.edition-card.spicy .ec-icon-wrap::before { background:rgba(255,255,255,.2); }
+.ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; z-index:2; }
 .ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
-.edition-card:hover .ec-icon-wrap::before { opacity:.22; }
+.edition-card:hover .ec-icon-wrap::before { opacity:.28; }
 .ec-icon { font-size:2rem; position:relative; z-index:1; }
-.ec-name  { font-family:'Playfair Display',serif; font-size:1rem; font-weight:500; color:var(--ink); margin-bottom:.15rem; }
-.ec-label { font-size:.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:500; }
+.ec-name  { font-family:'Playfair Display',serif; font-size:1rem; font-weight:500; color:var(--ink); margin-bottom:.15rem; position:relative; z-index:2; }
+.ec-label { font-size:.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:500; position:relative; z-index:2; }
+.ec-progress { position:relative; z-index:2; }
 .ec-progress { font-family:'DM Sans',sans-serif; font-size:.58rem; font-weight:600; color:var(--muted); margin-top:4px; min-height:.8em; }
 .ec-progress.has-data { color:var(--rose-deep); }
 
@@ -367,7 +401,6 @@ body::before {
 body.force-dark .auth-card { background:#231510 !important; border-color:rgba(217,135,122,.1) !important; }
 body.force-dark .auth-field input { background:#1C0E0A !important; color:#F0D5CC !important; border-color:rgba(217,135,122,.2) !important; }
 body.force-dark .auth-field input:focus { background:#231510 !important; }
-body.force-dark .edition-card { background:#231510 !important; }
 body.force-dark .welcome-card { background:linear-gradient(160deg,rgba(40,18,8,.92),rgba(30,12,4,.88)) !important; border-color:rgba(217,135,122,.14) !important; }
 body.force-dark .welcome-card h3 { color:#F0D5CC !important; }
 body.force-dark .stat-cell { background:#1C0E0A !important; }
@@ -385,7 +418,6 @@ body.force-dark .quick-continue { background:#2A1812 !important; }
 /* Force light (override dark media query) */
 body.force-light .auth-card { background:white !important; border-color:rgba(184,92,74,.1) !important; }
 body.force-light .auth-field input { background:var(--warm-white) !important; }
-body.force-light .edition-card { background:white !important; }
 body.force-light .welcome-card { background:linear-gradient(160deg,rgba(253,248,244,.92),rgba(247,237,233,.88)) !important; }
 body.force-light .stat-cell,body.force-light .btn-skip { background:var(--warm-white) !important; }
 body.force-light .confirm-sheet,body.force-light .summary-sheet { background:white !important; }
