@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Around the Seneya — All Editions 💕</title>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wq615uvnic");
+</script>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#B85C4A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Seneya">
+<link rel="apple-touch-icon" href="icon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cairo:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="page-veil"></div>
+
+<!-- ══ AUTH ══ -->
+<div id="auth-screen">
+  <div class="auth-logo">
+    <span class="auth-logo-icon">💕</span>
+    <div class="auth-logo-title">Around the <em>Seneya</em></div>
+    <div class="auth-logo-sub">حول الصينية · Real Talk · Bilingual</div>
+  </div>
+  <div class="auth-card">
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login"    onclick="switchTab('login')">دخول &nbsp; Login</button>
+      <button class="auth-tab"        id="tab-register" onclick="switchTab('register')">حساب جديد &nbsp; Register</button>
+    </div>
+    <div id="auth-error" class="auth-error"></div>
+    <div class="auth-field" id="field-name" style="display:none">
+      <label>الاسم · Name</label>
+      <input type="text" id="input-name" placeholder="Your name…" autocomplete="name">
+    </div>
+    <div class="auth-field">
+      <label>البريد الإلكتروني · Email</label>
+      <input type="email" id="input-email" placeholder="you@example.com" autocomplete="email">
+    </div>
+    <div class="auth-field">
+      <label>كلمة المرور · Password</label>
+      <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn-auth" id="btn-auth-submit" onclick="handleAuth()" disabled style="opacity:.6">⏳ Loading…</button>
+    <div class="auth-footer">الصدق هو القاعدة الوحيدة 💕</div>
+  </div>
+</div>
+
+<!-- ══ PAIR SCREEN ══ -->
+<div id="pair-screen">
+  <div class="pair-wrap">
+    <div class="pair-title">Let's connect with your partner.
+      <span class="pair-title-ar">تواصل مع شريكك</span>
+    </div>
+    <div class="pair-code-box" id="pair-code-display" onclick="sharePairCode()" title="Tap to share">——————</div>
+    <button class="btn-pair-share" onclick="sharePairCode()">Share code with partner · شارك الكود</button>
+    <div class="pair-or">or · أو</div>
+    <input id="pair-input" class="pair-code-input" maxlength="6" placeholder="XXXXXX"
+           oninput="this.value=this.value.toUpperCase().replace(/[^A-Z]/g,'')"
+           autocomplete="off" spellcheck="false">
+    <div id="pair-error" class="pair-error"></div>
+    <button class="btn-pair-join" onclick="joinWithCode()">Connect · وصّل</button>
+    <button class="btn-pair-later" onclick="skipPairing()">Pair later · لاحقاً</button>
+
+    <!-- Shown only when already paired -->
+    <div id="together-section" style="display:none; width:100%; display:none; flex-direction:column; align-items:center; gap:.8rem; margin-top:.5rem;">
+      <div class="pair-or">── Play together ──</div>
+      <button class="btn-play-together" onclick="showTogetherEditionPicker()">🎮 Start a Live Session · العب مع شريكك</button>
+      <button class="btn-join-partner" onclick="joinPartnerSession()">👀 Join Partner's Session · انضم لشريكك</button>
+    </div>
+    <button class="btn-unpair" id="btn-unpair" onclick="unpairAccount()" style="display:none">🔗 Remove current partner</button>
+  </div>
+</div>
+
+<!-- ══ TOGETHER EDITION PICKER ══ -->
+<div id="together-picker" class="modal-overlay" style="display:none">
+  <div class="together-sheet">
+    <div class="together-title">Pick an edition to play together</div>
+    <div id="together-edition-list" class="together-edition-list"></div>
+    <button class="btn-pair-later" onclick="document.getElementById('together-picker').style.display='none'">Cancel</button>
+  </div>
+</div>
+
+<!-- ══ EDITION SELECT ══ -->
+<div id="edition-select">
+  <div class="es-user-bar">
+    <span class="es-user-email" id="user-email"></span>
+    <button class="btn-pair-manage" id="btn-pair-manage" onclick="openPairScreen()" title="Manage pairing">💑 <span id="pair-manage-label">Pair</span></button>
+    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()" title="Toggle theme">🌓</button>
+    <button class="btn-logout-small" onclick="handleSignOut()"><span>↩</span> Sign out</button>
+  </div>
+  <div class="es-ornament">💕</div>
+  <div class="es-brand">Around the Seneya · حول الصينية</div>
+  <h1 class="es-title">Choose Your <em>Edition</em></h1>
+  <p class="es-subtitle">Where are you in your journey?</p>
+  <div class="es-lifetime" id="es-lifetime"></div>
+  <button class="btn-random" onclick="randomEdition()">🎲 Surprise me · فاجئني</button>
+  <button class="btn-fav-open" id="btn-fav-open" onclick="openFavSheet()">💝 <span id="fav-count">0</span> Saved</button>
+  <div id="quick-continue" class="quick-continue" style="display:none" onclick="">
+    <span class="qc-play">▶</span>
+    <div class="qc-text">
+      <div class="qc-edition" id="qc-edition-name"></div>
+      <div class="qc-detail" id="qc-detail"></div>
+    </div>
+    <span class="qc-arrow">→</span>
+  </div>
+  <!-- ── Love Journey ── -->
+  <div class="edition-group">
+    <div class="eg-header"><span class="eg-icon">💕</span><span class="eg-label">Love Journey · مسار الحب</span><span class="eg-divider"></span></div>
+    <div class="editions-grid">
+      <div class="edition-card talking" onclick="selectEdition('talking')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🥰</span></div>
+        <div class="ec-name">Talking Stage</div>
+        <div class="ec-label">Getting to Know</div>
+        <div class="ec-progress" id="ep-talking"></div>
+      </div>
+      <div class="edition-card couples" onclick="selectEdition('couples')">
+        <div class="ec-icon-wrap"><span class="ec-icon">💑</span></div>
+        <div class="ec-name">Couples</div>
+        <div class="ec-label">Growing Together</div>
+        <div class="ec-progress" id="ep-couples"></div>
+      </div>
+      <div class="edition-card engaged" onclick="selectEdition('engaged')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🫧</span></div>
+        <div class="ec-name">Engaged</div>
+        <div class="ec-label">The Promise</div>
+        <div class="ec-progress" id="ep-engaged"></div>
+      </div>
+      <div class="edition-card married" onclick="selectEdition('married')">
+        <div class="ec-icon-wrap"><span class="ec-icon">👑</span></div>
+        <div class="ec-name">Married</div>
+        <div class="ec-label">Forever & Always</div>
+        <div class="ec-progress" id="ep-married"></div>
+      </div>
+      <div class="edition-card stillus" onclick="selectEdition('stillus')">
+        <div class="ec-icon-wrap"><span class="ec-icon">❤️</span></div>
+        <div class="ec-name">Still Us</div>
+        <div class="ec-label">Found Our Way Back</div>
+        <div class="ec-progress" id="ep-stillus"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Social Circle ── -->
+  <div class="edition-group">
+    <div class="eg-header"><span class="eg-icon">👥</span><span class="eg-label">Social Circle · الدائرة الاجتماعية</span><span class="eg-divider"></span></div>
+    <div class="editions-grid trio">
+      <div class="edition-card friends" onclick="selectEdition('friends')">
+        <div class="ec-icon-wrap"><span class="ec-icon">👯</span></div>
+        <div class="ec-name">Friends</div>
+        <div class="ec-label">Ride or Die</div>
+        <div class="ec-progress" id="ep-friends"></div>
+      </div>
+      <div class="edition-card secretfiles" onclick="selectEdition('secretfiles')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🕵️</span></div>
+        <div class="ec-name">Secret Files</div>
+        <div class="ec-label">Spill It All</div>
+        <div class="ec-progress" id="ep-secretfiles"></div>
+      </div>
+      <div class="edition-card family" onclick="selectEdition('family')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🏡</span></div>
+        <div class="ec-name">Family</div>
+        <div class="ec-label">Closer Together</div>
+        <div class="ec-progress" id="ep-family"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Deep Dive ── -->
+  <div class="edition-group">
+    <div class="eg-header"><span class="eg-icon">🌙</span><span class="eg-label">Deep Dive · في العمق</span><span class="eg-divider"></span></div>
+    <div class="editions-grid">
+      <div class="edition-card betweenus" onclick="selectEdition('betweenus')">
+        <div class="ec-icon-wrap"><span class="ec-icon">✨</span></div>
+        <div class="ec-name">Between Us</div>
+        <div class="ec-label">The Real Talks</div>
+        <div class="ec-progress" id="ep-betweenus"></div>
+      </div>
+      <div class="edition-card overthinkers" onclick="selectEdition('overthinkers')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🧠</span></div>
+        <div class="ec-name">Overthinkers</div>
+        <div class="ec-label">The 3AM Edition</div>
+        <div class="ec-progress" id="ep-overthinkers"></div>
+      </div>
+      <div class="edition-card healing" onclick="selectEdition('healing')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🌧</span></div>
+        <div class="ec-name">Healing</div>
+        <div class="ec-label">After the Pain</div>
+        <div class="ec-progress" id="ep-healing"></div>
+      </div>
+      <div class="edition-card solo" onclick="selectEdition('solo')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🌙</span></div>
+        <div class="ec-name">Solo Edition</div>
+        <div class="ec-label">Self Talks</div>
+        <div class="ec-progress" id="ep-solo"></div>
+      </div>
+      <div class="edition-card masks" onclick="selectEdition('masks')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🎭</span></div>
+        <div class="ec-name">Masks</div>
+        <div class="ec-label">Who Are You Really?</div>
+        <div class="ec-progress" id="ep-masks"></div>
+      </div>
+      <div class="edition-card loveyourself" onclick="selectEdition('loveyourself')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🌷</span></div>
+        <div class="ec-name">Love Yourself</div>
+        <div class="ec-label">Soft & Worthy</div>
+        <div class="ec-progress" id="ep-loveyourself"></div>
+      </div>
+      <div class="edition-card future" onclick="selectEdition('future')">
+        <div class="ec-icon-wrap"><span class="ec-icon">✨</span></div>
+        <div class="ec-name">Future</div>
+        <div class="ec-label">The Life You Dream</div>
+        <div class="ec-progress" id="ep-future"></div>
+      </div>
+      <div class="edition-card redflags" onclick="selectEdition('redflags')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🚩</span></div>
+        <div class="ec-name">Red & Green Flags</div>
+        <div class="ec-label">Love Opinions</div>
+        <div class="ec-progress" id="ep-redflags"></div>
+      </div>
+      <div class="edition-card girlsnight" onclick="selectEdition('girlsnight')">
+        <div class="ec-icon-wrap"><span class="ec-icon">💋</span></div>
+        <div class="ec-name">Girls Night</div>
+        <div class="ec-label">Girlhood Energy</div>
+        <div class="ec-progress" id="ep-girlsnight"></div>
+      </div>
+      <div class="edition-card whoknows" onclick="selectEdition('whoknows')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🍟</span></div>
+        <div class="ec-name">Who Knows Me Best?</div>
+        <div class="ec-label">Test Your People</div>
+        <div class="ec-progress" id="ep-whoknows"></div>
+      </div>
+      <div class="edition-card firstimpact" onclick="selectEdition('firstimpact')">
+        <div class="ec-icon-wrap"><span class="ec-icon">👀</span></div>
+        <div class="ec-name">First Impression</div>
+        <div class="ec-label">Seen vs Real</div>
+        <div class="ec-progress" id="ep-firstimpact"></div>
+      </div>
+      <div class="edition-card artist" onclick="selectEdition('artist')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🎨</span></div>
+        <div class="ec-name">Artist Edition</div>
+        <div class="ec-label">Creative Souls</div>
+        <div class="ec-progress" id="ep-artist"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Adults Only ── -->
+  <div class="edition-group">
+    <div class="eg-header"><span class="eg-icon">🔞</span><span class="eg-label">Adults Only · للبالغين</span><span class="eg-divider"></span></div>
+    <div class="editions-grid solo">
+      <div class="edition-card spicy" onclick="selectEdition('spicy')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🔥</span></div>
+        <div class="ec-name">18+ Unfiltered</div>
+        <div class="ec-label">Adults Only</div>
+        <div class="ec-progress" id="ep-spicy"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LANDING ══ -->
+<div id="landing">
+  <button class="btn-land-back" onclick="backToEditions()">← Editions</button>
+  <div class="land-ornament">💕</div>
+  <div class="land-brand">Around the Seneya · حول الصينية</div>
+  <h1 class="land-title"><span id="ed-title">Lovers</span> <em>Edition</em></h1>
+  <div class="land-ar" id="ed-ar">إصدار العشاق</div>
+  <p class="land-tagline">"The questions you were too afraid to ask — until now."</p>
+  <div class="edition-badge" id="ed-badge">💕 &nbsp; Special Edition · إصدار خاص</div>
+  <div class="land-divider"></div>
+  <div class="land-cats" id="ed-cats"></div>
+  <div class="land-progress-bar-wrap" id="land-progress-bar-wrap">
+    <div class="land-progress-label" id="land-progress-label"></div>
+    <div class="land-progress-track"><div class="land-progress-fill" id="land-progress-fill" style="width:0%"></div></div>
+  </div>
+  <div class="land-action">
+    <button class="btn-enter" id="btn-land-enter">💕 &nbsp; ابدأ — Begin</button>
+    <div class="land-progress-chip" id="land-progress-chip"></div>
+    <button class="btn-start-fresh" id="btn-start-fresh">Start fresh · ابدأ من جديد</button>
+  </div>
+</div>
+
+<!-- ══ GAME ══ -->
+<div id="game">
+  <div class="topbar">
+    <div class="topbar-logo">🫖 Seneya</div>
+    <div class="topbar-edition" id="game-edition">💕 Lovers</div>
+    <div class="topbar-actions">
+      <button class="btn-challenges" id="btn-challenges" onclick="toggleChallenges()" title="Challenges">🎯</button>
+      <button class="btn-sound" id="btn-sound" onclick="toggleSound()" title="Sound">🔊</button>
+      <button class="topbar-back" onclick="askGoHome()">← Home</button>
+    </div>
+  </div>
+
+  <div id="live-banner" class="live-banner" style="display:none"></div>
+
+  <div class="cat-strip-wrap">
+    <div class="cat-strip" id="cat-strip"></div>
+  </div>
+
+  <div class="card-stage" id="card-stage">
+    <div class="welcome-card">
+      <div class="sineya-tray"><svg class="sineya-svg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="sgCu" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#F5D090"/><stop offset="22%" stop-color="#DFAA68"/><stop offset="58%" stop-color="#BF8048"/><stop offset="100%" stop-color="#8A5028"/></radialGradient><radialGradient id="sgSh" cx="37%" cy="30%" r="50%"><stop offset="0%" stop-color="rgba(255,248,210,0.5)"/><stop offset="100%" stop-color="rgba(255,210,120,0)"/></radialGradient></defs><ellipse cx="140" cy="156" rx="118" ry="11" fill="rgba(0,0,0,0.18)"/><circle cx="140" cy="138" r="126" fill="url(#sgCu)"/><circle cx="140" cy="138" r="126" fill="none" stroke="#EBC472" stroke-width="5" stroke-dasharray="5 3.2" opacity="0.7"/><circle cx="140" cy="138" r="121" fill="none" stroke="#7A4418" stroke-width="0.8" opacity="0.5"/><circle cx="140" cy="138" r="108" fill="none" stroke="#7A4418" stroke-width="1.1" opacity="0.6"/><g fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.85" opacity="0.8"><g transform="translate(140,138) rotate(0)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(45)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(90)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(135)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(180)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(225)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(270)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(315)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g></g><g fill="rgba(55,20,5,0.1)" stroke="#7A4418" stroke-width="0.7" opacity="0.7"><g transform="translate(140,138) rotate(22.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(67.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(112.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(157.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(202.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(247.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(292.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(337.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g></g><g fill="#7A4418" opacity="0.42"><circle cx="140" cy="47" r="2.5"/><circle cx="174.8" cy="54.1" r="2.5"/><circle cx="204.3" cy="73.7" r="2.5"/><circle cx="223.9" cy="103.2" r="2.5"/><circle cx="231" cy="138" r="2.5"/><circle cx="223.9" cy="172.8" r="2.5"/><circle cx="204.3" cy="202.3" r="2.5"/><circle cx="174.8" cy="221.9" r="2.5"/><circle cx="140" cy="229" r="2.5"/><circle cx="105.2" cy="221.9" r="2.5"/><circle cx="75.7" cy="202.3" r="2.5"/><circle cx="56.1" cy="172.8" r="2.5"/><circle cx="49" cy="138" r="2.5"/><circle cx="56.1" cy="103.2" r="2.5"/><circle cx="75.7" cy="73.7" r="2.5"/><circle cx="105.2" cy="54.1" r="2.5"/></g><circle cx="140" cy="138" r="74" fill="none" stroke="#7A4418" stroke-width="1.4" opacity="0.65"/><circle cx="140" cy="138" r="70" fill="none" stroke="#D8A050" stroke-width="0.6" opacity="0.45"/><g opacity="0.85"><g transform="translate(140,138) rotate(0)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(45)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(90)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(135)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(180)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(225)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(270)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(315)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g></g><circle cx="140" cy="138" r="43" fill="none" stroke="#7A4418" stroke-width="1.4" opacity="0.7"/><circle cx="140" cy="138" r="39" fill="none" stroke="#D8A050" stroke-width="0.6" opacity="0.45"/><g transform="translate(140,138)" stroke="#7A4418" stroke-width="0.7" opacity="0.5"><line x1="0" y1="-15" x2="0" y2="-39"/><line x1="7.5" y1="-13" x2="19.5" y2="-33.8"/><line x1="13" y1="-7.5" x2="33.8" y2="-19.5"/><line x1="15" y1="0" x2="39" y2="0"/><line x1="13" y1="7.5" x2="33.8" y2="19.5"/><line x1="7.5" y1="13" x2="19.5" y2="33.8"/><line x1="0" y1="15" x2="0" y2="39"/><line x1="-7.5" y1="13" x2="-19.5" y2="33.8"/><line x1="-13" y1="7.5" x2="-33.8" y2="19.5"/><line x1="-15" y1="0" x2="-39" y2="0"/><line x1="-13" y1="-7.5" x2="-33.8" y2="-19.5"/><line x1="-7.5" y1="-13" x2="-19.5" y2="-33.8"/></g><g transform="translate(140,138)" fill="rgba(55,20,5,0.13)" stroke="#7A4418" stroke-width="0.85"><polygon points="0,-28 4.59,-11.09 19.8,-19.8 11.09,-4.59 28,0 11.09,4.59 19.8,19.8 4.59,11.09 0,28 -4.59,11.09 -19.8,19.8 -11.09,4.59 -28,0 -11.09,-4.59 -19.8,-19.8 -4.59,-11.09"/></g><circle cx="140" cy="138" r="13" fill="none" stroke="#7A4418" stroke-width="1.1" opacity="0.7"/><circle cx="140" cy="138" r="7" fill="none" stroke="#7A4418" stroke-width="0.8" opacity="0.6"/><circle cx="140" cy="138" r="2.5" fill="#7A4418" opacity="0.6"/><circle cx="140" cy="138" r="126" fill="url(#sgSh)"/></svg></div>
+      <h3>Ready for the real talk?</h3>
+      <p>Pick a category above to draw your first card.</p>
+      <p class="wc-ar">اختار الفئة — الصدق هو القاعدة الوحيدة</p>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="stats-row">
+      <div class="stat-cell"><div class="stat-n" id="s-drawn">0</div><div class="stat-l">Drawn</div></div>
+      <div class="stat-cell"><div class="stat-n" id="s-round">1</div><div class="stat-l">Round</div></div>
+      <div class="stat-cell"><div class="stat-n" id="s-cat">🌷</div><div class="stat-l" id="s-cat-name">Category</div></div>
+      <div class="stat-cell"><div class="stat-n" id="s-time">0:00</div><div class="stat-l">Time</div></div>
+    </div>
+    <div class="draw-row">
+      <button class="btn-skip" onclick="skipCard()" title="Skip — doesn't count">
+        <span>🔀</span>
+        <span class="btn-skip-label">Skip</span>
+      </button>
+      <button class="btn-draw" onclick="drawCard()">🃏 &nbsp; Draw · اسحب بطاقة</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONFIRM HOME ══ -->
+<div id="confirm-home">
+  <div class="confirm-sheet">
+    <div class="confirm-icon">🏠</div>
+    <div class="confirm-title">Go back to editions?</div>
+    <div class="confirm-sub">Your progress is saved — you can continue later.<br>تقدمك محفوظ — يمكنك المتابعة لاحقاً</div>
+    <div class="confirm-btns">
+      <button class="btn-confirm-cancel" onclick="closeConfirmHome()">Stay · ابق</button>
+      <button class="btn-confirm-ok"     onclick="doGoHome()">Yes, go back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SESSION SUMMARY ══ -->
+<div id="session-summary">
+  <div class="summary-sheet">
+    <div class="summary-icon" id="sum-icon">🌟</div>
+    <div class="summary-title" id="sum-title">Session complete!</div>
+    <div class="summary-msg" id="sum-msg">Every question brings you closer.</div>
+    <div class="summary-stats">
+      <div class="sum-stat"><div class="sum-stat-n" id="sum-drawn">0</div><div class="sum-stat-l">Drawn</div></div>
+      <div class="sum-stat"><div class="sum-stat-n" id="sum-time">0:00</div><div class="sum-stat-l">Time</div></div>
+      <div class="sum-stat"><div class="sum-stat-n" id="sum-favs">0</div><div class="sum-stat-l">Saved</div></div>
+    </div>
+    <button class="btn-summary-ok" onclick="closeSummary()">Back to editions · عودة للإصدارات</button>
+  </div>
+</div>
+
+<!-- ══ UNLOCK MODAL ══ -->
+<div id="unlock-modal">
+  <div class="unlock-sheet">
+    <div class="unlock-crown">👑</div>
+    <div class="unlock-title">
+      Unlock Premium
+      <span>أدخل كود الوصول لفتح كل شيء</span>
+    </div>
+    <div class="unlock-perks">
+      <div class="unlock-perk"><span class="unlock-perk-icon">✦</span> All categories across every edition</div>
+      <div class="unlock-perk"><span class="unlock-perk-icon">✦</span> Deep &amp; exclusive question sets</div>
+      <div class="unlock-perk"><span class="unlock-perk-icon">✦</span> One code — forever unlocked</div>
+    </div>
+    <input id="promo-input" class="promo-input" placeholder="ENTER CODE" maxlength="24"
+           oninput="this.value=this.value.toUpperCase()" autocomplete="off" spellcheck="false">
+    <div id="promo-error" class="pair-error"></div>
+    <button class="btn-activate" onclick="activatePromo()">✦ &nbsp;Activate Premium · فعّل</button>
+    <button class="btn-pair-later" onclick="closeUnlockModal()">Maybe later · لاحقاً</button>
+  </div>
+</div>
+
+<!-- ══ FAVOURITES SHEET ══ -->
+<div id="fav-sheet">
+  <div class="fav-backdrop" onclick="closeFavSheet()"></div>
+  <div class="fav-inner">
+    <div class="fav-header">
+      <span class="fav-title">💝 Saved Questions · المحفوظات</span>
+      <button class="fav-close" onclick="closeFavSheet()">✕</button>
+    </div>
+    <div id="fav-list" class="fav-list"></div>
+    <div class="fav-empty" id="fav-empty">No saved questions yet.<br>Tap ♡ on any card to save it.<br><span style="font-family:'Cairo',sans-serif;font-size:.8rem;color:var(--gold)">اضغط ♡ على أي بطاقة لحفظها</span></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="editions.js"></script>
+<script src="categories.js"></script>
+<script type="module" src="app.js"></script>
+
+</body>
+</html>

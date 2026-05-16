@@ -1,410 +1,1025 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Around the Seneya — All Editions 💕</title>
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "wq615uvnic");
-</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Around the Seneya · حول الصينية — The Bilingual Card Game for Couples & Friends</title>
+  <meta name="description" content="A bilingual English + Darija card game for couples, friends and families. No app store needed. Free to play." />
+  <meta property="og:title" content="Around the Seneya · حول الصينية" />
+  <meta property="og:description" content="The questions you were scared to ask. A bilingual card game for couples, friends & families." />
+  <meta name="theme-color" content="#FDF8F4" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════ TOKENS ═══════════════════════ */
+    :root {
+      --cream: #FDF8F4;
+      --blush: #F7EDE9;
+      --blush-deep: #EED5CC;
+      --ink: #1C0E0A;
+      --ink-soft: #4A2820;
+      --muted: #A07060;
+      --rose: #D9877A;
+      --rose-deep: #B85C4A;
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#B85C4A">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Seneya">
-<link rel="apple-touch-icon" href="icon.svg">
+      --radius-card: 20px;
+      --shadow-card: 0 8px 40px rgba(28,14,10,0.13);
+      --shadow-card-lg: 0 20px 60px rgba(28,14,10,0.18);
+      --max-w: 480px;
+      --side: 1.4rem;
+    }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cairo:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    /* ═══════════════════════ RESET ═══════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Zellige background texture ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpath d='M30 2L58 30L30 58L2 30Z' stroke='%23B85C4A' stroke-width='0.8'/%3E%3Cpath d='M30 14L46 30L30 46L14 30Z' stroke='%23C49A6C' stroke-width='0.6'/%3E%3Cpath d='M30 22L38 30L30 38L22 30Z' fill='%23D9877A' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* ═══════════════════════ LAYOUT HELPERS ═══════════════════════ */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding-left: var(--side);
+      padding-right: var(--side);
+    }
+
+    section { position: relative; z-index: 1; }
+
+    /* ═══════════════════════ ANIMATIONS ═══════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: rotate(-5deg) translateY(0px); }
+      50%       { transform: rotate(-5deg) translateY(-10px); }
+    }
+    @keyframes floatAlt {
+      0%, 100% { transform: rotate(4deg) translateY(0px); }
+      50%       { transform: rotate(4deg) translateY(-8px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.7; }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .fade-up { animation: fadeUp 0.7s ease both; }
+    .fade-up-2 { animation: fadeUp 0.7s 0.15s ease both; }
+    .fade-up-3 { animation: fadeUp 0.7s 0.3s ease both; }
+    .fade-up-4 { animation: fadeUp 0.7s 0.45s ease both; }
+
+    /* ═══════════════════════ BUTTONS ═══════════════════════ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.85rem 1.6rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+      letter-spacing: 0.01em;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:hover  { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); opacity: 0.9; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--rose) 0%, var(--rose-deep) 100%);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(184,92,74,0.35);
+    }
+    .btn-primary:hover { box-shadow: 0 8px 28px rgba(184,92,74,0.45); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.7);
+      color: var(--ink-soft);
+      border: 1.5px solid var(--blush-deep);
+      backdrop-filter: blur(8px);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.9); box-shadow: 0 4px 16px rgba(28,14,10,0.08); }
+
+    .btn-ghost {
+      background: rgba(253,248,244,0.15);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      backdrop-filter: blur(8px);
+    }
+    .btn-ghost:hover { background: rgba(253,248,244,0.25); }
+
+    .btn-dark {
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .btn-dark:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.22); }
+
+    /* ═══════════════════════ NAV ═══════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(253,248,244,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(238,213,204,0.5);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0.9rem var(--side);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-logo {
+      display: flex;
+      flex-direction: column;
+      gap: 0.05rem;
+    }
+    .nav-logo-en {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .nav-logo-ar {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 400;
+      direction: rtl;
+      text-align: right;
+      line-height: 1;
+    }
+    .nav-cta { font-size: 0.88rem; padding: 0.6rem 1.2rem; }
+
+    /* ═══════════════════════ HERO ═══════════════════════ */
+    #hero {
+      min-height: 100svh;
+      background: linear-gradient(160deg, var(--cream) 0%, var(--blush) 45%, var(--blush-deep) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 7rem var(--side) 4rem;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      max-width: var(--max-w);
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.4rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(217,135,122,0.15);
+      border: 1px solid rgba(217,135,122,0.3);
+      border-radius: 50px;
+      padding: 0.4rem 1rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--rose-deep);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .hero-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 8vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+    .hero-heading em {
+      font-style: italic;
+      color: var(--rose-deep);
+    }
+
+    .hero-heading-ar {
+      font-size: clamp(1.1rem, 5vw, 1.5rem);
+      color: var(--ink-soft);
+      direction: rtl;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 340px;
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 300px;
+    }
+    .hero-ctas .btn { width: 100%; }
+
+    /* ── Floating mock card in hero ── */
+    .hero-card-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      height: 200px;
+      margin-top: 0.5rem;
+    }
+    .hero-card-wrap .mock-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .hero-card-wrap .mock-card:first-child {
+      transform: translate(-58%, -52%) rotate(-8deg);
+      z-index: 1;
+      opacity: 0.55;
+      scale: 0.92;
+    }
+    .hero-card-wrap .mock-card:nth-child(2) {
+      transform: translate(-42%, -48%) rotate(3deg);
+      z-index: 2;
+      opacity: 0.7;
+      scale: 0.96;
+      animation: floatAlt 4s ease-in-out infinite;
+    }
+    .hero-card-wrap .mock-card:nth-child(3) {
+      transform: translate(-50%, -50%) rotate(-5deg);
+      z-index: 3;
+      animation: float 3.5s ease-in-out infinite;
+    }
+
+    /* ═══════════════════════ MOCK CARDS ═══════════════════════ */
+    .mock-card {
+      width: 220px;
+      min-height: 140px;
+      border-radius: var(--radius-card);
+      background: linear-gradient(145deg, #2A1210 0%, #1C0E0A 60%, #3A1A14 100%);
+      border: 1px solid rgba(217,135,122,0.18);
+      box-shadow: var(--shadow-card-lg);
+      padding: 1.1rem 1.1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .mock-card::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,135,122,0.12) 0%, transparent 70%);
+    }
+    .mock-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(217,135,122,0.18);
+      border: 1px solid rgba(217,135,122,0.25);
+      border-radius: 50px;
+      padding: 0.22rem 0.65rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--rose);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      width: fit-content;
+    }
+    .mock-card-q-en {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.82rem;
+      font-style: italic;
+      color: rgba(253,248,244,0.92);
+      line-height: 1.45;
+    }
+    .mock-card-q-ar {
+      font-size: 0.72rem;
+      color: rgba(253,248,244,0.55);
+      direction: rtl;
+      text-align: right;
+      line-height: 1.5;
+    }
+    .mock-card-divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(217,135,122,0.2), transparent);
+    }
+
+    /* Large cards for sample section */
+    .mock-card-lg {
+      width: 240px;
+      min-height: 170px;
+      flex-shrink: 0;
+      padding: 1.3rem;
+    }
+    .mock-card-lg .mock-card-q-en { font-size: 0.88rem; }
+    .mock-card-lg .mock-card-q-ar { font-size: 0.76rem; }
+
+    /* Blurred 18+ card */
+    .mock-card-blurred .mock-card-q-en,
+    .mock-card-blurred .mock-card-q-ar {
+      filter: blur(5px);
+      user-select: none;
+    }
+    .mock-card-unlock {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      margin-top: 0.4rem;
+    }
+    .mock-card-unlock-icon { font-size: 1.2rem; }
+    .mock-card-unlock-text {
+      font-size: 0.7rem;
+      color: var(--rose);
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    /* ═══════════════════════ SECTION HEADER ═══════════════════════ */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rose-deep);
+      margin-bottom: 0.6rem;
+    }
+    .section-label::before,
+    .section-label::after {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--rose-deep);
+      opacity: 0.5;
+    }
+
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .section-sub {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 340px;
+    }
+
+    /* ═══════════════════════ EDITIONS STRIP ═══════════════════════ */
+    #editions {
+      padding: 3rem 0;
+      background: var(--blush);
+      overflow: hidden;
+    }
+    .editions-header {
+      padding: 0 var(--side);
+      max-width: var(--max-w);
+      margin: 0 auto 1.5rem;
+      text-align: center;
+    }
+    .editions-scroll-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .editions-scroll-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 60px;
+      background: linear-gradient(to right, transparent, var(--blush));
+      pointer-events: none;
+      z-index: 2;
+    }
+    .editions-scroll {
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      padding: 0.5rem var(--side) 1rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-snap-type: x mandatory;
+    }
+    .editions-scroll::-webkit-scrollbar { display: none; }
+
+    .edition-chip {
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.8);
+      border: 1.5px solid var(--blush-deep);
+      border-radius: 50px;
+      padding: 0.55rem 1rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+      cursor: default;
+    }
+    .edition-chip:hover {
+      background: #fff;
+      border-color: var(--rose);
+      transform: translateY(-2px);
+    }
+
+    /* ═══════════════════════ HOW IT WORKS ═══════════════════════ */
+    #how {
+      padding: 4rem var(--side);
+      max-width: var(--max-w);
+      margin: 0 auto;
+      text-align: center;
+    }
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 2rem;
+      text-align: left;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: var(--blush);
+      border: 1px solid var(--blush-deep);
+      border-radius: var(--radius-card);
+      padding: 1.2rem 1.3rem;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .step:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
+    .step-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 0.1rem;
+    }
+    .step-num {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 0.2rem;
+    }
+    .step-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .step-connector {
+      width: 2px;
+      height: 20px;
+      background: linear-gradient(to bottom, var(--blush-deep), transparent);
+      margin: 0 auto;
+      border-radius: 2px;
+    }
+
+    /* ═══════════════════════ PREMIUM ═══════════════════════ */
+    #premium {
+      background: var(--ink);
+      position: relative;
+      overflow: hidden;
+    }
+    #premium::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,135,122,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    #premium::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,92,74,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .premium-inner {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 4rem var(--side);
+      text-align: center;
+    }
+    .premium-inner .section-label { color: var(--rose); }
+    .premium-inner .section-label::before,
+    .premium-inner .section-label::after { background: var(--rose); }
+    .premium-inner .section-heading { color: rgba(253,248,244,0.95); }
+    .premium-inner .section-sub { color: rgba(160,112,96,0.9); max-width: 100%; }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .compare-card {
+      border-radius: var(--radius-card);
+      padding: 1.4rem 1.1rem;
+      text-align: left;
+    }
+    .compare-card-free {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .compare-card-premium {
+      background: linear-gradient(145deg, rgba(217,135,122,0.12) 0%, rgba(184,92,74,0.08) 100%);
+      border: 1px solid rgba(217,135,122,0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .compare-card-premium::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-card);
+      border: 1px solid rgba(217,135,122,0.15);
+    }
+    .compare-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .compare-card-free .compare-label { color: rgba(253,248,244,0.35); }
+    .compare-card-premium .compare-label { color: var(--rose); }
+    .compare-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: rgba(253,248,244,0.9);
+      margin-bottom: 0.2rem;
+    }
+    .compare-price {
+      font-size: 0.78rem;
+      color: rgba(253,248,244,0.4);
+      margin-bottom: 1rem;
+    }
+    .compare-card-premium .compare-price { color: rgba(217,135,122,0.7); }
+    .compare-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .compare-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      font-size: 0.8rem;
+      color: rgba(253,248,244,0.6);
+      line-height: 1.4;
+    }
+    .compare-card-premium .compare-list li { color: rgba(253,248,244,0.8); }
+    .compare-list .check { font-size: 0.8rem; flex-shrink: 0; margin-top: 0.05rem; }
+    .compare-card-free .compare-list .check { opacity: 0.4; }
+
+    .premium-price-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(217,135,122,0.12);
+      border: 1px solid rgba(217,135,122,0.2);
+      border-radius: 50px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.82rem;
+      color: var(--rose);
+      margin-bottom: 1.2rem;
+    }
+    .premium-price-big {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .premium-note {
+      font-size: 0.75rem;
+      color: rgba(160,112,96,0.7);
+      margin-top: 0.8rem;
+    }
+
+    /* ═══════════════════════ SAMPLE QUESTIONS ═══════════════════════ */
+    #samples {
+      padding: 4rem 0 4rem;
+      background: var(--blush);
+      overflow: hidden;
+    }
+    .samples-header {
+      padding: 0 var(--side);
+      max-width: var(--max-w);
+      margin: 0 auto 2rem;
+      text-align: center;
+    }
+    .samples-scroll-wrap {
+      position: relative;
+    }
+    .samples-scroll-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 80px;
+      background: linear-gradient(to right, transparent, var(--blush));
+      pointer-events: none;
+      z-index: 2;
+    }
+    .samples-scroll {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 1rem var(--side) 1.5rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-snap-type: x mandatory;
+    }
+    .samples-scroll::-webkit-scrollbar { display: none; }
+    .samples-scroll .mock-card-lg { scroll-snap-align: center; }
+
+    /* ═══════════════════════ FOOTER ═══════════════════════ */
+    footer {
+      background: var(--blush-deep);
+      border-top: 1px solid rgba(238,213,204,0.5);
+      padding: 2rem var(--side) 3rem;
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .footer-logo-en {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .footer-logo-ar {
+      font-size: 0.85rem;
+      color: var(--muted);
+      direction: rtl;
+    }
+    .footer-made {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: -0.3rem;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .footer-links a:hover { color: var(--rose-deep); }
+    .footer-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--blush-deep);
+    }
+
+    /* ═══════════════════════ RESPONSIVE DESKTOP ═══════════════════════ */
+    @media (min-width: 520px) {
+      body {
+        background: #EDE5DF;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background: radial-gradient(ellipse at center, transparent 300px, rgba(28,14,10,0.12) 100%);
+      }
+      nav, #hero, #editions, #how, #premium, #samples, footer {
+        /* sections are full-width with inner containers */
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div id="page-veil"></div>
-
-<!-- ══ AUTH ══ -->
-<div id="auth-screen">
-  <div class="auth-logo">
-    <span class="auth-logo-icon">💕</span>
-    <div class="auth-logo-title">Around the <em>Seneya</em></div>
-    <div class="auth-logo-sub">حول الصينية · Real Talk · Bilingual</div>
-  </div>
-  <div class="auth-card">
-    <div class="auth-tabs">
-      <button class="auth-tab active" id="tab-login"    onclick="switchTab('login')">دخول &nbsp; Login</button>
-      <button class="auth-tab"        id="tab-register" onclick="switchTab('register')">حساب جديد &nbsp; Register</button>
-    </div>
-    <div id="auth-error" class="auth-error"></div>
-    <div class="auth-field" id="field-name" style="display:none">
-      <label>الاسم · Name</label>
-      <input type="text" id="input-name" placeholder="Your name…" autocomplete="name">
-    </div>
-    <div class="auth-field">
-      <label>البريد الإلكتروني · Email</label>
-      <input type="email" id="input-email" placeholder="you@example.com" autocomplete="email">
-    </div>
-    <div class="auth-field">
-      <label>كلمة المرور · Password</label>
-      <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password">
-    </div>
-    <button class="btn-auth" id="btn-auth-submit" onclick="handleAuth()" disabled style="opacity:.6">⏳ Loading…</button>
-    <div class="auth-footer">الصدق هو القاعدة الوحيدة 💕</div>
-  </div>
-</div>
-
-<!-- ══ PAIR SCREEN ══ -->
-<div id="pair-screen">
-  <div class="pair-wrap">
-    <div class="pair-title">Let's connect with your partner.
-      <span class="pair-title-ar">تواصل مع شريكك</span>
-    </div>
-    <div class="pair-code-box" id="pair-code-display" onclick="sharePairCode()" title="Tap to share">——————</div>
-    <button class="btn-pair-share" onclick="sharePairCode()">Share code with partner · شارك الكود</button>
-    <div class="pair-or">or · أو</div>
-    <input id="pair-input" class="pair-code-input" maxlength="6" placeholder="XXXXXX"
-           oninput="this.value=this.value.toUpperCase().replace(/[^A-Z]/g,'')"
-           autocomplete="off" spellcheck="false">
-    <div id="pair-error" class="pair-error"></div>
-    <button class="btn-pair-join" onclick="joinWithCode()">Connect · وصّل</button>
-    <button class="btn-pair-later" onclick="skipPairing()">Pair later · لاحقاً</button>
-
-    <!-- Shown only when already paired -->
-    <div id="together-section" style="display:none; width:100%; display:none; flex-direction:column; align-items:center; gap:.8rem; margin-top:.5rem;">
-      <div class="pair-or">── Play together ──</div>
-      <button class="btn-play-together" onclick="showTogetherEditionPicker()">🎮 Start a Live Session · العب مع شريكك</button>
-      <button class="btn-join-partner" onclick="joinPartnerSession()">👀 Join Partner's Session · انضم لشريكك</button>
-    </div>
-    <button class="btn-unpair" id="btn-unpair" onclick="unpairAccount()" style="display:none">🔗 Remove current partner</button>
-  </div>
-</div>
-
-<!-- ══ TOGETHER EDITION PICKER ══ -->
-<div id="together-picker" class="modal-overlay" style="display:none">
-  <div class="together-sheet">
-    <div class="together-title">Pick an edition to play together</div>
-    <div id="together-edition-list" class="together-edition-list"></div>
-    <button class="btn-pair-later" onclick="document.getElementById('together-picker').style.display='none'">Cancel</button>
-  </div>
-</div>
-
-<!-- ══ EDITION SELECT ══ -->
-<div id="edition-select">
-  <div class="es-user-bar">
-    <span class="es-user-email" id="user-email"></span>
-    <button class="btn-pair-manage" id="btn-pair-manage" onclick="openPairScreen()" title="Manage pairing">💑 <span id="pair-manage-label">Pair</span></button>
-    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()" title="Toggle theme">🌓</button>
-    <button class="btn-logout-small" onclick="handleSignOut()"><span>↩</span> Sign out</button>
-  </div>
-  <div class="es-ornament">💕</div>
-  <div class="es-brand">Around the Seneya · حول الصينية</div>
-  <h1 class="es-title">Choose Your <em>Edition</em></h1>
-  <p class="es-subtitle">Where are you in your journey?</p>
-  <div class="es-lifetime" id="es-lifetime"></div>
-  <button class="btn-random" onclick="randomEdition()">🎲 Surprise me · فاجئني</button>
-  <button class="btn-fav-open" id="btn-fav-open" onclick="openFavSheet()">💝 <span id="fav-count">0</span> Saved</button>
-  <div id="quick-continue" class="quick-continue" style="display:none" onclick="">
-    <span class="qc-play">▶</span>
-    <div class="qc-text">
-      <div class="qc-edition" id="qc-edition-name"></div>
-      <div class="qc-detail" id="qc-detail"></div>
-    </div>
-    <span class="qc-arrow">→</span>
-  </div>
-  <!-- ── Love Journey ── -->
-  <div class="edition-group">
-    <div class="eg-header"><span class="eg-icon">💕</span><span class="eg-label">Love Journey · مسار الحب</span><span class="eg-divider"></span></div>
-    <div class="editions-grid">
-      <div class="edition-card talking" onclick="selectEdition('talking')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🥰</span></div>
-        <div class="ec-name">Talking Stage</div>
-        <div class="ec-label">Getting to Know</div>
-        <div class="ec-progress" id="ep-talking"></div>
+  <!-- ══════════════════════════ NAV ══════════════════════════ -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="nav-logo-en">Around the Seneya</span>
+        <span class="nav-logo-ar">حول الصينية</span>
       </div>
-      <div class="edition-card couples" onclick="selectEdition('couples')">
-        <div class="ec-icon-wrap"><span class="ec-icon">💑</span></div>
-        <div class="ec-name">Couples</div>
-        <div class="ec-label">Growing Together</div>
-        <div class="ec-progress" id="ep-couples"></div>
+      <a href="app.html" class="btn btn-primary nav-cta">Play Free →</a>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════ HERO ══════════════════════════ -->
+  <section id="hero">
+    <div class="hero-inner">
+
+      <div class="hero-badge fade-up">💕 Bilingual Card Game</div>
+
+      <h1 class="hero-heading fade-up-2">
+        <em>"The questions you were<br>scared to ask."</em>
+      </h1>
+
+      <p class="hero-heading-ar fade-up-3">الأسئلة اللي كنت خايف تسألها</p>
+
+      <p class="hero-sub fade-up-3">
+        A bilingual card game for couples, friends & families.<br>
+        No app store needed.
+      </p>
+
+      <!-- Floating mock cards -->
+      <div class="hero-card-wrap fade-up-3">
+        <!-- Shadow card back -->
+        <div class="mock-card" aria-hidden="true">
+          <div class="mock-card-badge">💑 Couples</div>
+          <div class="mock-card-q-en">"If I disappeared for a week, what would you miss first?"</div>
+        </div>
+        <!-- Mid card -->
+        <div class="mock-card" aria-hidden="true">
+          <div class="mock-card-badge">🥰 Talking Stage</div>
+          <div class="mock-card-q-en">"What was your first impression of me — really?"</div>
+          <div class="mock-card-divider"></div>
+          <div class="mock-card-q-ar">"شنو أول إنطباع عندك عليا — بصدق؟"</div>
+        </div>
+        <!-- Front card -->
+        <div class="mock-card" aria-hidden="true">
+          <div class="mock-card-badge">💑 Couples</div>
+          <div class="mock-card-q-en">"What made you feel truly seen by me?"</div>
+          <div class="mock-card-divider"></div>
+          <div class="mock-card-q-ar">"شنو اللي خلاك تحس بلي كنت شايفك حقيقة؟"</div>
+        </div>
       </div>
-      <div class="edition-card engaged" onclick="selectEdition('engaged')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🫧</span></div>
-        <div class="ec-name">Engaged</div>
-        <div class="ec-label">The Promise</div>
-        <div class="ec-progress" id="ep-engaged"></div>
+
+      <div class="hero-ctas fade-up-4">
+        <a href="app.html" class="btn btn-primary">💕 Play Free</a>
+        <a href="payment.html" class="btn btn-secondary">👑 Get Premium — €4.99</a>
       </div>
-      <div class="edition-card married" onclick="selectEdition('married')">
-        <div class="ec-icon-wrap"><span class="ec-icon">👑</span></div>
-        <div class="ec-name">Married</div>
-        <div class="ec-label">Forever & Always</div>
-        <div class="ec-progress" id="ep-married"></div>
-      </div>
-      <div class="edition-card stillus" onclick="selectEdition('stillus')">
-        <div class="ec-icon-wrap"><span class="ec-icon">❤️</span></div>
-        <div class="ec-name">Still Us</div>
-        <div class="ec-label">Found Our Way Back</div>
-        <div class="ec-progress" id="ep-stillus"></div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ EDITIONS ══════════════════════════ -->
+  <section id="editions">
+    <div class="editions-header">
+      <div class="section-label">21 Editions</div>
+      <h2 class="section-heading">Every mood.<br>Every relationship.</h2>
+      <p class="section-sub">From first dates to healing seasons — there's a deck for where you are right now.</p>
+    </div>
+
+    <div class="editions-scroll-wrap">
+      <div class="editions-scroll">
+        <div class="edition-chip">🥰 Talking Stage</div>
+        <div class="edition-chip">💑 Couples</div>
+        <div class="edition-chip">💍 Engaged</div>
+        <div class="edition-chip">👑 Married</div>
+        <div class="edition-chip">👯 Friends</div>
+        <div class="edition-chip">🔥 18+</div>
+        <div class="edition-chip">❤️ Still Us</div>
+        <div class="edition-chip">🧠 Overthinkers</div>
+        <div class="edition-chip">🌧 Healing</div>
+        <div class="edition-chip">🌙 Solo</div>
+        <div class="edition-chip">🎭 Masks</div>
+        <div class="edition-chip">🌷 Love Yourself</div>
+        <div class="edition-chip">✨ Future</div>
+        <div class="edition-chip">🚩 Red Flags</div>
+        <div class="edition-chip">💋 Girls Night</div>
+        <div class="edition-chip">🍟 Who Knows Me Best</div>
+        <div class="edition-chip">👀 First Impression</div>
+        <div class="edition-chip">🎨 Artist</div>
+        <div class="edition-chip">🕵️ Secret Files</div>
+        <div class="edition-chip">🏡 Family</div>
+        <div class="edition-chip">🌙 Between Us</div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ── Social Circle ── -->
-  <div class="edition-group">
-    <div class="eg-header"><span class="eg-icon">👥</span><span class="eg-label">Social Circle · الدائرة الاجتماعية</span><span class="eg-divider"></span></div>
-    <div class="editions-grid trio">
-      <div class="edition-card friends" onclick="selectEdition('friends')">
-        <div class="ec-icon-wrap"><span class="ec-icon">👯</span></div>
-        <div class="ec-name">Friends</div>
-        <div class="ec-label">Ride or Die</div>
-        <div class="ec-progress" id="ep-friends"></div>
+  <!-- ══════════════════════════ HOW IT WORKS ══════════════════════════ -->
+  <section id="how">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-heading">Three steps to<br>real conversations.</h2>
+    <p class="section-sub">No setup, no downloads. Just open and play.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon">🔐</div>
+        <div>
+          <div class="step-num">Step 01</div>
+          <div class="step-title">Create an account</div>
+          <div class="step-desc">Sign up with just an email. Your progress and favorites are saved across sessions.</div>
+        </div>
       </div>
-      <div class="edition-card secretfiles" onclick="selectEdition('secretfiles')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🕵️</span></div>
-        <div class="ec-name">Secret Files</div>
-        <div class="ec-label">Spill It All</div>
-        <div class="ec-progress" id="ep-secretfiles"></div>
+      <div class="step-connector" aria-hidden="true"></div>
+      <div class="step">
+        <div class="step-icon">💑</div>
+        <div>
+          <div class="step-num">Step 02</div>
+          <div class="step-title">Pair with your partner</div>
+          <div class="step-desc">Optional — connect with someone to share a deck and track questions together.</div>
+        </div>
       </div>
-      <div class="edition-card family" onclick="selectEdition('family')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🏡</span></div>
-        <div class="ec-name">Family</div>
-        <div class="ec-label">Closer Together</div>
-        <div class="ec-progress" id="ep-family"></div>
+      <div class="step-connector" aria-hidden="true"></div>
+      <div class="step">
+        <div class="step-icon">🃏</div>
+        <div>
+          <div class="step-num">Step 03</div>
+          <div class="step-title">Draw cards & talk</div>
+          <div class="step-desc">Swipe through questions at your own pace. Save favorites. Go deep.</div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ── Deep Dive ── -->
-  <div class="edition-group">
-    <div class="eg-header"><span class="eg-icon">🌙</span><span class="eg-label">Deep Dive · في العمق</span><span class="eg-divider"></span></div>
-    <div class="editions-grid">
-      <div class="edition-card betweenus" onclick="selectEdition('betweenus')">
-        <div class="ec-icon-wrap"><span class="ec-icon">✨</span></div>
-        <div class="ec-name">Between Us</div>
-        <div class="ec-label">The Real Talks</div>
-        <div class="ec-progress" id="ep-betweenus"></div>
+  <!-- ══════════════════════════ PREMIUM ══════════════════════════ -->
+  <section id="premium">
+    <div class="premium-inner">
+      <div class="section-label">Premium</div>
+      <h2 class="section-heading">Go deeper,<br>forever.</h2>
+      <p class="section-sub">One small payment. Every question, every edition, every mood. No subscription.</p>
+
+      <div class="compare-grid">
+        <div class="compare-card compare-card-free">
+          <div class="compare-label">Free</div>
+          <div class="compare-title">Explorer</div>
+          <div class="compare-price">Always free</div>
+          <ul class="compare-list">
+            <li><span class="check">✓</span> 2 categories per edition</li>
+            <li><span class="check">✓</span> All 21 editions</li>
+            <li><span class="check">✓</span> Save favorites</li>
+            <li><span class="check">✓</span> Partner pairing</li>
+          </ul>
+        </div>
+        <div class="compare-card compare-card-premium">
+          <div class="compare-label">👑 Premium</div>
+          <div class="compare-title">Unlimited</div>
+          <div class="compare-price">€4.99 · one-time</div>
+          <ul class="compare-list">
+            <li><span class="check">✨</span> All categories</li>
+            <li><span class="check">✨</span> All 21 editions</li>
+            <li><span class="check">✨</span> 18+ edition unlocked</li>
+            <li><span class="check">✨</span> New editions, forever</li>
+          </ul>
+        </div>
       </div>
-      <div class="edition-card overthinkers" onclick="selectEdition('overthinkers')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🧠</span></div>
-        <div class="ec-name">Overthinkers</div>
-        <div class="ec-label">The 3AM Edition</div>
-        <div class="ec-progress" id="ep-overthinkers"></div>
+
+      <div class="premium-price-tag">
+        <span>One-time payment</span>
+        <span class="premium-price-big">€4.99</span>
+        <span>· no subscription</span>
       </div>
-      <div class="edition-card healing" onclick="selectEdition('healing')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🌧</span></div>
-        <div class="ec-name">Healing</div>
-        <div class="ec-label">After the Pain</div>
-        <div class="ec-progress" id="ep-healing"></div>
-      </div>
-      <div class="edition-card solo" onclick="selectEdition('solo')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🌙</span></div>
-        <div class="ec-name">Solo Edition</div>
-        <div class="ec-label">Self Talks</div>
-        <div class="ec-progress" id="ep-solo"></div>
-      </div>
-      <div class="edition-card masks" onclick="selectEdition('masks')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🎭</span></div>
-        <div class="ec-name">Masks</div>
-        <div class="ec-label">Who Are You Really?</div>
-        <div class="ec-progress" id="ep-masks"></div>
-      </div>
-      <div class="edition-card loveyourself" onclick="selectEdition('loveyourself')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🌷</span></div>
-        <div class="ec-name">Love Yourself</div>
-        <div class="ec-label">Soft & Worthy</div>
-        <div class="ec-progress" id="ep-loveyourself"></div>
-      </div>
-      <div class="edition-card future" onclick="selectEdition('future')">
-        <div class="ec-icon-wrap"><span class="ec-icon">✨</span></div>
-        <div class="ec-name">Future</div>
-        <div class="ec-label">The Life You Dream</div>
-        <div class="ec-progress" id="ep-future"></div>
-      </div>
-      <div class="edition-card redflags" onclick="selectEdition('redflags')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🚩</span></div>
-        <div class="ec-name">Red & Green Flags</div>
-        <div class="ec-label">Love Opinions</div>
-        <div class="ec-progress" id="ep-redflags"></div>
-      </div>
-      <div class="edition-card girlsnight" onclick="selectEdition('girlsnight')">
-        <div class="ec-icon-wrap"><span class="ec-icon">💋</span></div>
-        <div class="ec-name">Girls Night</div>
-        <div class="ec-label">Girlhood Energy</div>
-        <div class="ec-progress" id="ep-girlsnight"></div>
-      </div>
-      <div class="edition-card whoknows" onclick="selectEdition('whoknows')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🍟</span></div>
-        <div class="ec-name">Who Knows Me Best?</div>
-        <div class="ec-label">Test Your People</div>
-        <div class="ec-progress" id="ep-whoknows"></div>
-      </div>
-      <div class="edition-card firstimpact" onclick="selectEdition('firstimpact')">
-        <div class="ec-icon-wrap"><span class="ec-icon">👀</span></div>
-        <div class="ec-name">First Impression</div>
-        <div class="ec-label">Seen vs Real</div>
-        <div class="ec-progress" id="ep-firstimpact"></div>
-      </div>
-      <div class="edition-card artist" onclick="selectEdition('artist')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🎨</span></div>
-        <div class="ec-name">Artist Edition</div>
-        <div class="ec-label">Creative Souls</div>
-        <div class="ec-progress" id="ep-artist"></div>
+
+      <a href="payment.html" class="btn btn-dark" style="width:100%; max-width:300px;">
+        Get Premium →
+      </a>
+
+      <p class="premium-note">Secure payment · Instant access · Yours forever</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ SAMPLE QUESTIONS ══════════════════════════ -->
+  <section id="samples">
+    <div class="samples-header">
+      <div class="section-label">Sample Questions</div>
+      <h2 class="section-heading">A taste of what's<br>waiting for you.</h2>
+      <p class="section-sub">Real questions. Real conversations. No small talk.</p>
+    </div>
+
+    <div class="samples-scroll-wrap">
+      <div class="samples-scroll">
+
+        <!-- Soft card -->
+        <div class="mock-card mock-card-lg">
+          <div class="mock-card-badge">❤️ Still Us</div>
+          <div class="mock-card-q-en">"If I could relive one moment with you, you wouldn't know which one — can you guess?"</div>
+          <div class="mock-card-divider"></div>
+          <div class="mock-card-q-ar">"لو نعيش لحظة معاك بجوج ماعرفتيش أنا من اخترتها — تقدر تخمن؟"</div>
+        </div>
+
+        <!-- Real card -->
+        <div class="mock-card mock-card-lg">
+          <div class="mock-card-badge">🧠 Overthinkers</div>
+          <div class="mock-card-q-en">"What's something you've never told anyone — but you'd tell me right now?"</div>
+          <div class="mock-card-divider"></div>
+          <div class="mock-card-q-ar">"شي ما قلتيه لحتى واحد — تقدر تقوليه ليا دابا؟"</div>
+        </div>
+
+        <!-- Blurred 18+ card -->
+        <div class="mock-card mock-card-lg mock-card-blurred">
+          <div class="mock-card-badge">🔥 18+</div>
+          <div class="mock-card-q-en">"What do you think about when you can't sleep — is it ever me?"</div>
+          <div class="mock-card-divider"></div>
+          <div class="mock-card-q-ar">"فاش ما تقدر تنعس، فاش كتفكر — وكنت أنا فيهم؟"</div>
+          <div class="mock-card-unlock">
+            <div class="mock-card-unlock-icon">🔞</div>
+            <div class="mock-card-unlock-text">Adults Only<br>Unlock with Premium</div>
+          </div>
+        </div>
+
+        <!-- Extra breathing room for scroll -->
+        <div style="width:1px; flex-shrink:0;" aria-hidden="true"></div>
+
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ── Adults Only ── -->
-  <div class="edition-group">
-    <div class="eg-header"><span class="eg-icon">🔞</span><span class="eg-label">Adults Only · للبالغين</span><span class="eg-divider"></span></div>
-    <div class="editions-grid solo">
-      <div class="edition-card spicy" onclick="selectEdition('spicy')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🔥</span></div>
-        <div class="ec-name">18+ Unfiltered</div>
-        <div class="ec-label">Adults Only</div>
-        <div class="ec-progress" id="ep-spicy"></div>
+  <!-- ══════════════════════════ FOOTER ══════════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo-en">Around the Seneya</div>
+        <div class="footer-logo-ar">حول الصينية</div>
+      </div>
+      <p class="footer-made">Made with 💕 for every relationship</p>
+      <div class="footer-links">
+        <a href="app.html">Play Free</a>
+        <div class="footer-divider" aria-hidden="true"></div>
+        <a href="payment.html">Get Premium</a>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ══ LANDING ══ -->
-<div id="landing">
-  <button class="btn-land-back" onclick="backToEditions()">← Editions</button>
-  <div class="land-ornament">💕</div>
-  <div class="land-brand">Around the Seneya · حول الصينية</div>
-  <h1 class="land-title"><span id="ed-title">Lovers</span> <em>Edition</em></h1>
-  <div class="land-ar" id="ed-ar">إصدار العشاق</div>
-  <p class="land-tagline">"The questions you were too afraid to ask — until now."</p>
-  <div class="edition-badge" id="ed-badge">💕 &nbsp; Special Edition · إصدار خاص</div>
-  <div class="land-divider"></div>
-  <div class="land-cats" id="ed-cats"></div>
-  <div class="land-progress-bar-wrap" id="land-progress-bar-wrap">
-    <div class="land-progress-label" id="land-progress-label"></div>
-    <div class="land-progress-track"><div class="land-progress-fill" id="land-progress-fill" style="width:0%"></div></div>
-  </div>
-  <div class="land-action">
-    <button class="btn-enter" id="btn-land-enter">💕 &nbsp; ابدأ — Begin</button>
-    <div class="land-progress-chip" id="land-progress-chip"></div>
-    <button class="btn-start-fresh" id="btn-start-fresh">Start fresh · ابدأ من جديد</button>
-  </div>
-</div>
-
-<!-- ══ GAME ══ -->
-<div id="game">
-  <div class="topbar">
-    <div class="topbar-logo">🫖 Seneya</div>
-    <div class="topbar-edition" id="game-edition">💕 Lovers</div>
-    <div class="topbar-actions">
-      <button class="btn-challenges" id="btn-challenges" onclick="toggleChallenges()" title="Challenges">🎯</button>
-      <button class="btn-sound" id="btn-sound" onclick="toggleSound()" title="Sound">🔊</button>
-      <button class="topbar-back" onclick="askGoHome()">← Home</button>
-    </div>
-  </div>
-
-  <div id="live-banner" class="live-banner" style="display:none"></div>
-
-  <div class="cat-strip-wrap">
-    <div class="cat-strip" id="cat-strip"></div>
-  </div>
-
-  <div class="card-stage" id="card-stage">
-    <div class="welcome-card">
-      <div class="sineya-tray"><svg class="sineya-svg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="sgCu" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#F5D090"/><stop offset="22%" stop-color="#DFAA68"/><stop offset="58%" stop-color="#BF8048"/><stop offset="100%" stop-color="#8A5028"/></radialGradient><radialGradient id="sgSh" cx="37%" cy="30%" r="50%"><stop offset="0%" stop-color="rgba(255,248,210,0.5)"/><stop offset="100%" stop-color="rgba(255,210,120,0)"/></radialGradient></defs><ellipse cx="140" cy="156" rx="118" ry="11" fill="rgba(0,0,0,0.18)"/><circle cx="140" cy="138" r="126" fill="url(#sgCu)"/><circle cx="140" cy="138" r="126" fill="none" stroke="#EBC472" stroke-width="5" stroke-dasharray="5 3.2" opacity="0.7"/><circle cx="140" cy="138" r="121" fill="none" stroke="#7A4418" stroke-width="0.8" opacity="0.5"/><circle cx="140" cy="138" r="108" fill="none" stroke="#7A4418" stroke-width="1.1" opacity="0.6"/><g fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.85" opacity="0.8"><g transform="translate(140,138) rotate(0)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(45)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(90)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(135)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(180)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(225)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(270)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(315)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g></g><g fill="rgba(55,20,5,0.1)" stroke="#7A4418" stroke-width="0.7" opacity="0.7"><g transform="translate(140,138) rotate(22.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(67.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(112.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(157.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(202.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(247.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(292.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(337.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g></g><g fill="#7A4418" opacity="0.42"><circle cx="140" cy="47" r="2.5"/><circle cx="174.8" cy="54.1" r="2.5"/><circle cx="204.3" cy="73.7" r="2.5"/><circle cx="223.9" cy="103.2" r="2.5"/><circle cx="231" cy="138" r="2.5"/><circle cx="223.9" cy="172.8" r="2.5"/><circle cx="204.3" cy="202.3" r="2.5"/><circle cx="174.8" cy="221.9" r="2.5"/><circle cx="140" cy="229" r="2.5"/><circle cx="105.2" cy="221.9" r="2.5"/><circle cx="75.7" cy="202.3" r="2.5"/><circle cx="56.1" cy="172.8" r="2.5"/><circle cx="49" cy="138" r="2.5"/><circle cx="56.1" cy="103.2" r="2.5"/><circle cx="75.7" cy="73.7" r="2.5"/><circle cx="105.2" cy="54.1" r="2.5"/></g><circle cx="140" cy="138" r="74" fill="none" stroke="#7A4418" stroke-width="1.4" opacity="0.65"/><circle cx="140" cy="138" r="70" fill="none" stroke="#D8A050" stroke-width="0.6" opacity="0.45"/><g opacity="0.85"><g transform="translate(140,138) rotate(0)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(45)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(90)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(135)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(180)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(225)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(270)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(315)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g></g><circle cx="140" cy="138" r="43" fill="none" stroke="#7A4418" stroke-width="1.4" opacity="0.7"/><circle cx="140" cy="138" r="39" fill="none" stroke="#D8A050" stroke-width="0.6" opacity="0.45"/><g transform="translate(140,138)" stroke="#7A4418" stroke-width="0.7" opacity="0.5"><line x1="0" y1="-15" x2="0" y2="-39"/><line x1="7.5" y1="-13" x2="19.5" y2="-33.8"/><line x1="13" y1="-7.5" x2="33.8" y2="-19.5"/><line x1="15" y1="0" x2="39" y2="0"/><line x1="13" y1="7.5" x2="33.8" y2="19.5"/><line x1="7.5" y1="13" x2="19.5" y2="33.8"/><line x1="0" y1="15" x2="0" y2="39"/><line x1="-7.5" y1="13" x2="-19.5" y2="33.8"/><line x1="-13" y1="7.5" x2="-33.8" y2="19.5"/><line x1="-15" y1="0" x2="-39" y2="0"/><line x1="-13" y1="-7.5" x2="-33.8" y2="-19.5"/><line x1="-7.5" y1="-13" x2="-19.5" y2="-33.8"/></g><g transform="translate(140,138)" fill="rgba(55,20,5,0.13)" stroke="#7A4418" stroke-width="0.85"><polygon points="0,-28 4.59,-11.09 19.8,-19.8 11.09,-4.59 28,0 11.09,4.59 19.8,19.8 4.59,11.09 0,28 -4.59,11.09 -19.8,19.8 -11.09,4.59 -28,0 -11.09,-4.59 -19.8,-19.8 -4.59,-11.09"/></g><circle cx="140" cy="138" r="13" fill="none" stroke="#7A4418" stroke-width="1.1" opacity="0.7"/><circle cx="140" cy="138" r="7" fill="none" stroke="#7A4418" stroke-width="0.8" opacity="0.6"/><circle cx="140" cy="138" r="2.5" fill="#7A4418" opacity="0.6"/><circle cx="140" cy="138" r="126" fill="url(#sgSh)"/></svg></div>
-      <h3>Ready for the real talk?</h3>
-      <p>Pick a category above to draw your first card.</p>
-      <p class="wc-ar">اختار الفئة — الصدق هو القاعدة الوحيدة</p>
-    </div>
-  </div>
-
-  <div class="bottom-bar">
-    <div class="stats-row">
-      <div class="stat-cell"><div class="stat-n" id="s-drawn">0</div><div class="stat-l">Drawn</div></div>
-      <div class="stat-cell"><div class="stat-n" id="s-round">1</div><div class="stat-l">Round</div></div>
-      <div class="stat-cell"><div class="stat-n" id="s-cat">🌷</div><div class="stat-l" id="s-cat-name">Category</div></div>
-      <div class="stat-cell"><div class="stat-n" id="s-time">0:00</div><div class="stat-l">Time</div></div>
-    </div>
-    <div class="draw-row">
-      <button class="btn-skip" onclick="skipCard()" title="Skip — doesn't count">
-        <span>🔀</span>
-        <span class="btn-skip-label">Skip</span>
-      </button>
-      <button class="btn-draw" onclick="drawCard()">🃏 &nbsp; Draw · اسحب بطاقة</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ CONFIRM HOME ══ -->
-<div id="confirm-home">
-  <div class="confirm-sheet">
-    <div class="confirm-icon">🏠</div>
-    <div class="confirm-title">Go back to editions?</div>
-    <div class="confirm-sub">Your progress is saved — you can continue later.<br>تقدمك محفوظ — يمكنك المتابعة لاحقاً</div>
-    <div class="confirm-btns">
-      <button class="btn-confirm-cancel" onclick="closeConfirmHome()">Stay · ابق</button>
-      <button class="btn-confirm-ok"     onclick="doGoHome()">Yes, go back</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ SESSION SUMMARY ══ -->
-<div id="session-summary">
-  <div class="summary-sheet">
-    <div class="summary-icon" id="sum-icon">🌟</div>
-    <div class="summary-title" id="sum-title">Session complete!</div>
-    <div class="summary-msg" id="sum-msg">Every question brings you closer.</div>
-    <div class="summary-stats">
-      <div class="sum-stat"><div class="sum-stat-n" id="sum-drawn">0</div><div class="sum-stat-l">Drawn</div></div>
-      <div class="sum-stat"><div class="sum-stat-n" id="sum-time">0:00</div><div class="sum-stat-l">Time</div></div>
-      <div class="sum-stat"><div class="sum-stat-n" id="sum-favs">0</div><div class="sum-stat-l">Saved</div></div>
-    </div>
-    <button class="btn-summary-ok" onclick="closeSummary()">Back to editions · عودة للإصدارات</button>
-  </div>
-</div>
-
-<!-- ══ UNLOCK MODAL ══ -->
-<div id="unlock-modal">
-  <div class="unlock-sheet">
-    <div class="unlock-crown">👑</div>
-    <div class="unlock-title">
-      Unlock Premium
-      <span>أدخل كود الوصول لفتح كل شيء</span>
-    </div>
-    <div class="unlock-perks">
-      <div class="unlock-perk"><span class="unlock-perk-icon">✦</span> All categories across every edition</div>
-      <div class="unlock-perk"><span class="unlock-perk-icon">✦</span> Deep &amp; exclusive question sets</div>
-      <div class="unlock-perk"><span class="unlock-perk-icon">✦</span> One code — forever unlocked</div>
-    </div>
-    <input id="promo-input" class="promo-input" placeholder="ENTER CODE" maxlength="24"
-           oninput="this.value=this.value.toUpperCase()" autocomplete="off" spellcheck="false">
-    <div id="promo-error" class="pair-error"></div>
-    <button class="btn-activate" onclick="activatePromo()">✦ &nbsp;Activate Premium · فعّل</button>
-    <button class="btn-pair-later" onclick="closeUnlockModal()">Maybe later · لاحقاً</button>
-  </div>
-</div>
-
-<!-- ══ FAVOURITES SHEET ══ -->
-<div id="fav-sheet">
-  <div class="fav-backdrop" onclick="closeFavSheet()"></div>
-  <div class="fav-inner">
-    <div class="fav-header">
-      <span class="fav-title">💝 Saved Questions · المحفوظات</span>
-      <button class="fav-close" onclick="closeFavSheet()">✕</button>
-    </div>
-    <div id="fav-list" class="fav-list"></div>
-    <div class="fav-empty" id="fav-empty">No saved questions yet.<br>Tap ♡ on any card to save it.<br><span style="font-family:'Cairo',sans-serif;font-size:.8rem;color:var(--gold)">اضغط ♡ على أي بطاقة لحفظها</span></div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script src="editions.js"></script>
-<script src="categories.js"></script>
-<script type="module" src="app.js"></script>
+  </footer>
 
 </body>
 </html>
