@@ -196,6 +196,26 @@ function stopSessionTimer() {
 /* ══════════ AUTH STATE ══════════ */
 let currentUser = null;
 
+/* ══════════ ONBOARDING ══════════ */
+function initOnboarding() {
+  if (localStorage.getItem('seneya_onboarded')) return; // already seen
+  document.getElementById('onboard-screen').style.display = 'flex';
+}
+let onboardSlide = 0;
+window.nextSlide = function() {
+  const slides = document.querySelectorAll('.onboard-slide');
+  const dots   = document.querySelectorAll('.onboard-dots .dot');
+  if (onboardSlide < slides.length - 1) {
+    onboardSlide++;
+    document.getElementById('onboard-slides').style.transform = `translateX(-${onboardSlide * 100}%)`;
+    dots.forEach((d,i) => d.classList.toggle('active', i === onboardSlide));
+  } else {
+    // last slide — finish onboarding
+    localStorage.setItem('seneya_onboarded', '1');
+    document.getElementById('onboard-screen').style.display = 'none';
+  }
+};
+
 onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   if (user) {
@@ -397,6 +417,41 @@ window.shareCard = async function() {
       toast('Copied to clipboard · تم النسخ ✓');
     } catch(e) { toast('Share not available on this device'); }
   }
+};
+
+/* ══════════ PROFILE ══════════ */
+window.openProfile = function() {
+  const user = auth.currentUser;
+  if (!user) return;
+  document.getElementById('profile-name').textContent = user.displayName || 'Anonymous';
+  document.getElementById('profile-email').textContent = user.email;
+  document.getElementById('profile-name-input').value = user.displayName || '';
+  const totalDrawn    = Object.values(allProgress).reduce((s, p) => s + (p?.drawn || 0), 0);
+  const editionsPlayed = Object.values(allProgress).filter(p => p?.drawn > 0).length;
+  document.getElementById('pstat-total').textContent    = totalDrawn;
+  document.getElementById('pstat-favs').textContent     = favourites.length;
+  document.getElementById('pstat-editions').textContent = editionsPlayed;
+  const premiumStatus = document.getElementById('profile-premium-status');
+  const upgradeBtn    = document.getElementById('profile-btn-upgrade');
+  if (isPremium) { premiumStatus.textContent = '✦ Active'; premiumStatus.style.color = 'var(--rose-deep)'; upgradeBtn.style.display = 'none'; }
+  else           { premiumStatus.textContent = 'Free'; upgradeBtn.style.display = 'block'; }
+  document.getElementById('profile-partner-status').textContent = partnerUid ? '💑 Paired' : 'Not paired';
+  document.getElementById('profile-sheet').classList.add('open');
+};
+
+window.closeProfile = function() {
+  document.getElementById('profile-sheet').classList.remove('open');
+};
+
+window.saveProfileName = async function() {
+  const name = document.getElementById('profile-name-input').value.trim();
+  if (!name || !auth.currentUser) return;
+  try {
+    await updateProfile(auth.currentUser, { displayName: name });
+    document.getElementById('profile-name').textContent = name;
+    document.getElementById('user-email').textContent   = name;
+    toast('Name updated ✓');
+  } catch(e) { toast('Could not update name.'); }
 };
 
 window.openFavSheet = function() {
@@ -1130,3 +1185,6 @@ function toast(msg, duration = 2400) {
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), duration);
 }
+
+/* ── Init onboarding (called last so DOM is ready) ── */
+initOnboarding();

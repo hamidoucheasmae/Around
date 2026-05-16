@@ -29,6 +29,33 @@
 
 <div id="page-veil"></div>
 
+<!-- ══ ONBOARDING ══ -->
+<div id="onboard-screen" style="display:none">
+  <div class="onboard-slides" id="onboard-slides">
+    <div class="onboard-slide">
+      <div class="onboard-emoji">🫖</div>
+      <h2 class="onboard-title">Real conversations start here<br><span class="onboard-title-ar">الكلام الحقيقي يبدأ هنا</span></h2>
+      <p class="onboard-body">Around the Seneya is a bilingual card game designed to go deeper — for couples, friends, and families.</p>
+      <button class="btn-onboard-next" onclick="nextSlide()">Next →</button>
+    </div>
+    <div class="onboard-slide">
+      <div class="onboard-emoji">💕</div>
+      <h2 class="onboard-title">700+ questions across 21 editions<br><span class="onboard-title-ar">700+ سؤال في 21 إصدار</span></h2>
+      <p class="onboard-body">From Talking Stage to Healing to 18+ Unfiltered — every mood has its edition.</p>
+      <button class="btn-onboard-next" onclick="nextSlide()">Next →</button>
+    </div>
+    <div class="onboard-slide">
+      <div class="onboard-emoji">💑</div>
+      <h2 class="onboard-title">Play alone or with your partner<br><span class="onboard-title-ar">العب لوحدك أو مع شريكك</span></h2>
+      <p class="onboard-body">Pair your accounts with a 6-letter code and draw cards together in real time.</p>
+      <button class="btn-onboard-next" onclick="nextSlide()">Let's go · هيا بنا</button>
+    </div>
+  </div>
+  <div class="onboard-dots" id="onboard-dots">
+    <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+  </div>
+</div>
+
 <!-- ══ AUTH ══ -->
 <div id="auth-screen">
   <div class="auth-logo">
@@ -97,7 +124,7 @@
 <!-- ══ EDITION SELECT ══ -->
 <div id="edition-select">
   <div class="es-user-bar">
-    <span class="es-user-email" id="user-email"></span>
+    <span class="es-user-email" id="user-email" onclick="openProfile()" style="cursor:pointer" title="View profile"></span>
     <button class="btn-pair-manage" id="btn-pair-manage" onclick="openPairScreen()" title="Manage pairing">💑 <span id="pair-manage-label">Pair</span></button>
     <button class="btn-theme" id="btn-theme" onclick="toggleTheme()" title="Toggle theme">🌓</button>
     <button class="btn-logout-small" onclick="handleSignOut()"><span>↩</span> Sign out</button>
@@ -384,6 +411,58 @@
     <div id="promo-error" class="pair-error"></div>
     <button class="btn-activate" onclick="activatePromo()">✦ &nbsp;Activate Premium · فعّل</button>
     <button class="btn-pair-later" onclick="closeUnlockModal()">Maybe later · لاحقاً</button>
+  </div>
+</div>
+
+<!-- ══ PROFILE SHEET ══ -->
+<div id="profile-sheet">
+  <div class="fav-backdrop" onclick="closeProfile()"></div>
+  <div class="profile-inner">
+    <div class="profile-header">
+      <span class="profile-title">👤 My Profile</span>
+      <button class="fav-close" onclick="closeProfile()">✕</button>
+    </div>
+    <div class="profile-avatar" id="profile-avatar">🌹</div>
+    <div class="profile-name" id="profile-name">—</div>
+    <div class="profile-email" id="profile-email">—</div>
+
+    <div class="profile-stats-grid">
+      <div class="profile-stat">
+        <div class="profile-stat-val" id="pstat-total">0</div>
+        <div class="profile-stat-label">Questions drawn</div>
+      </div>
+      <div class="profile-stat">
+        <div class="profile-stat-val" id="pstat-favs">0</div>
+        <div class="profile-stat-label">Favourites saved</div>
+      </div>
+      <div class="profile-stat">
+        <div class="profile-stat-val" id="pstat-editions">0</div>
+        <div class="profile-stat-label">Editions played</div>
+      </div>
+    </div>
+
+    <div class="profile-row" id="profile-premium-row">
+      <span>✦ Premium</span>
+      <span id="profile-premium-status">Free</span>
+    </div>
+    <div class="profile-row" id="profile-partner-row">
+      <span>💑 Partner</span>
+      <span id="profile-partner-status">Not paired</span>
+    </div>
+
+    <button class="profile-btn-upgrade" id="profile-btn-upgrade" onclick="closeProfile();openUnlockModal()" style="display:none">
+      👑 Upgrade to Premium · €4.99
+    </button>
+
+    <div class="profile-divider"></div>
+
+    <div class="profile-name-edit">
+      <label class="profile-name-label">Display name</label>
+      <input id="profile-name-input" class="profile-name-input" placeholder="Your name" maxlength="30">
+      <button class="profile-btn-save" onclick="saveProfileName()">Save</button>
+    </div>
+
+    <button class="btn-pair-later profile-signout" onclick="closeProfile();handleSignOut()">↩ Sign out</button>
   </div>
 </div>
 
