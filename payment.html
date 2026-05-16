@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Premium · Around the Seneya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#FDF8F4; --blush:#F7EDE9; --blush-deep:#EED5CC;
+  --ink:#1C0E0A; --ink-soft:#4A2820; --muted:#A07060;
+  --rose:#D9877A; --rose-deep:#B85C4A; --nude:#F2DDD5;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:var(--cream); color:var(--ink); font-family:'DM Sans',sans-serif;
+  min-height:100dvh; display:flex; flex-direction:column; align-items:center; }
+.page { width:100%; max-width:480px; padding:2rem 1.4rem 4rem; display:flex;
+  flex-direction:column; align-items:center; gap:2rem; }
+
+/* NAV */
+.nav { width:100%; display:flex; align-items:center; justify-content:space-between; padding:.8rem 0; }
+.nav-logo { font-family:'Playfair Display',serif; font-size:1rem; font-weight:600; color:var(--ink); text-decoration:none; }
+.nav-back { font-size:.82rem; color:var(--muted); text-decoration:none; border:1px solid var(--blush-deep);
+  border-radius:50px; padding:5px 14px; transition:all .2s; }
+.nav-back:hover { background:var(--blush); }
+
+/* HERO */
+.crown { font-size:3.5rem; animation:float 3s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.hero-title { font-family:'Playfair Display',serif; font-size:2rem; font-weight:600;
+  text-align:center; line-height:1.25; color:var(--ink); }
+.hero-title em { font-style:italic; color:var(--rose-deep); }
+.hero-sub { font-size:.9rem; color:var(--muted); text-align:center; line-height:1.6; }
+
+/* PRICE CARD */
+.price-card { width:100%; background:var(--ink); color:var(--nude); border-radius:24px;
+  padding:2rem 1.6rem; display:flex; flex-direction:column; align-items:center; gap:1.2rem; }
+.price-badge { background:var(--rose-deep); color:white; font-size:.7rem; font-weight:700;
+  letter-spacing:.1em; padding:4px 14px; border-radius:50px; text-transform:uppercase; }
+.price-amount { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:600;
+  line-height:1; }
+.price-amount span { font-size:1.4rem; vertical-align:super; }
+.price-period { font-size:.82rem; color:rgba(242,221,213,.6); margin-top:-.5rem; }
+.price-perks { width:100%; display:flex; flex-direction:column; gap:.7rem; padding:.2rem 0; }
+.perk { display:flex; align-items:center; gap:.8rem; font-size:.88rem; color:var(--nude); }
+.perk-icon { font-size:1rem; flex-shrink:0; }
+.price-divider { width:100%; border:none; border-top:1px solid rgba(242,221,213,.15); }
+.btn-pay { width:100%; background:var(--rose-deep); color:white; border:none;
+  border-radius:50px; padding:1.1rem; font-size:1.05rem; font-weight:700; cursor:pointer;
+  box-shadow:0 6px 24px rgba(184,92,74,.45); transition:transform .15s, box-shadow .15s;
+  text-decoration:none; display:flex; align-items:center; justify-content:center; gap:.5rem; }
+.btn-pay:active { transform:scale(.97); box-shadow:none; }
+.price-note { font-size:.72rem; color:rgba(242,221,213,.5); text-align:center; line-height:1.5; }
+
+/* COMPARE */
+.compare { width:100%; }
+.compare-title { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:600;
+  color:var(--ink); text-align:center; margin-bottom:1rem; }
+.compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; }
+.compare-col { background:var(--blush); border-radius:18px; padding:1.2rem 1rem; }
+.compare-col.premium { background:var(--ink); color:var(--nude); }
+.compare-col-title { font-weight:700; font-size:.82rem; letter-spacing:.06em;
+  text-transform:uppercase; margin-bottom:.8rem; color:var(--rose-deep); }
+.compare-col.premium .compare-col-title { color:var(--rose); }
+.compare-item { font-size:.8rem; color:var(--ink-soft); margin-bottom:.45rem;
+  display:flex; gap:.4rem; align-items:flex-start; line-height:1.4; }
+.compare-col.premium .compare-item { color:rgba(242,221,213,.8); }
+
+/* FAQ */
+.faq { width:100%; display:flex; flex-direction:column; gap:.8rem; }
+.faq-title { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:600;
+  color:var(--ink); text-align:center; }
+.faq-item { background:var(--blush); border-radius:14px; padding:1rem 1.1rem; }
+.faq-q { font-weight:600; font-size:.85rem; color:var(--ink); margin-bottom:.4rem; }
+.faq-a { font-size:.82rem; color:var(--muted); line-height:1.55; }
+
+/* BOTTOM CTA */
+.bottom-cta { text-align:center; }
+.bottom-cta p { font-size:.82rem; color:var(--muted); margin-bottom:.8rem; }
+.btn-free { display:inline-block; font-size:.85rem; color:var(--muted); text-decoration:none;
+  border:1px solid var(--blush-deep); border-radius:50px; padding:7px 20px; transition:all .2s; }
+.btn-free:hover { background:var(--blush); color:var(--ink); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="nav">
+    <a class="nav-logo" href="index.html">Around the Seneya</a>
+    <a class="nav-back" href="index.html">← Back to app</a>
+  </nav>
+
+  <div class="crown">👑</div>
+
+  <div class="hero-title">Unlock <em>everything.</em><br>One time. Forever.</div>
+  <p class="hero-sub">Get access to all categories across every edition — no subscriptions, no limits.</p>
+
+  <!-- PRICE CARD -->
+  <div class="price-card">
+    <div class="price-badge">✦ Lifetime Access</div>
+    <div class="price-amount"><span>€</span>4.99</div>
+    <p class="price-period">One-time payment · No subscription</p>
+    <hr class="price-divider">
+    <div class="price-perks">
+      <div class="perk"><span class="perk-icon">✦</span> All categories in all 21 editions</div>
+      <div class="perk"><span class="perk-icon">✦</span> 700+ questions unlocked immediately</div>
+      <div class="perk"><span class="perk-icon">✦</span> Future editions included</div>
+      <div class="perk"><span class="perk-icon">✦</span> Works on all your devices</div>
+      <div class="perk"><span class="perk-icon">✦</span> One code — enter in the app to activate</div>
+    </div>
+    <hr class="price-divider">
+    <!--
+      INSTRUCTIONS FOR YOU:
+      1. Go to stripe.com → Products → Create a Payment Link for €4.99
+      2. In "After payment" settings, set redirect URL to:
+         https://yourdomain.com/payment-success.html
+      3. Replace the href below with your Stripe Payment Link URL
+    -->
+    <a class="btn-pay" href="https://buy.stripe.com/YOUR_PAYMENT_LINK" target="_blank">
+      💳 &nbsp; Pay €4.99 — Get Premium
+    </a>
+    <p class="price-note">After payment, you'll receive your unique access code by email within minutes. Enter it in the app under any locked category.</p>
+  </div>
+
+  <!-- COMPARE FREE VS PREMIUM -->
+  <div class="compare">
+    <div class="compare-title">Free vs Premium</div>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-col-title">Free</div>
+        <div class="compare-item">✓ All 21 editions</div>
+        <div class="compare-item">✓ 2 categories per edition</div>
+        <div class="compare-item">✓ Favourites</div>
+        <div class="compare-item">✓ Partner pairing</div>
+        <div class="compare-item">✓ Progress saved</div>
+        <div class="compare-item" style="opacity:.4">✗ Locked categories</div>
+        <div class="compare-item" style="opacity:.4">✗ Deep question sets</div>
+      </div>
+      <div class="compare-col premium">
+        <div class="compare-col-title">Premium</div>
+        <div class="compare-item">✓ All 21 editions</div>
+        <div class="compare-item">✓ All categories unlocked</div>
+        <div class="compare-item">✓ Favourites</div>
+        <div class="compare-item">✓ Partner pairing</div>
+        <div class="compare-item">✓ Progress saved</div>
+        <div class="compare-item">✓ 700+ questions</div>
+        <div class="compare-item">✓ Every deep set</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq">
+    <div class="faq-title">Questions</div>
+    <div class="faq-item">
+      <div class="faq-q">How do I get my code after paying?</div>
+      <div class="faq-a">You'll receive an email with your unique promo code within a few minutes of payment. Enter it in the app under any locked 🔒 category.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I use it on multiple devices?</div>
+      <div class="faq-a">Yes. Once activated in your account, premium is saved to your profile — log in from any device and it'll be unlocked.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Do I need an app store?</div>
+      <div class="faq-a">No. Around the Seneya is a PWA — open it in your browser, tap "Add to Home Screen", and it works like a native app. No download needed.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this a subscription?</div>
+      <div class="faq-a">No. It's a one-time €4.99 payment. You get lifetime access including any editions added in the future.</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="bottom-cta">
+    <p>Not ready yet? The free version is still great.</p>
+    <a class="btn-free" href="index.html">Play for free →</a>
+  </div>
+
+</div>
+</body>
+</html>

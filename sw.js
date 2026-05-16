@@ -1,8 +1,8 @@
-const CACHE = 'seneya-v5';
+const CACHE = 'seneya-v6';
 
 self.addEventListener('install', e =>
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(['/', '/style.css', '/app.js', '/editions.js', '/categories.js'])).then(() => self.skipWaiting())
+    caches.open(CACHE).then(c => c.addAll(['/', '/style.css', '/app.js', '/editions.js', '/categories.js', '/payment.html'])).then(() => self.skipWaiting())
   )
 );
 

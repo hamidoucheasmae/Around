@@ -7,7 +7,7 @@ import {
   onAuthStateChanged, signOut, updateProfile
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 import {
-  getFirestore, doc, getDoc, setDoc, updateDoc, increment, serverTimestamp
+  getFirestore, doc, getDoc, setDoc, updateDoc, increment, serverTimestamp, onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 /* ── Firebase init ── */
@@ -596,11 +596,23 @@ window.openPairScreen = function() {
   if (myPairCode) document.getElementById('pair-code-display').textContent = myPairCode;
   const unpairBtn = document.getElementById('btn-unpair');
   if (unpairBtn) unpairBtn.style.display = partnerUid ? 'block' : 'none';
+  const togetherSection = document.getElementById('together-section');
+  if (togetherSection) togetherSection.style.display = partnerUid ? 'flex' : 'none';
   const title = document.querySelector('.pair-title');
   if (title) title.childNodes[0].textContent = partnerUid
-    ? "Change your partner.\n"
+    ? "You're paired! 💑\n"
     : "Let's connect with your partner.\n";
   showScreen('pair-screen');
+};
+
+window.showTogetherEditionPicker = function() {
+  const list = document.getElementById('together-edition-list');
+  list.innerHTML = Object.entries(EDITIONS).map(([key, ed]) =>
+    `<button class="together-ed-btn" onclick="startTogetherSession('${key}');document.getElementById('together-picker').style.display='none'">
+      ${ed.icon} ${ed.name}
+    </button>`
+  ).join('');
+  document.getElementById('together-picker').style.display = 'flex';
 };
 
 window.unpairAccount = async function() {
@@ -615,6 +627,117 @@ window.unpairAccount = async function() {
     document.getElementById('pair-error').textContent = '';
     document.getElementById('pair-code-display').textContent = myPairCode || '——————';
   } catch(e) { toast('Something went wrong.'); }
+};
+
+/* ══════════ LIVE SESSION (PLAY TOGETHER) ══════════ */
+let isDealer      = false;
+let sessionUnsub  = null;
+let liveSessionId = null;
+
+function getSessionId(uid1, uid2) {
+  return [uid1, uid2].sort().join('_');
+}
+
+window.startTogetherSession = async function(edition) {
+  const uid = auth.currentUser.uid;
+  liveSessionId = getSessionId(uid, partnerUid);
+  isDealer = true;
+  try {
+    await setDoc(doc(db, 'sessions', liveSessionId), {
+      dealerUid: uid, partnerUid,
+      edition, cat: getEditionCats(edition)[0],
+      currentCard: null, action: 'waiting',
+      drawn: 0, round: 1, used: {},
+      status: 'active', updatedAt: serverTimestamp()
+    });
+  } catch(e) { toast('Could not start session. Check connection.'); return; }
+  subscribeToSession(liveSessionId);
+  selectEdition(edition);
+};
+
+function subscribeToSession(sessionId) {
+  if (sessionUnsub) { sessionUnsub(); sessionUnsub = null; }
+  sessionUnsub = onSnapshot(doc(db, 'sessions', sessionId), (snap) => {
+    if (!snap.exists() || snap.data().status === 'ended') return;
+    const data = snap.data();
+    if (!isDealer && data.currentCard && data.action === 'draw') {
+      renderLiveCard(data.currentCard, data.cat);
+    }
+    updateLiveBanner(data);
+  });
+}
+
+window.joinPartnerSession = async function() {
+  const uid = auth.currentUser.uid;
+  liveSessionId = getSessionId(uid, partnerUid);
+  isDealer = false;
+  const snap = await getDoc(doc(db, 'sessions', liveSessionId));
+  if (!snap.exists() || snap.data().status !== 'active') {
+    toast('No active session from your partner yet.'); return;
+  }
+  subscribeToSession(liveSessionId);
+  const data = snap.data();
+  currentEdition = data.edition;
+  currentCats = getEditionCats(data.edition);
+  currentCat  = data.cat || currentCats[0];
+  buildGameInterface(currentCats);
+  transition(() => {
+    document.getElementById('edition-select').classList.remove('on');
+    document.getElementById('game').classList.add('on');
+    resetWelcomeCard(false);
+  });
+  updateLiveBanner(data);
+};
+
+function updateLiveBanner(data) {
+  const banner = document.getElementById('live-banner');
+  if (!banner) return;
+  if (isDealer) {
+    banner.innerHTML = `<span class="live-dot"></span> Live · Partner is watching`;
+  } else {
+    banner.innerHTML = `<span class="live-dot"></span> Live · Waiting for partner to draw…`;
+  }
+  banner.style.display = 'flex';
+}
+
+function renderLiveCard(card, cat) {
+  const catData = CATEGORIES[cat];
+  if (!catData) return;
+  currentQuestion = card;
+  currentCat = cat;
+  document.getElementById('card-stage').innerHTML = `
+    <div class="q-card-wrap">
+      <div class="q-card ${catData.bgClass}">
+        <div class="card-overlay"></div>
+        <div class="card-deco tl">🌹</div>
+        <div class="card-deco br">🌹</div>
+        <div class="card-badge">
+          <span class="badge-sym">${catData.sym}</span>
+          <span class="badge-en">${catData.en}</span>
+          <span class="badge-ar">· ${catData.ar}</span>
+        </div>
+        <div class="card-body">
+          <div class="card-q-en">${card.en}</div>
+          <div class="card-divider"></div>
+          <div class="card-q-ar">${card.ar}</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-num">💑 Partner's draw</span>
+          <div class="card-footer-actions">
+            <button class="btn-card-action btn-card-fav" onclick="toggleFav()" title="Save">♡</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+window.endLiveSession = async function() {
+  if (liveSessionId) {
+    try { await updateDoc(doc(db, 'sessions', liveSessionId), { status: 'ended' }); } catch(e){}
+  }
+  if (sessionUnsub) { sessionUnsub(); sessionUnsub = null; }
+  liveSessionId = null; isDealer = false;
+  document.getElementById('live-banner').style.display = 'none';
 };
 
 /* ══════════ PREMIUM / MEMBERSHIP ══════════ */
@@ -823,6 +946,7 @@ window.doGoHome = function() {
   drawn = 0; round = 1; used = {}; currentEdition = null; currentCat = 'soft'; currentCats = []; currentQuestion = null;
   sessionDrawn = 0; sessionFavs = 0;
   stopSessionTimer(); updateStats();
+  endLiveSession();
   transition(() => {
     document.getElementById('game').classList.remove('on');
     document.getElementById('edition-select').classList.add('on');
@@ -892,6 +1016,12 @@ function drawCard(count = true) {
   const q = pool[idx];
   currentQuestion = { en: q.en, ar: q.ar };
   if (count) { drawn++; sessionDrawn++; scheduleSave(); if (navigator.vibrate) navigator.vibrate(8); playDraw(); }
+  if (isDealer && liveSessionId) {
+    setDoc(doc(db, 'sessions', liveSessionId), {
+      currentCard: { en: q.en, ar: q.ar }, cat: key,
+      action: 'draw', drawn, round, updatedAt: serverTimestamp()
+    }, { merge: true }).catch(() => {});
+  }
   updateStats();
   updateCatProgress();
 

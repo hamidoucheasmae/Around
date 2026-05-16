@@ -74,7 +74,23 @@
     <div id="pair-error" class="pair-error"></div>
     <button class="btn-pair-join" onclick="joinWithCode()">Connect · وصّل</button>
     <button class="btn-pair-later" onclick="skipPairing()">Pair later · لاحقاً</button>
+
+    <!-- Shown only when already paired -->
+    <div id="together-section" style="display:none; width:100%; display:none; flex-direction:column; align-items:center; gap:.8rem; margin-top:.5rem;">
+      <div class="pair-or">── Play together ──</div>
+      <button class="btn-play-together" onclick="showTogetherEditionPicker()">🎮 Start a Live Session · العب مع شريكك</button>
+      <button class="btn-join-partner" onclick="joinPartnerSession()">👀 Join Partner's Session · انضم لشريكك</button>
+    </div>
     <button class="btn-unpair" id="btn-unpair" onclick="unpairAccount()" style="display:none">🔗 Remove current partner</button>
+  </div>
+</div>
+
+<!-- ══ TOGETHER EDITION PICKER ══ -->
+<div id="together-picker" class="modal-overlay" style="display:none">
+  <div class="together-sheet">
+    <div class="together-title">Pick an edition to play together</div>
+    <div id="together-edition-list" class="together-edition-list"></div>
+    <button class="btn-pair-later" onclick="document.getElementById('together-picker').style.display='none'">Cancel</button>
   </div>
 </div>
 
@@ -289,6 +305,8 @@
       <button class="topbar-back" onclick="askGoHome()">← Home</button>
     </div>
   </div>
+
+  <div id="live-banner" class="live-banner" style="display:none"></div>
 
   <div class="cat-strip-wrap">
     <div class="cat-strip" id="cat-strip"></div>

@@ -563,3 +563,35 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
 /* TOAST */
 .toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--nude); padding:8px 18px; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:.78rem; opacity:0; transition:all .3s; z-index:999; white-space:nowrap; pointer-events:none; }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* LIVE SESSION BANNER */
+.live-banner { display:flex; align-items:center; gap:8px; justify-content:center;
+  background:var(--blush-deep); padding:6px 16px; font-family:'DM Sans',sans-serif;
+  font-size:.75rem; font-weight:600; color:var(--ink-soft); letter-spacing:.03em; }
+.live-dot { width:8px; height:8px; background:#E05555; border-radius:50%;
+  display:inline-block; animation:pulse 1.4s ease-in-out infinite; flex-shrink:0; }
+
+/* PLAY TOGETHER BUTTONS */
+.btn-play-together { width:100%; background:linear-gradient(135deg,var(--rose-deep),#8B3A2A);
+  color:white; border:none; border-radius:50px; padding:.9rem; font-size:.95rem;
+  font-weight:700; cursor:pointer; box-shadow:0 4px 18px rgba(184,92,74,.35); transition:transform .15s; }
+.btn-play-together:active { transform:scale(.97); }
+.btn-join-partner { width:100%; background:var(--blush-deep); border:2px solid var(--rose);
+  color:var(--ink); border-radius:50px; padding:.85rem; font-size:.9rem;
+  font-weight:600; cursor:pointer; transition:all .2s; }
+.btn-join-partner:hover { background:var(--nude); }
+
+/* TOGETHER EDITION PICKER */
+.modal-overlay { position:fixed; inset:0; z-index:600; background:rgba(28,14,10,.6);
+  display:none; align-items:flex-end; justify-content:center; backdrop-filter:blur(6px); }
+.together-sheet { width:100%; max-width:480px; background:var(--cream);
+  border-radius:24px 24px 0 0; padding:1.8rem 1.4rem 2.4rem;
+  display:flex; flex-direction:column; gap:1rem; max-height:80dvh; }
+.together-title { font-family:'Playfair Display',serif; font-size:1.2rem;
+  font-weight:700; color:var(--ink); text-align:center; }
+.together-edition-list { display:grid; grid-template-columns:1fr 1fr; gap:.6rem;
+  overflow-y:auto; max-height:55dvh; padding-right:2px; }
+.together-ed-btn { background:var(--blush); border:1.5px solid var(--blush-deep);
+  border-radius:14px; padding:.75rem .5rem; font-size:.82rem; font-weight:600;
+  color:var(--ink); cursor:pointer; text-align:center; transition:all .2s; }
+.together-ed-btn:hover { background:var(--blush-deep); }
