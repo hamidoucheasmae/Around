@@ -178,31 +178,39 @@ body::before {
 .edition-card.free50      { --accent:#2EBE8A; background:linear-gradient(135deg,#D4EDDA 0%,#A8D8B8 100%); border-color:rgba(46,190,138,.3); border-top-color:#2EBE8A; }
 .edition-card-free        { width:100%; max-width:280px; }
 .edition-card-free .ec-label { font-style:italic; }
+/* Free Taster 5-card grid */
+.editions-grid.last-center .edition-card:last-child { grid-column:1/-1; max-width:180px; justify-self:center; }
+.edition-card.free50-cat  { --accent:#2EBE8A; border-top-color:var(--accent); }
+.edition-card.f50-fun     { --accent:#E8704A; background:linear-gradient(135deg,#FDEBD0 0%,#FAD5A8 100%); border-color:rgba(232,112,74,.25); }
+.edition-card.f50-love    { --accent:#E87AA0; background:linear-gradient(135deg,#FCE4EC 0%,#F8BBD0 100%); border-color:rgba(232,122,160,.25); }
+.edition-card.f50-deep    { --accent:#7B6BB8; background:linear-gradient(135deg,#EDE7F6 0%,#D1C4E9 100%); border-color:rgba(123,107,184,.25); }
+.edition-card.f50-group   { --accent:#4A90A4; background:linear-gradient(135deg,#E0F4F8 0%,#B2DFDB 100%); border-color:rgba(74,144,164,.25); }
+.edition-card.f50-final   { --accent:#7B8DC8; background:linear-gradient(135deg,#1A1A2E 0%,#16213E 100%); border-color:rgba(123,141,200,.3); color:white; }
 /* White text for name/label/progress on dark-background cards */
 .edition-card.couples .ec-name, .edition-card.married .ec-name, .edition-card.secretfiles .ec-name,
 .edition-card.family .ec-name, .edition-card.betweenus .ec-name, .edition-card.overthinkers .ec-name,
 .edition-card.healing .ec-name, .edition-card.solo .ec-name, .edition-card.masks .ec-name,
 .edition-card.future .ec-name, .edition-card.redflags .ec-name, .edition-card.girlsnight .ec-name,
 .edition-card.firstimpact .ec-name, .edition-card.artist .ec-name, .edition-card.spicy .ec-name,
-.edition-card.loveaftermidnight .ec-name { color:#fff; }
+.edition-card.loveaftermidnight .ec-name, .edition-card.f50-final .ec-name { color:#fff; }
 .edition-card.couples .ec-label, .edition-card.married .ec-label, .edition-card.secretfiles .ec-label,
 .edition-card.family .ec-label, .edition-card.betweenus .ec-label, .edition-card.overthinkers .ec-label,
 .edition-card.healing .ec-label, .edition-card.solo .ec-label, .edition-card.masks .ec-label,
 .edition-card.future .ec-label, .edition-card.redflags .ec-label, .edition-card.girlsnight .ec-label,
 .edition-card.firstimpact .ec-label, .edition-card.artist .ec-label, .edition-card.spicy .ec-label,
-.edition-card.loveaftermidnight .ec-label { color:rgba(255,255,255,.78); }
+.edition-card.loveaftermidnight .ec-label, .edition-card.f50-final .ec-label { color:rgba(255,255,255,.78); }
 .edition-card.couples .ec-progress, .edition-card.married .ec-progress, .edition-card.secretfiles .ec-progress,
 .edition-card.family .ec-progress, .edition-card.betweenus .ec-progress, .edition-card.overthinkers .ec-progress,
 .edition-card.healing .ec-progress, .edition-card.solo .ec-progress, .edition-card.masks .ec-progress,
 .edition-card.future .ec-progress, .edition-card.redflags .ec-progress, .edition-card.girlsnight .ec-progress,
 .edition-card.firstimpact .ec-progress, .edition-card.artist .ec-progress, .edition-card.spicy .ec-progress,
-.edition-card.loveaftermidnight .ec-progress { color:rgba(255,255,255,.65); }
+.edition-card.loveaftermidnight .ec-progress, .edition-card.f50-final .ec-progress { color:rgba(255,255,255,.65); }
 .edition-card.couples .ec-progress.has-data, .edition-card.married .ec-progress.has-data, .edition-card.secretfiles .ec-progress.has-data,
 .edition-card.family .ec-progress.has-data, .edition-card.betweenus .ec-progress.has-data, .edition-card.overthinkers .ec-progress.has-data,
 .edition-card.healing .ec-progress.has-data, .edition-card.solo .ec-progress.has-data, .edition-card.masks .ec-progress.has-data,
 .edition-card.future .ec-progress.has-data, .edition-card.redflags .ec-progress.has-data, .edition-card.girlsnight .ec-progress.has-data,
 .edition-card.firstimpact .ec-progress.has-data, .edition-card.artist .ec-progress.has-data, .edition-card.spicy .ec-progress.has-data,
-.edition-card.loveaftermidnight .ec-progress.has-data { color:#fff; }
+.edition-card.loveaftermidnight .ec-progress.has-data, .edition-card.f50-final .ec-progress.has-data { color:#fff; }
 /* Icon circle: lighter tint on dark cards */
 .edition-card.couples .ec-icon-wrap::before, .edition-card.married .ec-icon-wrap::before,
 .edition-card.secretfiles .ec-icon-wrap::before, .edition-card.family .ec-icon-wrap::before,

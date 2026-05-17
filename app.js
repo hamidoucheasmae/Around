@@ -375,6 +375,22 @@ function updateEditionProgressBadges() {
       el.classList.remove('has-data');
     }
   });
+  // Per-category progress for Free Taster sub-cards
+  const f50cats = { 'fun_free50':'f50-fun','love_free50':'f50-love','deep_free50':'f50-deep','group_free50':'f50-group','final_free50':'f50-final' };
+  const f50used = allProgress['free50']?.used || {};
+  Object.entries(f50cats).forEach(([catKey, elKey]) => {
+    const el   = document.getElementById(`ep-${elKey}`);
+    if (!el) return;
+    const seen  = (f50used[catKey] || []).length;
+    const total = CATEGORIES[catKey]?.qs.length || 10;
+    if (seen > 0) {
+      el.textContent = `${seen} / ${total}`;
+      el.classList.add('has-data');
+    } else {
+      el.textContent = `${total} questions`;
+      el.classList.remove('has-data');
+    }
+  });
   updateQuickContinue();
 }
 
@@ -963,6 +979,43 @@ window.selectEdition = function(edition) {
   transition(() => {
     document.getElementById('edition-select').classList.remove('on');
     document.getElementById('landing').classList.add('on');
+  });
+};
+
+/* Direct-to-category shortcut for Free Taster cards */
+window.selectFree50Cat = function(cat) {
+  currentEdition = 'free50';
+  currentCats    = getEditionCats('free50');
+  currentCat     = cat;
+  buildGameInterface(currentCats);
+
+  const saved = allProgress['free50'];
+  if (saved && saved.drawn > 0) {
+    drawn = saved.drawn;
+    round = saved.round;
+    used  = JSON.parse(JSON.stringify(saved.used || {}));
+  } else {
+    drawn = 0; round = 1; used = {};
+  }
+
+  sessionDrawn = 0; sessionFavs = 0;
+  updateStats();
+  startSessionTimer();
+
+  if (!localStorage.getItem('seneya_hint')) {
+    localStorage.setItem('seneya_hint', '1');
+    setTimeout(() => toast('← Draw · → Skip · ♡ Save a question', 3500), 1200);
+  }
+
+  editionSelectScrollY = document.getElementById('edition-select')?.scrollTop || 0;
+  transition(() => {
+    document.getElementById('edition-select').classList.remove('on');
+    document.getElementById('game').classList.add('on');
+    resetWelcomeCard(saved && saved.drawn > 0);
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.querySelector(`.cat-btn[data-cat="${cat}"]`);
+    if (btn) btn.classList.add('active');
+    updateCatProgress();
   });
 };
 
