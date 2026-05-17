@@ -191,6 +191,7 @@ var CATEGORIES = {
       {en:"What legacy do we want to leave for our children?",ar:"شنو الإرث اللي باغي نتركوه للأطفال؟"},
       {en:"How do we keep our relationship strong while parenting?",ar:"كيفاش نقدرو نخليو العلاقة قوية مع التربية؟"},
       {en:"What dreams do you still have for our family?",ar:"شنو الأحلام اللي مازالك عندك للعائلة؟"},
+      {en:"What's something you want us to experience together as a family before the kids grow up?",ar:"شنو حاجة باغي نعيشوها معاً كعائلة قبل ما يكبرو الأطفال؟"},
     ]},
   friendship_deep:{ sym:'💎', en:'REAL FRIENDSHIP', ar:'الصداقة الحقيقية', bgClass:'card-friendship', statIcon:'💎',
     qs:[

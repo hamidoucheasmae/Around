@@ -348,15 +348,26 @@ function updateQuickContinue() {
   el.style.display = 'flex';
 }
 
+function relativeTime(ts) {
+  if (!ts) return '';
+  const days = Math.floor((Date.now() - ts) / 86400000);
+  if (days === 0) return 'Today';
+  if (days === 1) return 'Yesterday';
+  if (days < 7)  return `${days}d ago`;
+  if (days < 30) return `${Math.floor(days / 7)}w ago`;
+  return `${Math.floor(days / 30)}mo ago`;
+}
+
 function updateEditionProgressBadges() {
   Object.keys(EDITIONS).forEach(key => {
     const el = document.getElementById(`ep-${key}`);
     if (!el) return;
     const p = allProgress[key];
     if (p && p.drawn > 0) {
-      const cats = getEditionCats(key);
+      const cats  = getEditionCats(key);
       const total = cats.reduce((s, c) => s + (CATEGORIES[c]?.qs.length || 0), 0);
-      el.textContent = `${p.drawn} / ${total} · Round ${p.round}`;
+      const when  = relativeTime(p.lastPlayed);
+      el.textContent = `${p.drawn} / ${total} · Round ${p.round}${when ? ' · ' + when : ''}`;
       el.classList.add('has-data');
     } else {
       el.textContent = '';
@@ -984,7 +995,7 @@ function updateCatProgress() {
     const total = cat.qs.length;
     const seen  = (used[c] || []).length;
     const span  = btn.querySelector('.cat-progress');
-    if (span) span.textContent = seen > 0 ? ` ${seen}/${total}` : '';
+    if (span) span.textContent = seen > 0 ? ` ${seen}/${total}` : ` ${total}`;
     btn.classList.toggle('cat-done', seen > 0 && seen >= total);
   });
 }
