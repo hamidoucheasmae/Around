@@ -547,10 +547,11 @@ window.switchTab = function(mode) {
   document.getElementById('tab-login').classList.toggle('active', mode === 'login');
   document.getElementById('tab-register').classList.toggle('active', mode === 'register');
   document.getElementById('field-name').style.display = mode === 'register' ? 'block' : 'none';
-  document.getElementById('btn-auth-submit').textContent =
-    mode === 'register' ? 'إنشاء حساب — Create Account' : 'دخول — Sign In';
+  const btn = document.getElementById('btn-auth-submit');
+  btn.textContent = mode === 'register' ? 'إنشاء حساب — Create Account' : 'دخول — Sign In';
+  btn.disabled    = false;
+  btn.style.opacity = '';
   document.getElementById('auth-forgot').style.display = mode === 'login' ? 'block' : 'none';
-  // Reset password field visibility
   const pwInput = document.getElementById('input-password');
   const pwBtn   = document.getElementById('btn-pw-toggle');
   if (pwInput) { pwInput.type = 'password'; }
