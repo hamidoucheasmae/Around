@@ -53,6 +53,6 @@ var CAT_SHORT = {
   littlethings_wk:'Little Things', mindread_wk:'Inside My Mind', loveread_wk:'Love & Me', realme_wk:'The Real Me', memories_wk:'Our Memories',
   howseeme_fi:'How They See Me', perception_fi:'Perception Game', relimpress_fi:'Relationship Impressions', truthvibe_fi:'Truth vs Perception',
   identity_ar:'My Artist Soul', block_ar:'Creative Block', emotions_ar:'Art & Emotions', dreams_ar:'Artistic Dreams',
-  fun_free50:'Fun & Chaos', love_free50:'Love', deep_free50:'Deep', group_free50:'Group', final_free50:'Final',
+  fun_free50:'Fun & Chaos', love_free50:'Love & Attraction', deep_free50:'Deep Thoughts', group_free50:'Group Chaos', final_free50:'Final Cards',
   vulnerability_lam:'Vulnerable', touch_lam:'Touch', romance_lam:'Romance', emotional_lam:'Closeness', spicy_lam:'Spicy',
 };
