@@ -73,7 +73,7 @@ body::before {
 #auth-screen {
   position:relative; z-index:10; flex:1; display:flex; flex-direction:column;
   align-items:center; justify-content:center; padding:2rem 1.5rem;
-  background:linear-gradient(160deg,#FDF8F4 0%,#F7EDE9 50%,#EED5CC 100%); overflow-y:auto;
+  background:linear-gradient(160deg,var(--cream) 0%,var(--blush) 50%,var(--blush-deep) 100%); overflow-y:auto;
 }
 .auth-logo { text-align:center; margin-bottom:1.6rem; }
 .auth-logo-icon { font-size:2.8rem; animation:pulse 2.5s ease-in-out infinite; display:block; }
@@ -98,14 +98,21 @@ body::before {
 .btn-auth:disabled { opacity:.6; cursor:not-allowed; transform:none !important; box-shadow:none; }
 .auth-loading { display:inline-block; width:16px; height:16px; border:2px solid rgba(255,255,255,.4); border-top-color:white; border-radius:50%; animation:spin .7s linear infinite; vertical-align:middle; margin-right:6px; }
 @keyframes spin { to{transform:rotate(360deg)} }
+.auth-pw-wrap { position:relative; display:flex; align-items:center; }
+.auth-pw-wrap input { flex:1; padding-right:42px !important; }
+.btn-pw-toggle { position:absolute; right:10px; background:none; border:none; cursor:pointer; font-size:.95rem; color:var(--muted); padding:4px 6px; line-height:1; transition:color .2s; }
+.btn-pw-toggle:hover { color:var(--rose-deep); }
+.auth-forgot { text-align:center; margin-top:.5rem; }
+.btn-forgot { background:none; border:none; font-size:.75rem; color:var(--muted); cursor:pointer; font-family:'DM Sans',sans-serif; text-decoration:underline; text-underline-offset:3px; transition:color .2s; padding:4px; }
+.btn-forgot:hover { color:var(--rose-deep); }
 .auth-footer { text-align:center; margin-top:1rem; font-family:'Cairo',sans-serif; font-size:.68rem; color:var(--muted); direction:rtl; letter-spacing:.02em; }
 
 /* ══════════════════ EDITION SELECT ══════════════════ */
 #edition-select {
   position:relative; z-index:10; flex:1; display:none; flex-direction:column;
   align-items:center; padding:4rem 1.5rem 3rem; text-align:center;
-  background:linear-gradient(160deg,#FDF8F4 0%,#F7EDE9 50%,#EED5CC 100%);
-  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  background:linear-gradient(160deg,var(--cream) 0%,var(--blush) 50%,var(--blush-deep) 100%);
+  overflow-y:auto; -webkit-overflow-scrolling:touch; scroll-behavior:smooth;
 }
 #edition-select.on { display:flex; animation:screenIn .3s ease; }
 
@@ -226,7 +233,7 @@ body::before {
 #landing {
   position:relative; z-index:10; flex:1; display:none; flex-direction:column;
   align-items:center; justify-content:center; padding:2rem 1.5rem 3rem; text-align:center;
-  background:linear-gradient(160deg,#FDF8F4 0%,#F7EDE9 50%,#EED5CC 100%);
+  background:linear-gradient(160deg,var(--cream) 0%,var(--blush) 50%,var(--blush-deep) 100%);
 }
 #landing.on { display:flex; animation:screenIn .3s ease; }
 .btn-land-back { position:absolute; top:16px; left:16px; display:flex; align-items:center; gap:5px; background:transparent; border:1px solid rgba(184,92,74,.2); border-radius:50px; padding:6px 14px; font-family:'DM Sans',sans-serif; font-size:.75rem; color:var(--muted); cursor:pointer; transition:all .2s; }
@@ -266,9 +273,10 @@ body::before {
 .btn-challenges.off { opacity:.4; }
 #game.challenges-hidden .card-challenge { display:none; }
 
-/* Cat strip with right-fade */
+/* Cat strip with bidirectional fade */
 .cat-strip-wrap { position:relative; flex-shrink:0; }
-.cat-strip-wrap::after { content:''; position:absolute; right:0; top:0; bottom:0; width:40px; background:linear-gradient(to right,transparent,var(--warm-white)); pointer-events:none; z-index:1; }
+.cat-strip-wrap::before { content:''; position:absolute; left:0; top:0; bottom:0; width:20px; background:linear-gradient(to left,transparent,var(--warm-white)); pointer-events:none; z-index:1; }
+.cat-strip-wrap::after  { content:''; position:absolute; right:0; top:0; bottom:0; width:40px; background:linear-gradient(to right,transparent,var(--warm-white)); pointer-events:none; z-index:1; }
 .cat-strip { display:flex; gap:6px; padding:10px 14px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
 .cat-strip::-webkit-scrollbar { display:none; }
 .cat-btn { flex-shrink:0; display:flex; align-items:center; gap:4px; padding:7px 12px; border-radius:20px; border:1.5px solid rgba(184,92,74,.15); background:white; font-family:'DM Sans',sans-serif; font-size:.78rem; font-weight:500; color:var(--muted); cursor:pointer; transition:all .22s; white-space:nowrap; }
@@ -388,7 +396,8 @@ body::before {
 .draw-row { display:flex; gap:8px; }
 .btn-skip { width:54px; flex-shrink:0; border:1.5px solid rgba(184,92,74,.2); background:white; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; font-size:1rem; cursor:pointer; transition:all .2s; }
 .btn-skip-label { font-size:.5rem; color:var(--muted); font-family:'DM Sans',sans-serif; text-transform:uppercase; letter-spacing:.06em; }
-.btn-skip:hover { background:var(--blush); border-color:var(--rose); }
+.btn-skip:hover:not(:disabled) { background:var(--blush); border-color:var(--rose); }
+.btn-skip:disabled { opacity:.35; cursor:not-allowed; }
 .btn-draw { flex:1; border:none; border-radius:14px; padding:14px 10px; background:linear-gradient(135deg,var(--rose-deep),var(--terracotta)); color:white; font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600; cursor:pointer; transition:all .22s; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 16px rgba(184,92,74,.3); letter-spacing:.03em; }
 .btn-draw:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(184,92,74,.4); }
 .btn-draw:active { transform:scale(.97); }
@@ -604,6 +613,8 @@ body.force-light .land-progress-chip,body.force-light .quick-continue { backgrou
   font-size:.75rem; font-weight:600; color:var(--ink-soft); letter-spacing:.03em; }
 .live-dot { width:8px; height:8px; background:#E05555; border-radius:50%;
   display:inline-block; animation:pulse 1.4s ease-in-out infinite; flex-shrink:0; }
+/* Viewer mode — draw button disabled */
+.btn-draw:disabled { opacity:.4; cursor:not-allowed; transform:none !important; box-shadow:none; }
 
 /* PLAY TOGETHER BUTTONS */
 .btn-play-together { width:100%; background:linear-gradient(135deg,var(--rose-deep),#8B3A2A);

@@ -4,7 +4,7 @@ import { getAnalytics }
   from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  onAuthStateChanged, signOut, updateProfile
+  onAuthStateChanged, signOut, updateProfile, sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 import {
   getFirestore, doc, getDoc, setDoc, updateDoc, increment, serverTimestamp, onSnapshot
@@ -107,6 +107,26 @@ function playFavSound() {
     osc.start(); osc.stop(ctx.currentTime + 0.3);
   } catch(e){}
 }
+
+/* ══════════ PASSWORD TOGGLE ══════════ */
+window.togglePw = function() {
+  const input = document.getElementById('input-password');
+  const btn   = document.getElementById('btn-pw-toggle');
+  input.type  = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁' : '🙈';
+};
+
+/* ══════════ FORGOT PASSWORD ══════════ */
+window.sendPasswordReset = async function() {
+  const email = document.getElementById('input-email').value.trim();
+  if (!email) { showAuthError('Enter your email first · أدخل بريدك الإلكتروني'); return; }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    toast('Reset email sent! Check your inbox. · تم إرسال البريد 📬', 3500);
+  } catch(e) {
+    showAuthError(friendlyError(e.code));
+  }
+};
 
 window.toggleSound = function() {
   soundEnabled = !soundEnabled;
@@ -500,6 +520,12 @@ window.switchTab = function(mode) {
   document.getElementById('field-name').style.display = mode === 'register' ? 'block' : 'none';
   document.getElementById('btn-auth-submit').textContent =
     mode === 'register' ? 'إنشاء حساب — Create Account' : 'دخول — Sign In';
+  document.getElementById('auth-forgot').style.display = mode === 'login' ? 'block' : 'none';
+  // Reset password field visibility
+  const pwInput = document.getElementById('input-password');
+  const pwBtn   = document.getElementById('btn-pw-toggle');
+  if (pwInput) { pwInput.type = 'password'; }
+  if (pwBtn)   { pwBtn.textContent = '👁'; }
   hideAuthError();
 };
 
@@ -771,6 +797,10 @@ function renderLiveCard(card, cat) {
   if (!catData) return;
   currentQuestion = card;
   currentCat = cat;
+  const skipBtn = document.getElementById('btn-skip');
+  if (skipBtn) skipBtn.disabled = true;
+  const drawBtn = document.getElementById('btn-draw');
+  if (drawBtn) drawBtn.disabled = true;
   document.getElementById('card-stage').innerHTML = `
     <div class="q-card-wrap">
       <div class="q-card ${catData.bgClass}">
@@ -804,6 +834,8 @@ window.endLiveSession = async function() {
   if (sessionUnsub) { sessionUnsub(); sessionUnsub = null; }
   liveSessionId = null; isDealer = false;
   document.getElementById('live-banner').style.display = 'none';
+  const drawBtn = document.getElementById('btn-draw');
+  if (drawBtn) drawBtn.disabled = false;
 };
 
 /* ══════════ PREMIUM / MEMBERSHIP ══════════ */
@@ -858,6 +890,9 @@ window.activatePromo = async function() {
 /* ══════════ GAME DATA ══════════ */
 const SINEYA_SVG = `<svg class="sineya-svg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="sgCu" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#F5D090"/><stop offset="22%" stop-color="#DFAA68"/><stop offset="58%" stop-color="#BF8048"/><stop offset="100%" stop-color="#8A5028"/></radialGradient><radialGradient id="sgSh" cx="37%" cy="30%" r="50%"><stop offset="0%" stop-color="rgba(255,248,210,0.5)"/><stop offset="100%" stop-color="rgba(255,210,120,0)"/></radialGradient></defs><ellipse cx="140" cy="156" rx="118" ry="11" fill="rgba(0,0,0,0.18)"/><circle cx="140" cy="138" r="126" fill="url(#sgCu)"/><circle cx="140" cy="138" r="126" fill="none" stroke="#EBC472" stroke-width="5" stroke-dasharray="5 3.2" opacity="0.7"/><circle cx="140" cy="138" r="121" fill="none" stroke="#7A4418" stroke-width="0.8" opacity="0.5"/><circle cx="140" cy="138" r="108" fill="none" stroke="#7A4418" stroke-width="1.1" opacity="0.6"/><g fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.85" opacity="0.8"><g transform="translate(140,138) rotate(0)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(45)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(90)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(135)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(180)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(225)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(270)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g><g transform="translate(140,138) rotate(315)"><path d="M 0,-114 L 7,-105 L 0,-96 L -7,-105 Z"/></g></g><g fill="rgba(55,20,5,0.1)" stroke="#7A4418" stroke-width="0.7" opacity="0.7"><g transform="translate(140,138) rotate(22.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(67.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(112.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(157.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(202.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(247.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(292.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g><g transform="translate(140,138) rotate(337.5)"><path d="M 0,-114 L 4,-109 L 0,-104 L -4,-109 Z"/></g></g><g fill="#7A4418" opacity="0.42"><circle cx="140" cy="47" r="2.5"/><circle cx="174.8" cy="54.1" r="2.5"/><circle cx="204.3" cy="73.7" r="2.5"/><circle cx="223.9" cy="103.2" r="2.5"/><circle cx="231" cy="138" r="2.5"/><circle cx="223.9" cy="172.8" r="2.5"/><circle cx="204.3" cy="202.3" r="2.5"/><circle cx="174.8" cy="221.9" r="2.5"/><circle cx="140" cy="229" r="2.5"/><circle cx="105.2" cy="221.9" r="2.5"/><circle cx="75.7" cy="202.3" r="2.5"/><circle cx="56.1" cy="172.8" r="2.5"/><circle cx="49" cy="138" r="2.5"/><circle cx="56.1" cy="103.2" r="2.5"/><circle cx="75.7" cy="73.7" r="2.5"/><circle cx="105.2" cy="54.1" r="2.5"/></g><circle cx="140" cy="138" r="74" fill="none" stroke="#7A4418" stroke-width="1.4" opacity="0.65"/><circle cx="140" cy="138" r="70" fill="none" stroke="#D8A050" stroke-width="0.6" opacity="0.45"/><g opacity="0.85"><g transform="translate(140,138) rotate(0)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(45)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(90)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(135)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(180)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(225)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(270)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g><g transform="translate(140,138) rotate(315)"><path d="M 52,0 C 60,-22 80,-46 103,-36 C 116,-18 116,18 103,36 C 80,46 60,22 52,0 Z" fill="rgba(55,20,5,0.14)" stroke="#7A4418" stroke-width="0.9"/></g></g><circle cx="140" cy="138" r="43" fill="none" stroke="#7A4418" stroke-width="1.4" opacity="0.7"/><circle cx="140" cy="138" r="39" fill="none" stroke="#D8A050" stroke-width="0.6" opacity="0.45"/><g transform="translate(140,138)" stroke="#7A4418" stroke-width="0.7" opacity="0.5"><line x1="0" y1="-15" x2="0" y2="-39"/><line x1="7.5" y1="-13" x2="19.5" y2="-33.8"/><line x1="13" y1="-7.5" x2="33.8" y2="-19.5"/><line x1="15" y1="0" x2="39" y2="0"/><line x1="13" y1="7.5" x2="33.8" y2="19.5"/><line x1="7.5" y1="13" x2="19.5" y2="33.8"/><line x1="0" y1="15" x2="0" y2="39"/><line x1="-7.5" y1="13" x2="-19.5" y2="33.8"/><line x1="-13" y1="7.5" x2="-33.8" y2="19.5"/><line x1="-15" y1="0" x2="-39" y2="0"/><line x1="-13" y1="-7.5" x2="-33.8" y2="-19.5"/><line x1="-7.5" y1="-13" x2="-19.5" y2="-33.8"/></g><g transform="translate(140,138)" fill="rgba(55,20,5,0.13)" stroke="#7A4418" stroke-width="0.85"><polygon points="0,-28 4.59,-11.09 19.8,-19.8 11.09,-4.59 28,0 11.09,4.59 19.8,19.8 4.59,11.09 0,28 -4.59,11.09 -19.8,19.8 -11.09,4.59 -28,0 -11.09,-4.59 -19.8,-19.8 -4.59,-11.09"/></g><circle cx="140" cy="138" r="13" fill="none" stroke="#7A4418" stroke-width="1.1" opacity="0.7"/><circle cx="140" cy="138" r="7" fill="none" stroke="#7A4418" stroke-width="0.8" opacity="0.6"/><circle cx="140" cy="138" r="2.5" fill="#7A4418" opacity="0.6"/><circle cx="140" cy="138" r="126" fill="url(#sgSh)"/></svg>`;
 
+/* ── Edition select scroll memory ── */
+let editionSelectScrollY = 0;
+
 /* ── Game state ── */
 let currentEdition  = null;
 let currentCat      = 'soft';
@@ -910,6 +945,8 @@ window.selectEdition = function(edition) {
   }
 
   buildGameInterface(cats);
+  const esEl = document.getElementById('edition-select');
+  editionSelectScrollY = esEl ? esEl.scrollTop : 0;
   transition(() => {
     document.getElementById('edition-select').classList.remove('on');
     document.getElementById('landing').classList.add('on');
@@ -919,7 +956,9 @@ window.selectEdition = function(edition) {
 window.backToEditions = function() {
   transition(() => {
     document.getElementById('landing').classList.remove('on');
-    document.getElementById('edition-select').classList.add('on');
+    const esEl = document.getElementById('edition-select');
+    esEl.classList.add('on');
+    requestAnimationFrame(() => { esEl.scrollTop = editionSelectScrollY; });
   });
 };
 
@@ -993,6 +1032,10 @@ function resetWelcomeCard(isContinue = false) {
       <p>${isContinue ? 'Pick a category to continue where you left off.' : 'Pick a category above to draw your first card.'}</p>
       <p class="wc-ar">اختار الفئة — الصدق هو القاعدة الوحيدة</p>
     </div>`;
+  const skipBtn = document.getElementById('btn-skip');
+  if (skipBtn) skipBtn.disabled = true;
+  const drawBtn = document.getElementById('btn-draw');
+  if (drawBtn && !isDealer && liveSessionId) drawBtn.disabled = true;
 }
 
 /* ── Home ── */
@@ -1015,7 +1058,9 @@ window.doGoHome = function() {
   endLiveSession();
   transition(() => {
     document.getElementById('game').classList.remove('on');
-    document.getElementById('edition-select').classList.add('on');
+    const esEl = document.getElementById('edition-select');
+    esEl.classList.add('on');
+    requestAnimationFrame(() => { esEl.scrollTop = editionSelectScrollY; });
     updateEditionProgressBadges();
     updateLifetimeDisplay();
     if (sd > 0) showSummary(sd, sf, elapsed);
@@ -1057,6 +1102,7 @@ window.setCat = function(cat, el) {
   currentCat = cat;
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   updateStats();
   drawCard();
 };
@@ -1121,8 +1167,14 @@ function drawCard(count = true) {
       </div>
     </div>`;
 
+  const skipBtn = document.getElementById('btn-skip');
+  if (skipBtn) skipBtn.disabled = false;
+  const drawBtn = document.getElementById('btn-draw');
+  if (drawBtn) drawBtn.disabled = (!isDealer && !!liveSessionId);
+
   document.querySelector('.q-card')?.addEventListener('click', e => {
     if (e.target.closest('.btn-card-action')) return;
+    if (!isDealer && liveSessionId) return;
     drawCard(true);
   });
 }

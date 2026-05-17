@@ -79,9 +79,15 @@
     </div>
     <div class="auth-field">
       <label>كلمة المرور · Password</label>
-      <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password">
+      <div class="auth-pw-wrap">
+        <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password">
+        <button type="button" class="btn-pw-toggle" id="btn-pw-toggle" onclick="togglePw()" tabindex="-1" aria-label="Show password">👁</button>
+      </div>
     </div>
     <button class="btn-auth" id="btn-auth-submit" onclick="handleAuth()" disabled style="opacity:.6">⏳ Loading…</button>
+    <div class="auth-forgot" id="auth-forgot">
+      <button type="button" class="btn-forgot" onclick="sendPasswordReset()">Forgot password? · نسيت كلمة المرور؟</button>
+    </div>
     <div class="auth-footer">الصدق هو القاعدة الوحيدة 💕</div>
   </div>
 </div>
@@ -97,6 +103,7 @@
     <div class="pair-or">or · أو</div>
     <input id="pair-input" class="pair-code-input" maxlength="6" placeholder="XXXXXX"
            oninput="this.value=this.value.toUpperCase().replace(/[^A-Z]/g,'')"
+           onkeydown="if(event.key==='Enter')joinWithCode()"
            autocomplete="off" spellcheck="false">
     <div id="pair-error" class="pair-error"></div>
     <button class="btn-pair-join" onclick="joinWithCode()">Connect · وصّل</button>
