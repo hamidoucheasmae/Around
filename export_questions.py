@@ -4,7 +4,7 @@ from openpyxl.utils import get_column_letter
 
 # ── Pack definitions ──────────────────────────────────────────────────────────
 PACKS = {
-    'FREE':      {'label':'🆓 Free (2 Editions)',      'color':'D4EDDA','editions':['talking','friends']},
+    'FREE':      {'label':'🆓 Free (2 Editions)',      'color':'D4EDDA','editions':['talking','friends','free50']},
     'LOVE':      {'label':'💕 Love Journey · €2.99',   'color':'FAD7CC','editions':['talking','couples','engaged','married','stillus']},
     'DEEP':      {'label':'🌙 Deep & Real · €1.99',    'color':'D8CCE8','editions':['healing','overthinkers','betweenus','solo','masks']},
     'SOCIAL':    {'label':'👥 Social Circle · €2.49',  'color':'FBF0C0','editions':['friends','girlsnight','secretfiles','family','whoknows']},
@@ -27,6 +27,7 @@ EDITION_NAMES = {
     'solo':'Solo Edition','masks':'Masks','loveyourself':'Love Yourself','future':'Future',
     'redflags':'Red & Green Flags','girlsnight':'Girls Night','whoknows':'Who Knows Me Best?',
     'firstimpact':'First Impression','artist':'Artist Edition',
+    'free50':'The Free 50',
 }
 EDITION_AR = {
     'talking':'مرحلة التعرف','couples':'العلاقة','married':'المتزوجون','friends':'الأصدقاء',
@@ -35,6 +36,7 @@ EDITION_AR = {
     'solo':'بوحدك','masks':'الأقنعة','loveyourself':'حب نفسك','future':'المستقبل',
     'redflags':'العلامات','girlsnight':'ليلة البنات','whoknows':'شكون كيعرفني؟',
     'firstimpact':'الانطباع الأول','artist':'نسخة الفنانين',
+    'free50':'خمسون سؤال',
 }
 EDITION_CATS = {
     'friends':     ['soft_friends','real_friends','psych_friends','between_friends','power_friends','friendship_deep','challenges_friends'],
@@ -58,6 +60,7 @@ EDITION_CATS = {
     'firstimpact': ['howseeme_fi','perception_fi','relimpress_fi','truthvibe_fi'],
     'artist':      ['identity_ar','block_ar','emotions_ar','dreams_ar'],
     'married':     ['soft','real','psych','between','power','desires_married','future_married'],
+    'free50':      ['fun_free50','love_free50','deep_free50','group_free50','final_free50'],
 }
 
 # ── Smarter parser: extract category blocks by finding each key ───────────────

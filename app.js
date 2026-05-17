@@ -304,6 +304,7 @@ async function clearEditionProgress(edition) {
 }
 
 function getEditionCats(edition) {
+  if (edition === 'free50')       return ['fun_free50','love_free50','deep_free50','group_free50','final_free50'];
   if (edition === 'friends')      return ['soft_friends','real_friends','psych_friends','between_friends','power_friends','friendship_deep','challenges_friends'];
   if (edition === 'spicy')        return ['spicy_part1','spicy_part2','spicy_part3','spicy_part4'];
   if (edition === 'talking')      return ['soft_talking','real_talking','psych_talking','between_talking','power_talking','desires_talking','future_talking'];
@@ -1126,6 +1127,14 @@ function drawCard(count = true) {
   const idx = avail[Math.floor(Math.random() * avail.length)];
   used[key].push(idx);
   const q = pool[idx];
+
+  if (q.upsell) {
+    if (count) { drawn++; sessionDrawn++; scheduleSave(); if (navigator.vibrate) navigator.vibrate(20); }
+    updateStats(); updateCatProgress();
+    showUpsellCard(q, catData, key);
+    return;
+  }
+
   currentQuestion = { en: q.en, ar: q.ar };
   if (count) { drawn++; sessionDrawn++; scheduleSave(); if (navigator.vibrate) navigator.vibrate(8); playDraw(); }
   if (isDealer && liveSessionId) {
@@ -1194,6 +1203,40 @@ function showDoneCard(catData, key) {
       <div class="done-card-ar">انتهت الأسئلة — جولة جديدة تنتظركم</div>
       <button class="btn-done-continue" onclick="window.drawCard()">Next Round · جولة جديدة 🔁</button>
     </div>`;
+}
+
+function showUpsellCard(q, catData, key) {
+  currentQuestion = null;
+  const seenInCat = used[key].length;
+  const isFinal = !!q.final;
+  document.getElementById('card-stage').innerHTML = `
+    <div class="q-card-wrap">
+      <div class="q-card card-upsell">
+        <div class="card-overlay"></div>
+        <div class="card-badge">
+          <span class="badge-sym">🔒</span>
+          <span class="badge-en">${isFinal ? 'UNLOCKED EDITIONS' : 'PREMIUM EDITION'}</span>
+          <span class="badge-ar">· ${isFinal ? 'نسخ مميزة' : 'نسخة مميزة'}</span>
+        </div>
+        <div class="card-body upsell-body">
+          <div class="upsell-lock-icon">🔒</div>
+          <div class="card-q-en">${q.en}</div>
+          <div class="card-divider"></div>
+          <div class="card-q-ar">${q.ar}</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-num">${seenInCat}/${catData.qs.length}</span>
+          <button class="btn-upsell-cta" onclick="openUnlockModal()">Unlock Premium ✨</button>
+        </div>
+      </div>
+    </div>`;
+  const skipBtn = document.getElementById('btn-skip');
+  if (skipBtn) skipBtn.disabled = false;
+  document.querySelector('.q-card')?.addEventListener('click', e => {
+    if (e.target.closest('.btn-upsell-cta')) return;
+    if (!isDealer && liveSessionId) return;
+    drawCard(true);
+  });
 }
 
 window.drawCard = () => drawCard(true);

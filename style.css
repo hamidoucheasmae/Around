@@ -173,6 +173,9 @@ body::before {
 .edition-card.firstimpact { --accent:#7BAABB; background:linear-gradient(135deg,#90A8C0 0%,#607888 100%); border-color:rgba(96,120,136,.35); color:white; }
 .edition-card.artist      { --accent:#B87AB8; background:linear-gradient(135deg,#8878C0 0%,#504888 100%); border-color:rgba(80,72,136,.35); color:white; }
 .edition-card.spicy       { --accent:#DC143C; background:linear-gradient(135deg,#C84848 0%,#881818 100%); border-color:rgba(136,24,24,.35); color:white; }
+.edition-card.free50      { --accent:#2EBE8A; background:linear-gradient(135deg,#D4EDDA 0%,#A8D8B8 100%); border-color:rgba(46,190,138,.3); border-top-color:#2EBE8A; }
+.edition-card-free        { width:100%; max-width:280px; }
+.edition-card-free .ec-label { font-style:italic; }
 /* White text for name/label/progress on dark-background cards */
 .edition-card.couples .ec-name, .edition-card.married .ec-name, .edition-card.secretfiles .ec-name,
 .edition-card.family .ec-name, .edition-card.betweenus .ec-name, .edition-card.overthinkers .ec-name,
@@ -332,6 +335,7 @@ body::before {
 .card-redflag    { background:linear-gradient(155deg,#280808 0%,#501010 50%,#8B1A1A 100%); }
 .card-greenflag  { background:linear-gradient(155deg,#081A08 0%,#103A10 50%,#1A6A1A 100%); }
 .card-opinions   { background:linear-gradient(155deg,#0A0A20 0%,#181838 50%,#2A2A60 100%); }
+.card-upsell     { background:linear-gradient(155deg,#0A0806 0%,#1C1410 50%,#2E1E14 100%); border:1px solid rgba(255,200,120,.15); }
 .card-girlhood   { background:linear-gradient(155deg,#280818 0%,#581030 50%,#9B2A60 100%); }
 .card-feminine   { background:linear-gradient(155deg,#280A20 0%,#4A1840 50%,#8B3870 100%); }
 .card-forevergrls{ background:linear-gradient(155deg,#1A0828 0%,#341050 50%,#622888 100%); }
@@ -386,6 +390,10 @@ body::before {
 .done-card-ar { font-family:'Cairo',sans-serif; font-size:.78rem; color:rgba(180,220,190,.7); direction:rtl; }
 .btn-done-continue { padding:12px 28px; border:1px solid rgba(255,255,255,.3); border-radius:50px; background:rgba(255,255,255,.18); backdrop-filter:blur(4px); color:white; font-family:'Cairo',sans-serif; font-size:.95rem; font-weight:600; cursor:pointer; transition:all .2s; margin-top:4px; }
 .btn-done-continue:hover { background:rgba(255,255,255,.28); }
+.upsell-body { text-align:center; }
+.upsell-lock-icon { font-size:2.4rem; margin-bottom:.6rem; display:block; }
+.btn-upsell-cta { background:linear-gradient(135deg,#B85C4A,#D4837A); color:white; border:none; border-radius:50px; padding:.5rem 1.4rem; font-size:.8rem; font-weight:700; cursor:pointer; letter-spacing:.04em; white-space:nowrap; }
+.btn-upsell-cta:hover { opacity:.88; }
 
 /* Bottom bar */
 .bottom-bar { flex-shrink:0; padding:10px 14px 16px; background:var(--warm-white); border-top:1px solid rgba(217,135,122,.1); }
