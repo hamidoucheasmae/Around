@@ -482,6 +482,18 @@
       border-color: var(--rose);
       transform: translateY(-2px);
     }
+    .edition-chip-free {
+      background: rgba(46,190,138,.1);
+      border-color: rgba(46,190,138,.3);
+      color: #1A7A56;
+    }
+    .edition-chip-free:hover { background: rgba(46,190,138,.18); border-color: #2EBE8A; }
+    .edition-chip-hot {
+      background: rgba(155,89,182,.1);
+      border-color: rgba(155,89,182,.3);
+      color: #7B3A9B;
+    }
+    .edition-chip-hot:hover { background: rgba(155,89,182,.18); border-color: #9B59B6; }
 
     /* ═══════════════════════ HOW IT WORKS ═══════════════════════ */
     #how {
@@ -798,7 +810,7 @@
   <section id="hero">
     <div class="hero-inner">
 
-      <div class="hero-badge fade-up">💕 Bilingual Card Game</div>
+      <div class="hero-badge fade-up">💕 23 Editions · Bilingual</div>
 
       <h1 class="hero-heading fade-up-2">
         <em>"The questions you were<br>scared to ask."</em>
@@ -835,7 +847,7 @@
       </div>
 
       <div class="hero-ctas fade-up-4">
-        <a href="app.html" class="btn btn-primary">💕 Play Free</a>
+        <a href="app.html" class="btn btn-primary">🆓 Start Free — 5 categories</a>
         <a href="payment.html" class="btn btn-secondary">👑 Get Premium — €4.99</a>
       </div>
 
@@ -845,34 +857,47 @@
   <!-- ══════════════════════════ EDITIONS ══════════════════════════ -->
   <section id="editions">
     <div class="editions-header">
-      <div class="section-label">21 Editions</div>
+      <div class="section-label">23 Editions</div>
       <h2 class="section-heading">Every mood.<br>Every relationship.</h2>
       <p class="section-sub">From first dates to healing seasons — there's a deck for where you are right now.</p>
     </div>
 
-    <div class="editions-scroll-wrap">
+    <!-- Free Taster strip -->
+    <div style="padding:0 var(--side); max-width:var(--max-w); margin:0 auto 0.6rem;">
+      <div style="font-size:0.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#2EBE8A;margin-bottom:.5rem;">🆓 Free Taster · ابدأ مجاناً</div>
+      <div style="display:flex;gap:.45rem;flex-wrap:wrap;">
+        <div class="edition-chip edition-chip-free">😂 Fun &amp; Chaos</div>
+        <div class="edition-chip edition-chip-free">💌 Love &amp; Attraction</div>
+        <div class="edition-chip edition-chip-free">🧠 Deep Thoughts</div>
+        <div class="edition-chip edition-chip-free">👀 Group Chaos</div>
+        <div class="edition-chip edition-chip-free">🌙 The Final Cards</div>
+      </div>
+    </div>
+
+    <div class="editions-scroll-wrap" style="margin-top:1rem;">
       <div class="editions-scroll">
         <div class="edition-chip">🥰 Talking Stage</div>
         <div class="edition-chip">💑 Couples</div>
         <div class="edition-chip">💍 Engaged</div>
         <div class="edition-chip">👑 Married</div>
-        <div class="edition-chip">👯 Friends</div>
-        <div class="edition-chip">🔥 18+</div>
         <div class="edition-chip">❤️ Still Us</div>
-        <div class="edition-chip">🧠 Overthinkers</div>
-        <div class="edition-chip">🌧 Healing</div>
-        <div class="edition-chip">🌙 Solo</div>
-        <div class="edition-chip">🎭 Masks</div>
-        <div class="edition-chip">🌷 Love Yourself</div>
-        <div class="edition-chip">✨ Future</div>
-        <div class="edition-chip">🚩 Red Flags</div>
+        <div class="edition-chip">🌙 Between Us</div>
+        <div class="edition-chip">👯 Friends</div>
         <div class="edition-chip">💋 Girls Night</div>
-        <div class="edition-chip">🍟 Who Knows Me Best</div>
-        <div class="edition-chip">👀 First Impression</div>
-        <div class="edition-chip">🎨 Artist</div>
         <div class="edition-chip">🕵️ Secret Files</div>
         <div class="edition-chip">🏡 Family</div>
-        <div class="edition-chip">🌙 Between Us</div>
+        <div class="edition-chip">🍟 Who Knows Me Best</div>
+        <div class="edition-chip">👀 First Impression</div>
+        <div class="edition-chip">🚩 Red &amp; Green Flags</div>
+        <div class="edition-chip">🌙 Solo</div>
+        <div class="edition-chip">🌷 Love Yourself</div>
+        <div class="edition-chip">🧠 Overthinkers</div>
+        <div class="edition-chip">🌧 Healing</div>
+        <div class="edition-chip">🎭 Masks</div>
+        <div class="edition-chip">🎨 Artist</div>
+        <div class="edition-chip">✨ Future</div>
+        <div class="edition-chip">🔥 18+ Unfiltered</div>
+        <div class="edition-chip edition-chip-hot">🌙 Love After Midnight</div>
       </div>
     </div>
   </section>
@@ -926,8 +951,9 @@
           <div class="compare-title">Explorer</div>
           <div class="compare-price">Always free</div>
           <ul class="compare-list">
+            <li><span class="check">✓</span> Full Free Taster (5 modes)</li>
             <li><span class="check">✓</span> 2 categories per edition</li>
-            <li><span class="check">✓</span> All 21 editions</li>
+            <li><span class="check">✓</span> All 23 editions visible</li>
             <li><span class="check">✓</span> Save favorites</li>
             <li><span class="check">✓</span> Partner pairing</li>
           </ul>
@@ -937,9 +963,10 @@
           <div class="compare-title">Unlimited</div>
           <div class="compare-price">€4.99 · one-time</div>
           <ul class="compare-list">
-            <li><span class="check">✨</span> All categories</li>
-            <li><span class="check">✨</span> All 21 editions</li>
-            <li><span class="check">✨</span> 18+ edition unlocked</li>
+            <li><span class="check">✨</span> All categories unlocked</li>
+            <li><span class="check">✨</span> All 23 editions</li>
+            <li><span class="check">✨</span> 18+ &amp; Love After Midnight</li>
+            <li><span class="check">✨</span> A or B choice cards</li>
             <li><span class="check">✨</span> New editions, forever</li>
           </ul>
         </div>
@@ -970,7 +997,15 @@
     <div class="samples-scroll-wrap">
       <div class="samples-scroll">
 
-        <!-- Soft card -->
+        <!-- Free Taster card -->
+        <div class="mock-card mock-card-lg" style="background:linear-gradient(145deg,#1A2E1A 0%,#0E1C0E 60%,#1E301E 100%); border-color:rgba(46,190,138,.2);">
+          <div class="mock-card-badge" style="background:rgba(46,190,138,.18);border-color:rgba(46,190,138,.3);color:#2EBE8A;">💌 Love &amp; Attraction</div>
+          <div class="mock-card-q-en">"What's something about me that surprised you — in a good way?"</div>
+          <div class="mock-card-divider"></div>
+          <div class="mock-card-q-ar">"شنو حاجة فيا فاجأتك — بطريقة مزيانة؟"</div>
+        </div>
+
+        <!-- Still Us card -->
         <div class="mock-card mock-card-lg">
           <div class="mock-card-badge">❤️ Still Us</div>
           <div class="mock-card-q-en">"If I could relive one moment with you, you wouldn't know which one — can you guess?"</div>
@@ -978,7 +1013,7 @@
           <div class="mock-card-q-ar">"لو نعيش لحظة معاك بجوج ماعرفتيش أنا من اخترتها — تقدر تخمن؟"</div>
         </div>
 
-        <!-- Real card -->
+        <!-- Overthinkers card -->
         <div class="mock-card mock-card-lg">
           <div class="mock-card-badge">🧠 Overthinkers</div>
           <div class="mock-card-q-en">"What's something you've never told anyone — but you'd tell me right now?"</div>
@@ -986,15 +1021,15 @@
           <div class="mock-card-q-ar">"شي ما قلتيه لحتى واحد — تقدر تقوليه ليا دابا؟"</div>
         </div>
 
-        <!-- Blurred 18+ card -->
-        <div class="mock-card mock-card-lg mock-card-blurred">
-          <div class="mock-card-badge">🔥 18+</div>
-          <div class="mock-card-q-en">"What do you think about when you can't sleep — is it ever me?"</div>
+        <!-- A or B choice card (Love After Midnight) -->
+        <div class="mock-card mock-card-lg mock-card-blurred" style="background:linear-gradient(145deg,#2C0A3A 0%,#1A0828 60%,#0D0515 100%); border-color:rgba(155,89,182,.25);">
+          <div class="mock-card-badge" style="background:rgba(155,89,182,.18);border-color:rgba(155,89,182,.3);color:#C87CD8;">🌙 Love After Midnight</div>
+          <div class="mock-card-q-en">"Kiss first or wait to be kissed?"</div>
           <div class="mock-card-divider"></div>
-          <div class="mock-card-q-ar">"فاش ما تقدر تنعس، فاش كتفكر — وكنت أنا فيهم؟"</div>
+          <div class="mock-card-q-ar">"تبدأ أنت أو تستنى؟"</div>
           <div class="mock-card-unlock">
             <div class="mock-card-unlock-icon">🔞</div>
-            <div class="mock-card-unlock-text">Adults Only<br>Unlock with Premium</div>
+            <div class="mock-card-unlock-text">A or B · Adults Only<br>Unlock with Premium</div>
           </div>
         </div>
 
