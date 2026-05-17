@@ -151,9 +151,9 @@
     </div>
     <span class="qc-arrow">→</span>
   </div>
-  <!-- ── Free Edition ── -->
+  <!-- ── Free Taster ── -->
   <div class="edition-group">
-    <div class="eg-header"><span class="eg-icon">🆓</span><span class="eg-label">Free Edition · النسخة المجانية</span><span class="eg-divider"></span></div>
+    <div class="eg-header"><span class="eg-icon">🆓</span><span class="eg-label">Free Taster · مجاناً</span><span class="eg-divider"></span></div>
     <div class="editions-grid">
       <div class="edition-card free50 edition-card-free" onclick="selectEdition('free50')">
         <div class="ec-icon-wrap"><span class="ec-icon">🆓</span></div>
@@ -163,11 +163,13 @@
       </div>
     </div>
   </div>
+
   <!-- ── Love Journey ── -->
   <div class="edition-group">
-    <div class="eg-header"><span class="eg-icon">💕</span><span class="eg-label">Love Journey · مسار الحب</span><span class="eg-divider"></span></div>
+    <div class="eg-header"><span class="eg-icon">💕</span><span class="eg-label">Love Journey · مسار الحب</span><span class="eg-price">€2.99</span><span class="eg-divider"></span></div>
     <div class="editions-grid">
       <div class="edition-card talking" onclick="selectEdition('talking')">
+        <div class="ec-free-badge">🆓 Free</div>
         <div class="ec-icon-wrap"><span class="ec-icon">🥰</span></div>
         <div class="ec-name">Talking Stage</div>
         <div class="ec-label">Getting to Know</div>
@@ -202,13 +204,20 @@
 
   <!-- ── Social Circle ── -->
   <div class="edition-group">
-    <div class="eg-header"><span class="eg-icon">👥</span><span class="eg-label">Social Circle · الدائرة الاجتماعية</span><span class="eg-divider"></span></div>
-    <div class="editions-grid trio">
+    <div class="eg-header"><span class="eg-icon">👥</span><span class="eg-label">Social Circle · الدائرة الاجتماعية</span><span class="eg-price">€2.49</span><span class="eg-divider"></span></div>
+    <div class="editions-grid">
       <div class="edition-card friends" onclick="selectEdition('friends')">
+        <div class="ec-free-badge">🆓 Free</div>
         <div class="ec-icon-wrap"><span class="ec-icon">👯</span></div>
         <div class="ec-name">Friends</div>
         <div class="ec-label">Ride or Die</div>
         <div class="ec-progress" id="ep-friends"></div>
+      </div>
+      <div class="edition-card girlsnight" onclick="selectEdition('girlsnight')">
+        <div class="ec-icon-wrap"><span class="ec-icon">💋</span></div>
+        <div class="ec-name">Girls Night</div>
+        <div class="ec-label">Girlhood Energy</div>
+        <div class="ec-progress" id="ep-girlsnight"></div>
       </div>
       <div class="edition-card secretfiles" onclick="selectEdition('secretfiles')">
         <div class="ec-icon-wrap"><span class="ec-icon">🕵️</span></div>
@@ -222,12 +231,18 @@
         <div class="ec-label">Closer Together</div>
         <div class="ec-progress" id="ep-family"></div>
       </div>
+      <div class="edition-card whoknows" onclick="selectEdition('whoknows')">
+        <div class="ec-icon-wrap"><span class="ec-icon">🍟</span></div>
+        <div class="ec-name">Who Knows Me Best?</div>
+        <div class="ec-label">Test Your People</div>
+        <div class="ec-progress" id="ep-whoknows"></div>
+      </div>
     </div>
   </div>
 
-  <!-- ── Deep Dive ── -->
+  <!-- ── Deep & Real ── -->
   <div class="edition-group">
-    <div class="eg-header"><span class="eg-icon">🌙</span><span class="eg-label">Deep Dive · في العمق</span><span class="eg-divider"></span></div>
+    <div class="eg-header"><span class="eg-icon">🌙</span><span class="eg-label">Deep & Real · في العمق</span><span class="eg-price">€1.99</span><span class="eg-divider"></span></div>
     <div class="editions-grid">
       <div class="edition-card betweenus" onclick="selectEdition('betweenus')">
         <div class="ec-icon-wrap"><span class="ec-icon">✨</span></div>
@@ -259,6 +274,13 @@
         <div class="ec-label">Who Are You Really?</div>
         <div class="ec-progress" id="ep-masks"></div>
       </div>
+    </div>
+  </div>
+
+  <!-- ── All Access Exclusives ── -->
+  <div class="edition-group">
+    <div class="eg-header"><span class="eg-icon">👑</span><span class="eg-label">All Access Exclusives · حصري</span><span class="eg-price">€5.99</span><span class="eg-divider"></span></div>
+    <div class="editions-grid">
       <div class="edition-card loveyourself" onclick="selectEdition('loveyourself')">
         <div class="ec-icon-wrap"><span class="ec-icon">🌷</span></div>
         <div class="ec-name">Love Yourself</div>
@@ -277,18 +299,6 @@
         <div class="ec-label">Love Opinions</div>
         <div class="ec-progress" id="ep-redflags"></div>
       </div>
-      <div class="edition-card girlsnight" onclick="selectEdition('girlsnight')">
-        <div class="ec-icon-wrap"><span class="ec-icon">💋</span></div>
-        <div class="ec-name">Girls Night</div>
-        <div class="ec-label">Girlhood Energy</div>
-        <div class="ec-progress" id="ep-girlsnight"></div>
-      </div>
-      <div class="edition-card whoknows" onclick="selectEdition('whoknows')">
-        <div class="ec-icon-wrap"><span class="ec-icon">🍟</span></div>
-        <div class="ec-name">Who Knows Me Best?</div>
-        <div class="ec-label">Test Your People</div>
-        <div class="ec-progress" id="ep-whoknows"></div>
-      </div>
       <div class="edition-card firstimpact" onclick="selectEdition('firstimpact')">
         <div class="ec-icon-wrap"><span class="ec-icon">👀</span></div>
         <div class="ec-name">First Impression</div>
@@ -306,7 +316,7 @@
 
   <!-- ── Adults Only ── -->
   <div class="edition-group">
-    <div class="eg-header"><span class="eg-icon">🔞</span><span class="eg-label">Adults Only · للبالغين</span><span class="eg-divider"></span></div>
+    <div class="eg-header"><span class="eg-icon">🔞</span><span class="eg-label">Adults Only · للبالغين</span><span class="eg-price">€1.99</span><span class="eg-divider"></span></div>
     <div class="editions-grid solo">
       <div class="edition-card spicy" onclick="selectEdition('spicy')">
         <div class="ec-icon-wrap"><span class="ec-icon">🔥</span></div>
