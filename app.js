@@ -324,7 +324,8 @@ function getEditionCats(edition) {
   if (edition === 'girlsnight')   return ['girlhood_gn','feminine_gn','love_gn','neversay_gn','forever_gn'];
   if (edition === 'whoknows')     return ['littlethings_wk','mindread_wk','loveread_wk','realme_wk','memories_wk'];
   if (edition === 'firstimpact')  return ['howseeme_fi','perception_fi','relimpress_fi','truthvibe_fi'];
-  if (edition === 'artist')       return ['identity_ar','block_ar','emotions_ar','dreams_ar'];
+  if (edition === 'artist')            return ['identity_ar','block_ar','emotions_ar','dreams_ar'];
+  if (edition === 'loveaftermidnight') return ['vulnerability_lam','touch_lam','romance_lam','emotional_lam','spicy_lam'];
   const cats = ['soft','real','psych','between','power',`desires_${edition}`];
   if (edition === 'married') cats.push('future_married');
   return cats;
@@ -1176,6 +1177,7 @@ function drawCard(count = true) {
           <div class="card-divider"></div>
           <div class="card-q-ar">${q.ar}</div>
           ${q.chal ? `<div class="card-challenge"><span class="card-challenge-icon">🎯</span><div class="card-challenge-en">${q.chal.en}</div><div class="card-challenge-ar">${q.chal.ar}</div></div>` : ''}
+          ${q.ans_en ? (() => { const [a,b] = q.ans_en.split(' / ').map(s => s.replace(/^\.{3}\s*/,'')); const [c,d] = (q.ans_ar||'').split(' / ').map(s => s.replace(/^\.{3}\s*/,'')); return `<div class="card-choices"><div class="choice-row"><span class="choice-opt">${a}</span><span class="choice-or">or</span><span class="choice-opt">${b}</span></div><div class="choice-row choice-row-ar"><span class="choice-opt-ar">${c}</span><span class="choice-or">أو</span><span class="choice-opt-ar">${d}</span></div></div>`; })() : ''}
         </div>
         <div class="card-footer">
           <span class="card-num">${seenInCat}/${pool.length}</span>

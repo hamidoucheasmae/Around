@@ -173,7 +173,8 @@ body::before {
 .edition-card.girlsnight  { --accent:#D4679A; background:linear-gradient(135deg,#E890A8 0%,#C05878 100%); border-color:rgba(192,88,120,.35); color:white; }
 .edition-card.firstimpact { --accent:#7BAABB; background:linear-gradient(135deg,#90A8C0 0%,#607888 100%); border-color:rgba(96,120,136,.35); color:white; }
 .edition-card.artist      { --accent:#B87AB8; background:linear-gradient(135deg,#8878C0 0%,#504888 100%); border-color:rgba(80,72,136,.35); color:white; }
-.edition-card.spicy       { --accent:#DC143C; background:linear-gradient(135deg,#C84848 0%,#881818 100%); border-color:rgba(136,24,24,.35); color:white; }
+.edition-card.spicy            { --accent:#DC143C; background:linear-gradient(135deg,#C84848 0%,#881818 100%); border-color:rgba(136,24,24,.35); color:white; }
+.edition-card.loveaftermidnight { --accent:#9B59B6; background:linear-gradient(135deg,#2C0A3A 0%,#1A0828 60%,#0D0515 100%); border-color:rgba(155,89,182,.35); color:white; }
 .edition-card.free50      { --accent:#2EBE8A; background:linear-gradient(135deg,#D4EDDA 0%,#A8D8B8 100%); border-color:rgba(46,190,138,.3); border-top-color:#2EBE8A; }
 .edition-card-free        { width:100%; max-width:280px; }
 .edition-card-free .ec-label { font-style:italic; }
@@ -182,22 +183,26 @@ body::before {
 .edition-card.family .ec-name, .edition-card.betweenus .ec-name, .edition-card.overthinkers .ec-name,
 .edition-card.healing .ec-name, .edition-card.solo .ec-name, .edition-card.masks .ec-name,
 .edition-card.future .ec-name, .edition-card.redflags .ec-name, .edition-card.girlsnight .ec-name,
-.edition-card.firstimpact .ec-name, .edition-card.artist .ec-name, .edition-card.spicy .ec-name { color:#fff; }
+.edition-card.firstimpact .ec-name, .edition-card.artist .ec-name, .edition-card.spicy .ec-name,
+.edition-card.loveaftermidnight .ec-name { color:#fff; }
 .edition-card.couples .ec-label, .edition-card.married .ec-label, .edition-card.secretfiles .ec-label,
 .edition-card.family .ec-label, .edition-card.betweenus .ec-label, .edition-card.overthinkers .ec-label,
 .edition-card.healing .ec-label, .edition-card.solo .ec-label, .edition-card.masks .ec-label,
 .edition-card.future .ec-label, .edition-card.redflags .ec-label, .edition-card.girlsnight .ec-label,
-.edition-card.firstimpact .ec-label, .edition-card.artist .ec-label, .edition-card.spicy .ec-label { color:rgba(255,255,255,.78); }
+.edition-card.firstimpact .ec-label, .edition-card.artist .ec-label, .edition-card.spicy .ec-label,
+.edition-card.loveaftermidnight .ec-label { color:rgba(255,255,255,.78); }
 .edition-card.couples .ec-progress, .edition-card.married .ec-progress, .edition-card.secretfiles .ec-progress,
 .edition-card.family .ec-progress, .edition-card.betweenus .ec-progress, .edition-card.overthinkers .ec-progress,
 .edition-card.healing .ec-progress, .edition-card.solo .ec-progress, .edition-card.masks .ec-progress,
 .edition-card.future .ec-progress, .edition-card.redflags .ec-progress, .edition-card.girlsnight .ec-progress,
-.edition-card.firstimpact .ec-progress, .edition-card.artist .ec-progress, .edition-card.spicy .ec-progress { color:rgba(255,255,255,.65); }
+.edition-card.firstimpact .ec-progress, .edition-card.artist .ec-progress, .edition-card.spicy .ec-progress,
+.edition-card.loveaftermidnight .ec-progress { color:rgba(255,255,255,.65); }
 .edition-card.couples .ec-progress.has-data, .edition-card.married .ec-progress.has-data, .edition-card.secretfiles .ec-progress.has-data,
 .edition-card.family .ec-progress.has-data, .edition-card.betweenus .ec-progress.has-data, .edition-card.overthinkers .ec-progress.has-data,
 .edition-card.healing .ec-progress.has-data, .edition-card.solo .ec-progress.has-data, .edition-card.masks .ec-progress.has-data,
 .edition-card.future .ec-progress.has-data, .edition-card.redflags .ec-progress.has-data, .edition-card.girlsnight .ec-progress.has-data,
-.edition-card.firstimpact .ec-progress.has-data, .edition-card.artist .ec-progress.has-data, .edition-card.spicy .ec-progress.has-data { color:#fff; }
+.edition-card.firstimpact .ec-progress.has-data, .edition-card.artist .ec-progress.has-data, .edition-card.spicy .ec-progress.has-data,
+.edition-card.loveaftermidnight .ec-progress.has-data { color:#fff; }
 /* Icon circle: lighter tint on dark cards */
 .edition-card.couples .ec-icon-wrap::before, .edition-card.married .ec-icon-wrap::before,
 .edition-card.secretfiles .ec-icon-wrap::before, .edition-card.family .ec-icon-wrap::before,
@@ -206,7 +211,8 @@ body::before {
 .edition-card.masks .ec-icon-wrap::before, .edition-card.future .ec-icon-wrap::before,
 .edition-card.redflags .ec-icon-wrap::before, .edition-card.girlsnight .ec-icon-wrap::before,
 .edition-card.firstimpact .ec-icon-wrap::before, .edition-card.artist .ec-icon-wrap::before,
-.edition-card.spicy .ec-icon-wrap::before { background:rgba(255,255,255,.2); }
+.edition-card.spicy .ec-icon-wrap::before,
+.edition-card.loveaftermidnight .ec-icon-wrap::before { background:rgba(255,255,255,.2); }
 .ec-icon-wrap { position:relative; width:58px; height:58px; display:flex; align-items:center; justify-content:center; margin-bottom:.6rem; z-index:2; }
 .ec-icon-wrap::before { content:''; position:absolute; inset:0; border-radius:50%; background:var(--accent); opacity:.12; transition:opacity .28s; }
 .edition-card:hover .ec-icon-wrap::before { opacity:.28; }
@@ -369,6 +375,12 @@ body::before {
 .btn-card-action.fav-active { background:rgba(220,20,60,.4); border-color:rgba(220,20,60,.6); color:white; }
 
 /* Challenge block inside card */
+.card-choices { margin-top:10px; padding:8px 10px; background:rgba(255,255,255,.1); border-radius:12px; border:1px solid rgba(255,255,255,.16); display:flex; flex-direction:column; gap:4px; }
+.choice-row { display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; }
+.choice-opt { font-family:'DM Sans',sans-serif; font-size:.7rem; font-weight:600; color:rgba(255,255,255,.95); background:rgba(255,255,255,.14); border-radius:50px; padding:3px 10px; white-space:nowrap; }
+.choice-or  { font-size:.62rem; color:rgba(255,255,255,.5); font-style:italic; }
+.choice-row-ar { direction:rtl; }
+.choice-opt-ar { font-family:'Cairo',sans-serif; font-size:.68rem; font-weight:500; color:rgba(255,255,255,.75); }
 .card-challenge { margin-top:10px; padding:8px 12px; background:rgba(255,255,255,.12); border-radius:12px; border:1px solid rgba(255,255,255,.18); text-align:center; }
 .card-challenge-icon { font-size:.85rem; display:block; margin-bottom:3px; }
 .card-challenge-en { font-family:'DM Sans',sans-serif; font-size:.72rem; color:rgba(255,255,255,.9); font-weight:600; line-height:1.5; margin-bottom:2px; }

@@ -22,7 +22,8 @@ var EDITIONS = {
   whoknows:     { name:'Who Knows Me Best?', ar:'شكون كيعرفني؟', badge:'🍟 Test Your People · اختبر ناسك',          icon:'🍟' },
   firstimpact:  { name:'First Impression',   ar:'الانطباع الأول', badge:'👀 Seen vs Real · الظاهر والحقيقة',         icon:'👀' },
   artist:       { name:'Artist Edition',     ar:'نسخة الفنانين',  badge:'🎨 Creative Souls · أرواح مبدعة',            icon:'🎨' },
-  free50:       { name:'The Free 50',        ar:'خمسون سؤال',     badge:'🆓 One Night · ليلة واحدة',                  icon:'🆓' },
+  free50:            { name:'The Free 50',        ar:'خمسون سؤال',     badge:'🆓 One Night · ليلة واحدة',                  icon:'🆓' },
+  loveaftermidnight: { name:'Love After Midnight', ar:'حب بعد منتصف الليل', badge:'🌙 Adults Only 18+ · للبالغين', icon:'🌙' },
 };
 
 var CAT_SHORT = {
@@ -53,4 +54,5 @@ var CAT_SHORT = {
   howseeme_fi:'How They See Me', perception_fi:'Perception Game', relimpress_fi:'Relationship Impressions', truthvibe_fi:'Truth vs Perception',
   identity_ar:'My Artist Soul', block_ar:'Creative Block', emotions_ar:'Art & Emotions', dreams_ar:'Artistic Dreams',
   fun_free50:'Fun & Chaos', love_free50:'Love', deep_free50:'Deep', group_free50:'Group', final_free50:'Final',
+  vulnerability_lam:'Vulnerable', touch_lam:'Touch', romance_lam:'Romance', emotional_lam:'Closeness', spicy_lam:'Spicy',
 };
