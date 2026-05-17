@@ -868,17 +868,18 @@ window.endLiveSession = async function() {
 };
 
 /* ══════════ PREMIUM / MEMBERSHIP ══════════ */
-let isPremium = !!localStorage.getItem('seneya_premium');
+let isPremium = false; // never trust localStorage as source of truth
 
 async function loadPremiumStatus(uid) {
-  if (isPremium) return;
   try {
     const snap = await getDoc(doc(db, 'users', uid, 'meta', 'account'));
-    if (snap.exists() && snap.data().premium) {
-      isPremium = true;
-      localStorage.setItem('seneya_premium', '1');
-    }
-  } catch(e){}
+    isPremium = !!(snap.exists() && snap.data().premium === true);
+    if (isPremium) localStorage.setItem('seneya_premium', '1');
+    else           localStorage.removeItem('seneya_premium');
+  } catch(e) {
+    // Offline fallback — use cached value only if Firestore is unreachable
+    isPremium = !!localStorage.getItem('seneya_premium');
+  }
 }
 
 window.openUnlockModal = function() {
@@ -891,27 +892,59 @@ window.closeUnlockModal = function() {
   document.getElementById('promo-input').value = '';
 };
 
+const PROMO_RATE_KEY = 'seneya_promo_attempts';
+const PROMO_RATE_WINDOW = 15 * 60 * 1000; // 15 minutes
+const PROMO_MAX_ATTEMPTS = 5;
+
+function promoRateLimited() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(PROMO_RATE_KEY) || '[]');
+    const now = Date.now();
+    const recent = raw.filter(t => now - t < PROMO_RATE_WINDOW);
+    if (recent.length >= PROMO_MAX_ATTEMPTS) return true;
+    recent.push(now);
+    localStorage.setItem(PROMO_RATE_KEY, JSON.stringify(recent));
+    return false;
+  } catch(_) { return false; }
+}
+
 window.activatePromo = async function() {
-  const code  = document.getElementById('promo-input').value.trim().toUpperCase();
+  const raw   = document.getElementById('promo-input').value.trim().toUpperCase();
   const errEl = document.getElementById('promo-error');
   errEl.textContent = '';
-  if (!code) { errEl.textContent = 'Enter a promo code'; return; }
+
+  // Input validation — alphanumeric only, 3–20 chars
+  if (!raw) { errEl.textContent = 'Enter a promo code'; return; }
+  if (!/^[A-Z0-9]{3,20}$/.test(raw)) { errEl.textContent = 'Invalid code format.'; return; }
+
+  // Client-side rate limit (5 attempts per 15 min)
+  if (promoRateLimited()) {
+    errEl.textContent = 'Too many attempts. Please wait 15 minutes.';
+    return;
+  }
+
+  const uid = auth.currentUser?.uid;
+  if (!uid) { errEl.textContent = 'Not signed in.'; return; }
+
   try {
-    const snap = await getDoc(doc(db, 'promoCodes', code));
+    const snap = await getDoc(doc(db, 'promoCodes', raw));
     if (!snap.exists() || !snap.data().active) { errEl.textContent = 'Invalid code.'; return; }
     if (snap.data().uses >= snap.data().maxUses) { errEl.textContent = 'Code already used up.'; return; }
-    const uid = auth.currentUser.uid;
+
+    // Write premium=true — Firestore rules validate the promoCode field server-side
     await setDoc(doc(db, 'users', uid, 'meta', 'account'),
-      { premium: true, unlockedAt: serverTimestamp(), promoCode: code }, { merge: true });
+      { premium: true, unlockedAt: serverTimestamp(), promoCode: raw }, { merge: true });
+
+    // Increment usage counter (Firestore rules block direct client writes on promoCodes,
+    // so this must be allowed in rules or handled by a Cloud Function)
+    try { await updateDoc(doc(db, 'promoCodes', raw), { uses: increment(1) }); } catch(_){}
+
     isPremium = true;
     localStorage.setItem('seneya_premium', '1');
-    // best-effort increment — won't block unlock if rules deny it
-    try { await updateDoc(doc(db, 'promoCodes', code), { uses: increment(1) }); } catch(_){}
     closeUnlockModal();
     toast('🎉 Premium unlocked! All categories are now open.');
     if (currentEdition) buildGameInterface(currentCats);
   } catch(e) {
-    console.error('activatePromo error:', e);
     errEl.textContent = 'Something went wrong. Try again.';
   }
 };
