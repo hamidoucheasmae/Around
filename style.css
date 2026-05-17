@@ -140,7 +140,6 @@ body::before {
 .eg-icon { font-size:1rem; }
 .eg-label { font-family:'DM Sans',sans-serif; font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--muted); }
 .eg-divider { flex:1; height:1px; background:linear-gradient(to right,rgba(184,92,74,.18),transparent); margin-left:4px; }
-.eg-price { font-size:.68rem; font-weight:700; color:var(--rose-deep); background:var(--blush-deep); border-radius:50px; padding:2px 9px; white-space:nowrap; }
 .ec-free-badge { position:absolute; top:8px; right:8px; z-index:2; font-size:.58rem; font-weight:800; letter-spacing:.04em; background:#2EBE8A; color:white; border-radius:50px; padding:2px 7px; text-transform:uppercase; }
 
 /* Edition grid */
